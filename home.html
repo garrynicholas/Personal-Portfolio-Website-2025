@@ -1540,55 +1540,70 @@ body {
   body { padding-bottom: 180px; }
 }
 
-/* ===== Skill Perks: force 3 columns on most phones (cover high-DPR devices) ===== */
-
-/* Default desktop behaviour kept (no change) */
-
-/* Phones & small tablets: prefer 3 columns so skill cards form a denser grid */
-@media (max-width: 820px) {
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-    gap: 14px;               /* spacing between cards */
-    align-items: stretch;    /* keep cards same height */
-    margin-top: 12px;
+/* ===== Force 3 columns on most phones (aggressive override) ===== */
+@media (max-width: 900px) {
+  /* make sure the parent won't artificially restrict width */
+  #about, 
+  #about .about-content, 
+  #about .skills-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
   }
 
-  .skill-item {
-    padding: 18px 12px;      /* tighter padding so 3 fit comfortably */
-    border-radius: 14px;
-    min-height: 120px;       /* keep decent touch area */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  /* force grid: 3 columns, allow items to shrink */
+  #about .skills-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(80px, 1fr)) !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+    justify-items: stretch !important;
   }
 
-  .skill-emoji { font-size: 1.6rem; margin-bottom: 8px; }
-  .skill-name { font-size: 0.9rem; line-height: 1.2; }
+  /* Make cards smaller and flexible so 3 fit */
+  #about .skills-grid .skill-item {
+    min-width: 0 !important;            /* prevents overflow from text */
+    padding: 10px 8px !important;       /* smaller padding to fit 3 */
+    min-height: 96px !important;        /* touch area kept reasonable */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    border-radius: 12px !important;
+    font-size: 0.92rem !important;
+  }
 
-  /* Ensure icons/text don't overflow */
-  .skill-item * { box-sizing: border-box; max-width: 100%; }
+  /* reduce icon + title sizes slightly */
+  #about .skills-grid .skill-emoji { font-size: 1.4rem !important; margin-bottom: 6px !important; }
+  #about .skills-grid .skill-name  { font-size: 0.88rem !important; line-height:1.15 !important; }
 
-  /* reduce glass shadow so cards appear lighter on small screens */
-  .skill-item {
-    box-shadow: none;
-    background: rgba(99, 102, 241, 0.035);
-    border: 1px solid rgba(255,255,255,0.03);
+  /* Safety: force children to not overflow */
+  #about .skills-grid .skill-item * { max-width: 100% !important; overflow-wrap: break-word !important; }
+
+  /* Fallback: if for some reason grid is ignored, use flex with wrapping */
+  #about .skills-grid[style*="display: block"], 
+  #about .skills-grid[style*="display: flex"] {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+  }
+  #about .skills-grid[style*="display: flex"] .skill-item {
+    flex: 0 1 calc(33.333% - 10px) !important; /* 3 columns fallback */
+    box-sizing: border-box !important;
   }
 }
 
-/* Very narrow phones: fallback to 2 columns for readability */
+/* Very narrow screens fallback: switch to 2 columns for tiny widths */
 @media (max-width: 420px) {
-  .skills-grid {
-    grid-template-columns: repeat(2, 1fr); /* switch to 2 columns on very small widths */
-    gap: 12px;
-  }
-  .skill-item { padding: 14px 10px; min-height: 110px; }
-  .skill-emoji { font-size: 1.4rem; }
-  .skill-name { font-size: 0.88rem; }
+  #about .skills-grid { grid-template-columns: repeat(2, minmax(80px,1fr)) !important; }
+  #about .skills-grid .skill-item { padding: 10px 8px !important; min-height: 96px !important; }
 }
+
 
       .highest-skills {
         text-align: center;

@@ -1479,30 +1479,65 @@
       }
 
       /* ===== Mobile / small screens ===== */
-/* Use a slightly bigger breakpoint (covers phones with various DPR) */
-@media (max-width: 820px) {
-  .about-visual { max-width: 420px; padding: 6px; }
-  #skillsChart { max-height: 380px; }
-  .donut-center-text { font-size: clamp(18px, 7.5vw, 36px); }
-  .skills-legend { gap: 8px; }
-  .skills-legend .legend-item { font-size: 0.92rem; }
+/* ---------- Chart padding & gap fixes ---------- */
+
+/* Target only the about/skills visual so it doesn't affect other sections */
+#about .about-visual {
+  padding: 28px 24px;        /* top/bottom 28, left/right 24 */
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 520px;         /* desktop cap — reduce if you want it smaller */
 }
 
-/* Extra narrow phones */
+/* Keep chart centered and create vertical space */
+.chart-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 18px 0 38px;      /* gap above & below the chart */
+  box-sizing: border-box;
+}
+
+/* Limit canvas size so it does not overflow or look oversized */
+#skillsChart {
+  width: 100% !important;
+  max-width: 420px;         /* reduces donut size on narrow screens */
+  height: auto !important;
+  max-height: 420px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Extra gap between chart and legend/text under it */
+.skills-legend {
+  margin-top: 18px;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Prevent the floating music-player from overlapping content */
+body {
+  /* leave space at bottom equal (or slightly larger) than your music player height */
+  padding-bottom: 140px;
+  box-sizing: border-box;
+}
+
+/* ---------- Mobile tweaks ---------- */
+@media (max-width: 820px) {
+  #about .about-visual { padding: 22px 18px; max-width: 460px; }
+  .chart-wrapper { margin: 14px 0 56px; }
+  #skillsChart { max-width: 360px; max-height: 360px; }
+  body { padding-bottom: 160px; }
+}
+
 @media (max-width: 420px) {
-  .about-visual { max-width: 320px; padding: 6px; }
-  #skillsChart { max-height: 300px; }
-  .donut-center-text { font-size: clamp(16px, 9.5vw, 28px); }
-  .skills-legend {
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
-  .skills-legend .legend-item {
-    font-size: 0.88rem;
-    white-space: normal; /* let labels wrap on very small screens */
-    text-align: center;
-  }
+  #about .about-visual { padding: 16px 14px; max-width: 360px; }
+  .chart-wrapper { margin: 12px 0 80px; }
+  #skillsChart { max-width: 300px; max-height: 300px; }
+  .skills-legend { flex-direction: column; gap: 8px; margin-top: 12px; }
+  body { padding-bottom: 180px; }
 }
 
       .highest-skills {

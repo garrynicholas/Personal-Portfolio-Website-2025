@@ -1540,70 +1540,12 @@ body {
   body { padding-bottom: 180px; }
 }
 
-/* ===== Force 3 columns on most phones (aggressive override) ===== */
-@media (max-width: 900px) {
-  /* make sure the parent won't artificially restrict width */
-  #about, 
-  #about .about-content, 
-  #about .skills-grid {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    padding-left: 6px !important;
-    padding-right: 6px !important;
-  }
-
-  /* force grid: 3 columns, allow items to shrink */
-  #about .skills-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(80px, 1fr)) !important;
-    gap: 10px !important;
-    align-items: stretch !important;
-    justify-items: stretch !important;
-  }
-
-  /* Make cards smaller and flexible so 3 fit */
-  #about .skills-grid .skill-item {
-    min-width: 0 !important;            /* prevents overflow from text */
-    padding: 10px 8px !important;       /* smaller padding to fit 3 */
-    min-height: 96px !important;        /* touch area kept reasonable */
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    text-align: center !important;
-    border-radius: 12px !important;
-    font-size: 0.92rem !important;
-  }
-
-  /* reduce icon + title sizes slightly */
-  #about .skills-grid .skill-emoji { font-size: 1.4rem !important; margin-bottom: 6px !important; }
-  #about .skills-grid .skill-name  { font-size: 0.88rem !important; line-height:1.15 !important; }
-
-  /* Safety: force children to not overflow */
-  #about .skills-grid .skill-item * { max-width: 100% !important; overflow-wrap: break-word !important; }
-
-  /* Fallback: if for some reason grid is ignored, use flex with wrapping */
-  #about .skills-grid[style*="display: block"], 
-  #about .skills-grid[style*="display: flex"] {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 10px !important;
-  }
-  #about .skills-grid[style*="display: flex"] .skill-item {
-    flex: 0 1 calc(33.333% - 10px) !important; /* 3 columns fallback */
-    box-sizing: border-box !important;
+/* Phone (≤ 720px) – force 3 columns */
+@media (max-width: 720px) {
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
-
-/* Very narrow screens fallback: switch to 2 columns for tiny widths */
-@media (max-width: 420px) {
-  #about .skills-grid { grid-template-columns: repeat(2, minmax(80px,1fr)) !important; }
-  #about .skills-grid .skill-item { padding: 10px 8px !important; min-height: 96px !important; }
-}
-
 
       .highest-skills {
         text-align: center;

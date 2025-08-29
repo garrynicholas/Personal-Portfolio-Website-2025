@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at 30% 30%, #0a0a0a 0%, #050505 100%);
+        overflow: hidden;
+        color: #fff;
+        font-family: 'Segoe UI', monospace;
+        animation: zoomIn 6s ease-in-out forwards;
+    }
+
+    /* Background video styling */
+  #bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* makes it fill the screen */
+    z-index: -1;         /* keep it behind everything */
+    filter: brightness(0.6); /* darken slightly for readability */
+  }
+
+    /* Aurora-like gradient waves */
+    .aurora {
+        position: fixed;
+        inset: 0;
+        background: conic-gradient(from 90deg, #667eea40, #764ba240, #16b98540, #667eea40);
+        filter: blur(120px);
+        animation: rotate 60s linear infinite;
+        opacity: 0.2;
+    }
+
+    /* Parallax stars */
+    .star {
+        position: absolute;
+        width: 2px; height: 2px;
+        background: white;
+        border-radius: 50%;
+        opacity: 0.7;
+        animation: driftStar 20s linear infinite;
+    }
+
+    /* Loading container */
+    .loading-container {
+        text-align: center;
+        z-index: 5;
+    }
+
+    .loading-container h3 + p {
+  margin-top: 6px;            /* brings it closer to the logo */
+  font-size: 16px;            /* smaller than logo */
+  font-weight: 300;           /* light text */
+  color: rgba(255,255,255,0.7); /* softer contrast */
+  letter-spacing: 0.5px;      /* subtle spacing */
+  text-align: center;         /* keep aligned with logo */
+}
+
+
+    /* Core logo */
+    .logo {
+        width: 140px; height: 140px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #222 40%, #111 100%);
+        margin: 0 auto 40px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 42px; font-weight: bold;
+        position: relative;
+        color: #fff;
+        box-shadow: 0 0 60px rgba(118,75,162,0.7);
+    }
+
+    /* Rotating rings */
+    .ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 2px solid rgba(102,126,234,0.4);
+        inset: -15px;
+        animation: rotate 12s linear infinite;
+    }
+    .ring.alt {
+        border-color: rgba(118,75,162,0.3);
+        animation-direction: reverse;
+        animation-duration: 20s;
+        inset: -25px;
+    }
+
+    /* Loading text wave */
+    .loading-text {
+        font-size: 20px;
+        margin-bottom: 25px;
+        display: inline-block;
+        margin-top: 10px;        /* bring subtitle closer */
+    }
+    .loading-text span {
+        display: inline-block;
+        animation: wave 1.5s ease-in-out infinite;
+    }
+    .loading-text span:nth-child(2) { animation-delay: 0.1s; }
+    .loading-text span:nth-child(3) { animation-delay: 0.2s; }
+    .loading-text span:nth-child(4) { animation-delay: 0.3s; }
+    .loading-text span:nth-child(5) { animation-delay: 0.4s; }
+    .loading-text span:nth-child(6) { animation-delay: 0.5s; }
+    .loading-text span:nth-child(7) { animation-delay: 0.6s; }
+
+    /* Progress bar */
+    .progress-container {
+        width: 280px;
+        height: 6px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 0 auto 20px;
+        position: relative;
+    }
+    .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #667eea, #764ba2, #16b985);
+        background-size: 200% 100%;
+        animation: progressFill 8s ease-out forwards, shimmer 2.5s linear infinite;
+    }
+    .progress-scan {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        animation: scan 2s linear infinite;
+    }
+    .progress-dot {
+        position: absolute;
+        top: -4px;
+        left: 0;
+        width: 14px; height: 14px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 0 12px #fff;
+        animation: moveDot 6s ease-out forwards;
+    }
+
+    .status-text {
+        font-size: 14px;
+        color: rgba(255,255,255,0.75);
+        min-height: 20px;
+    }
+
+    /* --- Keyframes --- */
+    @keyframes zoomIn {
+        from { transform: scale(1); }
+        to { transform: scale(1.05); }
+    }
+    @keyframes rotate {
+        from { transform: rotate(0); }
+        to { transform: rotate(360deg); }
+    }
+    @keyframes driftStar {
+        from { transform: translateY(100vh); opacity:0; }
+        20% { opacity:1; }
+        to { transform: translateY(-50px); opacity:0; }
+    }
+    @keyframes wave {
+        0%,100% { transform: translateY(0); opacity:0.7; }
+        50% { transform: translateY(-5px); opacity:1; }
+    }
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+    @keyframes progressFill {
+        from { width: 0%; }
+        to { width: 100%; }
+    }
+    @keyframes scan {
+        from { background-position: -200% 0; }
+        to { background-position: 200% 0; }
+    }
+    @keyframes moveDot {
+        from { left: 0; }
+        to { left: calc(100% - 14px); }
+    }
+    @keyframes fadeOut {
+        to { opacity: 0; transform: scale(0.9); }
+    }
+    .fade-out { animation: fadeOut 1s ease forwards; }
+
+    @font-face {
+  font-family: 'TwizzyFont';
+  src: url('fonts/Bezmiar-Regular.otf') format('truetype');
+}
+
+.twizzy {
+  font-family: 'TwizzyFont', sans-serif;
+  font-size: 50px;        /* bigger, closer to Acme style */
+  font-weight: 700;        /* bolder so gradient looks tighter */
+  letter-spacing: -5px;
+  text-transform: capitalize;
+  margin: 0;               /* remove default H3 margins */
+  padding: 0;              /* reset padding */
+  line-height: 1.1;        /* tighten vertical spacing */
+
+  /* Gradient text */
+  background: linear-gradient(90deg, #a1c4fd, #c2e9fb, #e0c3fc, #8ec5fc);
+  background-size: 200% 200%;
+
+  /* Standard + vendor-prefixed background-clip */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+
+  /* Soft glow */
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+
+  /* Animation */
+  animation: gradientShift 5s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+.skip-container {
+    text-align: center;
+    margin-top: 15px; /* space below status message */
+  }
+
+  #skip-btn {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 25px;
+  }
+  #skip-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+  }
+  body.fade-out {
+    animation: fadeOut 1s ease forwards;
+  }
+
+  .logo-img {
+  width: 180px;   /* adjust size */
+  margin: 0 auto 15px;
+  display: block;
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.4)); /* soft glow */
+}
+
+</style>
+
+
+</head>
+<body>
+  <!-- Background Video -->
+<video autoplay muted loop playsinline id="bg-video">
+  <source src="background/background.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+  <!-- Background Music (Hidden) -->
+    <audio id="bg-music" src="music/abstract.mp3" autoplay loop hidden></audio>
+    
+    <div class="atmosphere">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="wave"></div>
+        <div class="particles"></div>
+    </div>
+
+    <div class="loading-container" id="loading-container">
+      <!-- Logo Image -->
+    <img src="images/logo/gwins.png" alt="Logo" class="logo-img">
+    <!-- <h3 class="twizzy">Gwin</h3>
+    <p style="margin-top: -10px; font-size: 12px; ">Gunawan Widya Nugraha's Personal Portfolio</p> -->
+    <div class="loading-text" id="loading-text">Welcome to the Website</div>
+    <div class="progress-container">
+        <div class="progress-bar"></div>
+    </div>
+    <div class="status-text">Click to start</div>
+    <button id="skip-btn" style="display:none;">Skip Loading</button>
+</div>
+    <!-- Skip Loading Button -->
+
+  
+
+  <script>
+(() => {
+  // 0) HARD GUARD: if user ever lands here again, kick forward immediately
+  if (sessionStorage.getItem('passedLoading') === '1') {
+    window.location.replace('home.html');
+    return;
+  }
+
+  let started = false;
+  let navTimer = null;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const bgMusic    = document.getElementById('bg-music');
+    const loadingText= document.getElementById('loading-text');
+    const statusText = document.querySelector('.status-text');
+    const progressBar= document.querySelector('.progress-bar');
+    const skipBtn    = document.getElementById('skip-btn');
+
+    function navigateNext() {
+      if (navigateNext.done) return;
+      navigateNext.done = true;
+
+      if (navTimer) clearTimeout(navTimer);
+
+      // stop audio so we never hear it on a stuck screen
+      try { bgMusic.pause(); bgMusic.currentTime = 0; } catch (e) {}
+
+      // mark that we've passed the loading page (blocks back/refresh)
+      sessionStorage.setItem('passedLoading', '1');
+
+      // fade then navigate
+      document.body.classList.add('fade-out');
+      setTimeout(() => {
+        try { window.location.replace('home.html'); } catch (e) {}
+        // Fallback in case replace is ignored by the environment
+        setTimeout(() => {
+          if (document.visibilityState === 'visible') {
+            window.location.href = 'home.html';
+          }
+        }, 1500);
+      }, 300);
+    }
+
+    function updateStatus() {
+      const messages = [
+        'Loading resources...',
+        'Connecting to server...',
+        'Preparing interface...',
+        'Almost ready...'
+      ];
+      let i = 0;
+      const id = setInterval(() => {
+        if (i < messages.length) statusText.textContent = messages[i++];
+        else clearInterval(id);
+      }, 2000);
+    }
+
+    function startLoading() {
+      if (started) return;
+      started = true;
+
+      loadingText.textContent = 'Preparing';
+      statusText.textContent = 'Initializing system...';
+      progressBar.style.animationPlayState = 'running';
+
+      bgMusic.play().catch(() => {});   // ignore autoplay errors
+      updateStatus();
+
+      // show skip after 3s
+      setTimeout(() => { skipBtn.style.display = 'inline-block'; }, 3000);
+
+      // schedule auto navigation (same target as skip)
+      navTimer = setTimeout(navigateNext, 12000);
+    }
+
+    // pause progress until the first user tap/click anywhere
+    progressBar.style.animationPlayState = 'paused';
+    document.body.addEventListener('click', startLoading, { once: true });
+
+    // skip uses the same safe navigator
+    skipBtn.addEventListener('click', navigateNext);
+  });
+})();
+</script>
+
+
+</body>
+</html>

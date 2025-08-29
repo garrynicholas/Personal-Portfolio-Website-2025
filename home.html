@@ -1540,10 +1540,26 @@ body {
   body { padding-bottom: 180px; }
 }
 
-/* Phone (≤ 720px) – force 3 columns */
+/* Phone (≤ 720px) – force 3 columns + smaller cards */
 @media (max-width: 720px) {
   .skills-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 14px; /* tighter spacing */
+  }
+
+  .skill-item {
+    padding: 12px;              /* smaller padding */
+    border-radius: 10px;        /* softer corners */
+  }
+
+  .skill-emoji {
+    font-size: 1.4rem;          /* was 2rem */
+    margin-bottom: 6px;
+  }
+
+  .skill-name {
+    font-size: 0.8rem;          /* was 0.95rem */
+    font-weight: 500;
   }
 }
 

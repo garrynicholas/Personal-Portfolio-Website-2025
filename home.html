@@ -1490,14 +1490,40 @@
   max-width: 520px;         /* desktop cap — reduce if you want it smaller */
 }
 
-/* Keep chart centered and create vertical space */
+/* Responsive chart wrapper (keeps 1:1 aspect ratio) */
 .chart-wrapper {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 18px 0 38px;      /* gap above & below the chart */
+  max-width: 420px;        /* desktop cap */
+  margin: 18px auto;
   box-sizing: border-box;
+}
+
+.chart-container {
+  width: 100%;
+  position: relative;
+  padding-top: 100%;      /* creates a square container (1:1) */
+  box-sizing: border-box;
+}
+
+/* Make canvas fill the container */
+.chart-container canvas {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Legend smaller & stacked on very small screens */
+.skills-legend {
+  margin: 12px auto 0;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 0.95rem;
 }
 
 /* Limit canvas size so it does not overflow or look oversized */
@@ -1510,12 +1536,6 @@
   margin: 0 auto;
 }
 
-/* Extra gap between chart and legend/text under it */
-.skills-legend {
-  margin-top: 18px;
-  gap: 10px;
-  justify-content: center;
-}
 
 /* Prevent the floating music-player from overlapping content */
 body {
@@ -1536,45 +1556,20 @@ body {
   }
 }
 
-/* Phone (≤ 720px) */
-@media (max-width: 720px) {
-  /* Chart wrapper */
-  #about .about-visual {
-    max-width: 320px;   /* fit smaller screens */
-    padding: 10px;
-  }
 
-  .chart-wrapper {
-    margin: 10px 0 20px;
-  }
 
-  /* Chart itself */
-  #skillsChart {
-    max-width: 240px;   /* shrink donut */
-    max-height: 240px;
-  }
-
-  /* Legend below the chart */
-  .skills-legend {
-    flex-direction: column; /* stack vertically */
-    gap: 6px;
-    font-size: 0.75rem;     /* smaller text */
-  }
-
-  /* Experience card at top */
-  .about-visual .experience-card {
-    padding: 12px 16px;
-    font-size: 0.85rem;
-  }
-
-  .about-visual .experience-card h3 {
-    font-size: 1rem;   /* smaller title */
-  }
-
-  .about-visual .experience-card .value {
-    font-size: 1.6rem; /* smaller number */
-  }
+/* Mobile specific */
+@media (max-width: 820px) {
+  .chart-wrapper { max-width: 360px; margin: 14px auto; }
+  .skills-legend { font-size: 0.9rem; }
 }
+
+@media (max-width: 720px) {
+  .chart-wrapper { max-width: 280px; margin: 10px auto; }
+  .chart-container { padding-top: 100%; }   /* keep it square */
+  .skills-legend { font-size: 0.78rem; gap: 6px; }
+}
+
 
 
 /* Phone (≤ 720px) – force 3 columns + smaller cards */
@@ -2549,7 +2544,15 @@ body {
             </div>
             <p style="color: #aaa">Years in Programming</p>
           </div>
-          <canvas id="skillsChart"></canvas>
+          <!-- use this wrapper in place of your current chart markup -->
+<div class="chart-wrapper">
+  <div class="chart-container">
+    <canvas id="skillsChart"></canvas>
+  </div>
+</div>
+<!-- keep or rebuild legend HTML separately if you use a custom legend -->
+<div class="skills-legend"></div>
+
           <!-- Highest Skills Summary -->
           <div class="highest-skills">
             <p class="label">Most Skills</p>

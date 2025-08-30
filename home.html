@@ -1538,23 +1538,44 @@ body {
 
 /* Phone (≤ 720px) */
 @media (max-width: 720px) {
+  /* Chart wrapper */
   #about .about-visual {
-    max-width: 360px;   /* fit in phone width */
-    padding: 14px;
+    max-width: 320px;   /* fit smaller screens */
+    padding: 10px;
   }
+
   .chart-wrapper {
-    margin: 10px 0 30px;
+    margin: 10px 0 20px;
   }
+
+  /* Chart itself */
   #skillsChart {
-    max-width: 280px;   /* smaller donut */
-    max-height: 280px;
+    max-width: 240px;   /* shrink donut */
+    max-height: 240px;
   }
+
+  /* Legend below the chart */
   .skills-legend {
-    flex-direction: column; /* stack legend under chart */
-    gap: 8px;
-    font-size: 0.8rem;
+    flex-direction: column; /* stack vertically */
+    gap: 6px;
+    font-size: 0.75rem;     /* smaller text */
+  }
+
+  /* Experience card at top */
+  .about-visual .experience-card {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+  }
+
+  .about-visual .experience-card h3 {
+    font-size: 1rem;   /* smaller title */
+  }
+
+  .about-visual .experience-card .value {
+    font-size: 1.6rem; /* smaller number */
   }
 }
+
 
 /* Phone (≤ 720px) – force 3 columns + smaller cards */
 @media (max-width: 720px) {

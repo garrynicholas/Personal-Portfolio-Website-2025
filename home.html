@@ -1524,20 +1524,36 @@ body {
   box-sizing: border-box;
 }
 
-/* ---------- Mobile tweaks ---------- */
-@media (max-width: 820px) {
-  #about .about-visual { padding: 22px 18px; max-width: 460px; }
-  .chart-wrapper { margin: 14px 0 56px; }
-  #skillsChart { max-width: 360px; max-height: 360px; }
-  body { padding-bottom: 160px; }
+/* Tablet & small laptop (≤ 1024px) */
+@media (max-width: 1024px) {
+  #about .about-visual {
+    max-width: 480px;   /* smaller */
+    padding: 18px;
+  }
+  #skillsChart {
+    max-width: 360px;   /* shrink chart */
+    max-height: 360px;
+  }
 }
 
-@media (max-width: 420px) {
-  #about .about-visual { padding: 16px 14px; max-width: 360px; }
-  .chart-wrapper { margin: 12px 0 80px; }
-  #skillsChart { max-width: 300px; max-height: 300px; }
-  .skills-legend { flex-direction: column; gap: 8px; margin-top: 12px; }
-  body { padding-bottom: 180px; }
+/* Phone (≤ 720px) */
+@media (max-width: 720px) {
+  #about .about-visual {
+    max-width: 360px;   /* fit in phone width */
+    padding: 14px;
+  }
+  .chart-wrapper {
+    margin: 10px 0 30px;
+  }
+  #skillsChart {
+    max-width: 280px;   /* smaller donut */
+    max-height: 280px;
+  }
+  .skills-legend {
+    flex-direction: column; /* stack legend under chart */
+    gap: 8px;
+    font-size: 0.8rem;
+  }
 }
 
 /* Phone (≤ 720px) – force 3 columns + smaller cards */

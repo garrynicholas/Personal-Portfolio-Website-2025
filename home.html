@@ -1490,51 +1490,16 @@
   max-width: 520px;         /* desktop cap — reduce if you want it smaller */
 }
 
-/* Responsive chart wrapper (keeps 1:1 aspect ratio) */
-.chart-wrapper {
-  width: 100%;
-  max-width: 420px;        /* desktop cap */
-  margin: 18px auto;
-  box-sizing: border-box;
-}
-
 .chart-container {
   width: 100%;
-  position: relative;
-  padding-top: 100%;      /* creates a square container (1:1) */
-  box-sizing: border-box;
+  max-width: 400px; /* you can adjust */
+  height: auto;
 }
-
-/* Make canvas fill the container */
-.chart-container canvas {
-  position: absolute !important;
-  top: 0;
-  left: 0;
+canvas {
   width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
-
-/* Legend smaller & stacked on very small screens */
-.skills-legend {
-  margin: 12px auto 0;
-  max-width: 420px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: flex-start;
-  font-size: 0.95rem;
-}
-
-/* Limit canvas size so it does not overflow or look oversized */
-#skillsChart {
-  width: 100% !important;
-  max-width: 420px;         /* reduces donut size on narrow screens */
   height: auto !important;
-  max-height: 420px;
-  display: block;
-  margin: 0 auto;
 }
+
 
 
 /* Prevent the floating music-player from overlapping content */
@@ -2545,13 +2510,10 @@ body {
             <p style="color: #aaa">Years in Programming</p>
           </div>
           <!-- use this wrapper in place of your current chart markup -->
-<div class="chart-wrapper">
-  <div class="chart-container">
-    <canvas id="skillsChart"></canvas>
-  </div>
+<div class="chart-container">
+  <canvas id="skillsChart"></canvas>
 </div>
-<!-- keep or rebuild legend HTML separately if you use a custom legend -->
-<div class="skills-legend"></div>
+
 
           <!-- Highest Skills Summary -->
           <div class="highest-skills">
@@ -3909,6 +3871,8 @@ body {
         type: "doughnut",
         data: chartData,
         options: {
+        responsive: true,
+  maintainAspectRatio: false,
           plugins: {
             legend: {
               display: true,

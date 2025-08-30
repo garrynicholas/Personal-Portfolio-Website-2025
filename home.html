@@ -8,9 +8,6 @@
       rel="stylesheet"
       href="./node_modules/bootstrap-icons/font/bootstrap-icons.css"
     />
-    <!-- Bootstrap Icons CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -1478,123 +1475,6 @@
         }
       }
 
-      /* ===== Mobile / small screens ===== */
-/* ---------- Chart padding & gap fixes ---------- */
-
-/* Target only the about/skills visual so it doesn't affect other sections */
-#about .about-visual {
-  padding: 28px 24px;        /* top/bottom 28, left/right 24 */
-  margin: 0 auto;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 520px;         /* desktop cap — reduce if you want it smaller */
-}
-
-/* Responsive chart wrapper (keeps 1:1 aspect ratio) */
-.chart-wrapper {
-  width: 100%;
-  max-width: 420px;        /* desktop cap */
-  margin: 18px auto;
-  box-sizing: border-box;
-}
-
-.chart-container {
-  width: 100%;
-  position: relative;
-  padding-top: 100%;      /* creates a square container (1:1) */
-  box-sizing: border-box;
-}
-
-/* Make canvas fill the container */
-.chart-container canvas {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
-
-/* Legend smaller & stacked on very small screens */
-.skills-legend {
-  margin: 12px auto 0;
-  max-width: 420px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: flex-start;
-  font-size: 0.95rem;
-}
-
-/* Limit canvas size so it does not overflow or look oversized */
-#skillsChart {
-  width: 100% !important;
-  max-width: 420px;         /* reduces donut size on narrow screens */
-  height: auto !important;
-  max-height: 420px;
-  display: block;
-  margin: 0 auto;
-}
-
-
-/* Prevent the floating music-player from overlapping content */
-body {
-  /* leave space at bottom equal (or slightly larger) than your music player height */
-  padding-bottom: 140px;
-  box-sizing: border-box;
-}
-
-/* Tablet & small laptop (≤ 1024px) */
-@media (max-width: 1024px) {
-  #about .about-visual {
-    max-width: 480px;   /* smaller */
-    padding: 18px;
-  }
-  #skillsChart {
-    max-width: 360px;   /* shrink chart */
-    max-height: 360px;
-  }
-}
-
-
-
-/* Mobile specific */
-@media (max-width: 820px) {
-  .chart-wrapper { max-width: 360px; margin: 14px auto; }
-  .skills-legend { font-size: 0.9rem; }
-}
-
-@media (max-width: 720px) {
-  .chart-wrapper { max-width: 280px; margin: 10px auto; }
-  .chart-container { padding-top: 100%; }   /* keep it square */
-  .skills-legend { font-size: 0.78rem; gap: 6px; }
-}
-
-
-
-/* Phone (≤ 720px) – force 3 columns + smaller cards */
-@media (max-width: 720px) {
-  .skills-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px; /* tighter spacing */
-  }
-
-  .skill-item {
-    padding: 12px;              /* smaller padding */
-    border-radius: 10px;        /* softer corners */
-  }
-
-  .skill-emoji {
-    font-size: 1.4rem;          /* was 2rem */
-    margin-bottom: 6px;
-  }
-
-  .skill-name {
-    font-size: 0.6rem;          /* was 0.95rem */
-    font-weight: 500;
-  }
-}
-
       .highest-skills {
         text-align: center;
         margin-top: 15px;
@@ -1784,7 +1664,7 @@ body {
       }
 
       /* responsive */
-      @media (max-width: 768px) {
+      @media (max-width: 720px) {
         .timeline-item {
           grid-template-columns: 64px 12px 1fr;
           gap: 12px;
@@ -2332,7 +2212,6 @@ body {
         from { opacity: 1; }
         to { opacity: 0; }
       }
-      
     </style>
   </head>
   <body>
@@ -2425,7 +2304,7 @@ body {
         </p>
         <div class="cta-group">
           <a href="#about" class="cta-button"> 🚀 Explore My Universe </a>
-          <a href="https://www.mediafire.com/file/zqqup1gr9zii3qw/Gunawan_Widya_Nugraha_-_Portfolio_2025_v2.0.pdf/file" class="cta-button cta-secondary">
+          <a href="#contact" class="cta-button cta-secondary">
             📁 Download Portfolio as PDF
           </a>
         </div>
@@ -2478,7 +2357,7 @@ body {
 
           <div class="skills-grid">
             <div class="skill-item">
-              <span class="skill-emoji"><i class="bi bi-code-slash"></i></span>
+              <span class="skill-emoji"><i class="bi bi-css"></i></span>
               <div class="skill-name">Frontend Programming</div>
             </div>
             <div class="skill-item">
@@ -2544,16 +2423,7 @@ body {
             </div>
             <p style="color: #aaa">Years in Programming</p>
           </div>
-          <!-- use this wrapper in place of your current chart markup -->
-<div class="chart-wrapper">
-  <div class="chart-container">
-    <canvas id="skillsChart" width="400" height="400"></canvas>
-
-  </div>
-</div>
-<!-- keep or rebuild legend HTML separately if you use a custom legend -->
-<div class="skills-legend"></div>
-
+          <canvas id="skillsChart"></canvas>
           <!-- Highest Skills Summary -->
           <div class="highest-skills">
             <p class="label">Most Skills</p>
@@ -3079,7 +2949,7 @@ body {
         </div>
         <div class="certificate-card" data-category="local other">
           <img
-            src="images/certificates/Sertifikat_Dunia_IoT_untuk_Generasi_Digital_FTI_Unmer.jpg"
+            src="images/certificates/indevpro.png"
             alt="Python Certificate"
             class="zoomable"
           />
@@ -3507,7 +3377,7 @@ body {
             <span class="contact-icon"><i class="bi bi-whatsapp"></i></span>
             <div class="contact-label">Whatsapp</div>
           </a>
-          <a href="https://www.mediafire.com/file/zqqup1gr9zii3qw/Gunawan_Widya_Nugraha_-_Portfolio_2025_v2.0.pdf/file" class="contact-item">
+          <a href="/calendar" class="contact-item">
             <span class="contact-icon"
               ><i class="bi bi-file-earmark-arrow-down"></i
             ></span>
@@ -3910,8 +3780,6 @@ body {
         type: "doughnut",
         data: chartData,
         options: {
-        responsive: true,
-  maintainAspectRatio: false,
           plugins: {
             legend: {
               display: true,

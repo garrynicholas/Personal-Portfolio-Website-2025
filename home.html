@@ -2212,93 +2212,62 @@
       }
 
       /* Make the sticky music player compact on phones ~720px wide */
-/* ====== Ultra-compact music player + loading tweaks for phones ~720px ====== */
 @media (max-width: 720px) {
-  /* --- Music player core: very compact pill --- */
   .music-player {
-    bottom: 10px;
+    bottom: 12px;                 /* lift a bit for phone nav bars */
     left: 50%;
     transform: translateX(-50%);
-    padding: 4px 6px;          /* tiny padding */
-    gap: 6px;
-    border-radius: 12px;
-    max-width: calc(100% - 28px);
+    padding: 6px 10px;           /* smaller padding */
+    gap: 1px;                    /* tighten space between items */
+    border-radius: 30px;         /* slightly smaller pill */
+    max-width: calc(100% - 40px);
     width: auto;
-    font-size: 11px;           /* base font smaller */
-    box-shadow: 0 6px 16px rgba(0,0,0,0.32);
-    line-height: 1;
+    font-size: 13px;             /* reduce base font-size */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
   }
 
-  /* --- Icons / buttons: very small tappable area --- */
-  .music-player button,
-  .music-player .icon-btn {
-    width: 28px;
-    height: 28px;
-    padding: 4px;
-    font-size: 0.95rem;
+  /* Smaller icon buttons */
+  .music-player button {
+    font-size: 1.05rem;          /* smaller icons */
+    padding: 4px;                /* less clickable padding but still usable */
+    width: 36px;
+    height: 36px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
   }
 
-  /* reduce hover/active transforms to avoid jumps */
-  .music-player button:hover { transform: none; }
+  /* slightly reduce hover scale so it doesn't jump on phones */
+  .music-player button:hover { transform: scale(1.08); }
 
-  /* --- Hide the track title to save space (icon-only look) ---
-     If you want to keep a very short title instead, remove the display:none line. */
-  #trackTitle {
-    display: none !important;
-    max-width: 0;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-  }
-
-  /* --- Shrink progress / seek bar --- */
-  .progress-container,
-  .player-progress,
-  .seekbar {
-    width: 110px !important;   /* narrow bar */
-    height: 4px !important;
-    min-width: 80px;
-  }
-  .progress-dot { width: 8px !important; height: 8px !important; top: -2px !important; }
-
-  /* --- Hide non-essential controls (uncomment any you don't want) ---
-     These selectors target common control group names used in music players.
-     They use !important so the UI becomes tiny quickly. */
-  .volume, .volume-control, .track-time, .time, .extra-controls, .player-meta {
-    display: none !important;
-  }
-
-  /* --- Tiny close button --- */
+  /* smaller close button */
   .music-player .close-btn {
-    width: 26px;
-    height: 26px;
-    font-size: 0.9rem;
-    margin-left: 4px;
+    font-size: 1rem;
     opacity: 0.95;
   }
 
-  /* --- Optional: make the player icon-only (uncomment the two lines below to enable) ---
-  .music-player { padding: 6px !important; }
-  .music-player *:not(.icon-btn):not(button) { display: none !important; } 
-  */
+  /* shorten / shrink track title area */
+  #trackTitle {
+    max-width: 120px;            /* prevents long title from widening player */
+    font-size: 0.78rem;         /* smaller text */
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 
-  /* ====== Loading / status / skip tweaks ====== */
-  .loading-container { padding: 0 10px !important; }
-  .logo-img { width: 90px !important; margin-bottom: 6px !important; }
-  .loading-text { font-size: 12px !important; margin: 6px 0 !important; line-height:1; }
-  .status-text  { font-size: 10px !important; min-height: 16px !important; color: rgba(255,255,255,0.72) !important; }
-  #skip-btn     { font-size: 10px !important; padding: 4px 8px !important; margin-top: 8px !important; border-radius:6px !important; }
+  /* make marquee slower on small screens (optional) */
+  #trackTitle.scrolling .titleText {
+    animation-duration: var(--marquee-duration, 14s);
+  }
 
-  /* Respect iOS/Android safe area */
+  /* If you prefer icon-only (even smaller), uncomment the next line to hide title */
+  /* #trackTitle { display: none; } */
+
+  /* make sure the player doesn't get covered by very tall nav bars */
   @supports (padding: env(safe-area-inset-bottom)) {
-    .music-player { padding-bottom: calc(4px + env(safe-area-inset-bottom)); }
+    .music-player { padding-bottom: calc(6px + env(safe-area-inset-bottom)); }
   }
 }
-
 
     </style>
   </head>

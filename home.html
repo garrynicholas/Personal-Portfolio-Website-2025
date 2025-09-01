@@ -8,9 +8,7 @@
       rel="stylesheet"
       href="./node_modules/bootstrap-icons/font/bootstrap-icons.css"
     />
-    <!-- Bootstrap Icons CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -1478,91 +1476,6 @@
         }
       }
 
-      /* ===== Mobile / small screens ===== */
-/* ---------- Chart padding & gap fixes ---------- */
-
-/* Target only the about/skills visual so it doesn't affect other sections */
-#about .about-visual {
-  padding: 28px 24px;        /* top/bottom 28, left/right 24 */
-  margin: 0 auto;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 520px;         /* desktop cap — reduce if you want it smaller */
-}
-
-/* Keep chart centered and create vertical space */
-.chart-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 18px 0 38px;      /* gap above & below the chart */
-  box-sizing: border-box;
-}
-
-/* Limit canvas size so it does not overflow or look oversized */
-#skillsChart {
-  width: 100% !important;
-  max-width: 420px;         /* reduces donut size on narrow screens */
-  height: auto !important;
-  max-height: 420px;
-  display: block;
-  margin: 0 auto;
-}
-
-/* Extra gap between chart and legend/text under it */
-.skills-legend {
-  margin-top: 18px;
-  gap: 10px;
-  justify-content: center;
-}
-
-/* Prevent the floating music-player from overlapping content */
-body {
-  /* leave space at bottom equal (or slightly larger) than your music player height */
-  padding-bottom: 140px;
-  box-sizing: border-box;
-}
-
-/* ---------- Mobile tweaks ---------- */
-@media (max-width: 820px) {
-  #about .about-visual { padding: 22px 18px; max-width: 460px; }
-  .chart-wrapper { margin: 14px 0 56px; }
-  #skillsChart { max-width: 360px; max-height: 360px; }
-  body { padding-bottom: 160px; }
-}
-
-@media (max-width: 420px) {
-  #about .about-visual { padding: 16px 14px; max-width: 360px; }
-  .chart-wrapper { margin: 12px 0 80px; }
-  #skillsChart { max-width: 300px; max-height: 300px; }
-  .skills-legend { flex-direction: column; gap: 8px; margin-top: 12px; }
-  body { padding-bottom: 180px; }
-}
-
-/* Phone (≤ 720px) – force 3 columns + smaller cards */
-@media (max-width: 720px) {
-  .skills-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px; /* tighter spacing */
-  }
-
-  .skill-item {
-    padding: 12px;              /* smaller padding */
-    border-radius: 10px;        /* softer corners */
-  }
-
-  .skill-emoji {
-    font-size: 1.4rem;          /* was 2rem */
-    margin-bottom: 6px;
-  }
-
-  .skill-name {
-    font-size: 0.6rem;          /* was 0.95rem */
-    font-weight: 500;
-  }
-}
-
       .highest-skills {
         text-align: center;
         margin-top: 15px;
@@ -1752,7 +1665,7 @@ body {
       }
 
       /* responsive */
-      @media (max-width: 768px) {
+      @media (max-width: 720px) {
         .timeline-item {
           grid-template-columns: 64px 12px 1fr;
           gap: 12px;
@@ -2300,7 +2213,6 @@ body {
         from { opacity: 1; }
         to { opacity: 0; }
       }
-      
     </style>
   </head>
   <body>
@@ -2446,7 +2358,7 @@ body {
 
           <div class="skills-grid">
             <div class="skill-item">
-              <span class="skill-emoji"><i class="bi bi-code-slash"></i></span>
+              <span class="skill-emoji"><i class="bi bi-css"></i></span>
               <div class="skill-name">Frontend Programming</div>
             </div>
             <div class="skill-item">

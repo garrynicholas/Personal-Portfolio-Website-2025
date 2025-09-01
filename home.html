@@ -1490,40 +1490,14 @@
   max-width: 520px;         /* desktop cap — reduce if you want it smaller */
 }
 
-/* Responsive chart wrapper (keeps 1:1 aspect ratio) */
+/* Keep chart centered and create vertical space */
 .chart-wrapper {
   width: 100%;
-  max-width: 420px;        /* desktop cap */
-  margin: 18px auto;
-  box-sizing: border-box;
-}
-
-.chart-container {
-  width: 100%;
-  position: relative;
-  padding-top: 100%;      /* creates a square container (1:1) */
-  box-sizing: border-box;
-}
-
-/* Make canvas fill the container */
-.chart-container canvas {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
-
-/* Legend smaller & stacked on very small screens */
-.skills-legend {
-  margin: 12px auto 0;
-  max-width: 420px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: flex-start;
-  font-size: 0.95rem;
+  justify-content: center;
+  align-items: center;
+  margin: 18px 0 38px;      /* gap above & below the chart */
+  box-sizing: border-box;
 }
 
 /* Limit canvas size so it does not overflow or look oversized */
@@ -1536,6 +1510,12 @@
   margin: 0 auto;
 }
 
+/* Extra gap between chart and legend/text under it */
+.skills-legend {
+  margin-top: 18px;
+  gap: 10px;
+  justify-content: center;
+}
 
 /* Prevent the floating music-player from overlapping content */
 body {
@@ -1544,33 +1524,21 @@ body {
   box-sizing: border-box;
 }
 
-/* Tablet & small laptop (≤ 1024px) */
-@media (max-width: 1024px) {
-  #about .about-visual {
-    max-width: 480px;   /* smaller */
-    padding: 18px;
-  }
-  #skillsChart {
-    max-width: 360px;   /* shrink chart */
-    max-height: 360px;
-  }
-}
-
-
-
-/* Mobile specific */
+/* ---------- Mobile tweaks ---------- */
 @media (max-width: 820px) {
-  .chart-wrapper { max-width: 360px; margin: 14px auto; }
-  .skills-legend { font-size: 0.9rem; }
+  #about .about-visual { padding: 22px 18px; max-width: 460px; }
+  .chart-wrapper { margin: 14px 0 56px; }
+  #skillsChart { max-width: 360px; max-height: 360px; }
+  body { padding-bottom: 160px; }
 }
 
-@media (max-width: 720px) {
-  .chart-wrapper { max-width: 280px; margin: 10px auto; }
-  .chart-container { padding-top: 100%; }   /* keep it square */
-  .skills-legend { font-size: 0.78rem; gap: 6px; }
+@media (max-width: 420px) {
+  #about .about-visual { padding: 16px 14px; max-width: 360px; }
+  .chart-wrapper { margin: 12px 0 80px; }
+  #skillsChart { max-width: 300px; max-height: 300px; }
+  .skills-legend { flex-direction: column; gap: 8px; margin-top: 12px; }
+  body { padding-bottom: 180px; }
 }
-
-
 
 /* Phone (≤ 720px) – force 3 columns + smaller cards */
 @media (max-width: 720px) {
@@ -2425,7 +2393,7 @@ body {
         </p>
         <div class="cta-group">
           <a href="#about" class="cta-button"> 🚀 Explore My Universe </a>
-          <a href="https://www.mediafire.com/file/zqqup1gr9zii3qw/Gunawan_Widya_Nugraha_-_Portfolio_2025_v2.0.pdf/file" class="cta-button cta-secondary">
+          <a href="#contact" class="cta-button cta-secondary">
             📁 Download Portfolio as PDF
           </a>
         </div>
@@ -2544,15 +2512,7 @@ body {
             </div>
             <p style="color: #aaa">Years in Programming</p>
           </div>
-          <!-- use this wrapper in place of your current chart markup -->
-<div class="chart-wrapper">
-  <div class="chart-container">
-    <canvas id="skillsChart"></canvas>
-  </div>
-</div>
-<!-- keep or rebuild legend HTML separately if you use a custom legend -->
-<div class="skills-legend"></div>
-
+          <canvas id="skillsChart"></canvas>
           <!-- Highest Skills Summary -->
           <div class="highest-skills">
             <p class="label">Most Skills</p>
@@ -2884,20 +2844,20 @@ body {
     <section id="certificates" class="animate-on-scroll">
       <h2>Personal Certificates</h2>
       <p class="section-subtitle">
-        A collection of <b>13 certifications</b> that showcase my continuous
+        A collection of <b>12 certifications</b> that showcase my continuous
         learning journey and achievements across various fields of technology
         and development.
       </p>
       <div class="certificate-filters">
-        <button class="filter-btn active" data-filter="all">All (13)</button>
-        <button class="filter-btn" data-filter="local">Local (7)</button>
+        <button class="filter-btn active" data-filter="all">All (12)</button>
+        <button class="filter-btn" data-filter="local">Local (6)</button>
         <button class="filter-btn" data-filter="international">
           International (6)
         </button>
         <button class="filter-btn" data-filter="programming">
           Programming (5)
         </button>
-        <button class="filter-btn" data-filter="other">Other (8)</button>
+        <button class="filter-btn" data-filter="other">Other (7)</button>
       </div>
       <div class="projects-grid" id="certificatesGrid">
         <!-- Certificate 1 -->
@@ -3074,18 +3034,6 @@ body {
             Malang. The event emphasized teamwork, problem-solving, and
             innovation in technology projects. This certificate was officially
             awarded in June 23, 2025.
-          </p>
-        </div>
-        <div class="certificate-card" data-category="local other">
-          <img
-            src="images/certificates/Sertifikat_Dunia_IoT_untuk_Generasi_Digital_FTI_Unmer.jpg"
-            alt="Python Certificate"
-            class="zoomable"
-          />
-          <h3>Unlimited Connection: The World of IoT for the Digital Generation</h3>
-          <p>
-            Awarded for attending the "Koneksi Tanpa Batas: Dunia IoT untuk Generasi Digital" workshop. The program covered IoT architectures, sensor integration, edge computing, and secure connectivity, featuring hands-on projects and practical demonstrations. This certificate was officially
-            awarded in July 7, 2025.
           </p>
         </div>
       </div>
@@ -3506,7 +3454,7 @@ body {
             <span class="contact-icon"><i class="bi bi-whatsapp"></i></span>
             <div class="contact-label">Whatsapp</div>
           </a>
-          <a href="https://www.mediafire.com/file/zqqup1gr9zii3qw/Gunawan_Widya_Nugraha_-_Portfolio_2025_v2.0.pdf/file" class="contact-item">
+          <a href="/calendar" class="contact-item">
             <span class="contact-icon"
               ><i class="bi bi-file-earmark-arrow-down"></i
             ></span>

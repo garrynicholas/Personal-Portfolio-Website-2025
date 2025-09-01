@@ -262,6 +262,60 @@
   filter: drop-shadow(0 0 20px rgba(255,255,255,0.4)); /* soft glow */
 }
 
+/* Mobile adjustments for phones ~720px width (portrait 1650x720) */
+@media (max-width: 720px) {
+  /* container padding so content doesn't touch edges */
+  .loading-container {
+    padding: 0 14px;
+  }
+
+  /* reduce logo size so it doesn't dominate */
+  .logo-img {
+    width: 110px;       /* was 180px */
+    margin-bottom: 10px;
+  }
+
+  /* loading header/text */
+  .loading-text {
+    font-size: 14px;    /* was 20px */
+    margin-bottom: 12px;
+    margin-top: 6px;
+    line-height: 1.1;
+    display: block;
+    word-break: keep-all;
+  }
+
+  /* smaller status text */
+  .status-text {
+    font-size: 12px;    /* was 14px */
+    min-height: 18px;   /* keep layout from jumping */
+    margin-bottom: 6px;
+    color: rgba(255,255,255,0.75);
+  }
+
+  /* progress bar slightly narrower and thinner */
+  .progress-container {
+    width: 220px;       /* was 280px */
+    height: 5px;        /* was 6px */
+  }
+  .progress-dot { width: 12px; height: 12px; top: -3px; } /* match smaller bar */
+
+  /* smaller, tighter skip button */
+  #skip-btn {
+    font-size: 11px;        /* was 12px */
+    padding: 5px 10px;      /* was 6px 14px */
+    margin-top: 12px;       /* was 25px */
+    border-radius: 6px;
+    transform: none;
+  }
+
+  /* reduce large decorative logo (.twizzy) if you use it */
+  .twizzy {
+    font-size: 36px;   /* was 50px */
+    letter-spacing: -3px;
+  }
+}
+
 </style>
 
 

@@ -10,11 +10,6 @@
     />
     <!-- Bootstrap Icons CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Flowbite CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.1/flowbite.min.css" rel="stylesheet" />
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -1470,11 +1465,7 @@
         padding: 20px;
       }
 
-      #skillsChart {
-        width: 100% !important;
-        height: 100% !important;
-      }
-
+  
       /* Make Donut Chart container wider only on desktop */
       @media (min-width: 1024px) {
         .about-content > .about-visual {
@@ -2219,6 +2210,66 @@
         from { opacity: 1; }
         to { opacity: 0; }
       }
+
+      /* Make the sticky music player compact on phones ~720px wide */
+@media (max-width: 720px) {
+  .music-player {
+    bottom: 12px;                 /* lift a bit for phone nav bars */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 10px;           /* smaller padding */
+    gap: 8px;                    /* tighten space between items */
+    border-radius: 16px;         /* slightly smaller pill */
+    max-width: calc(100% - 40px);
+    width: auto;
+    font-size: 13px;             /* reduce base font-size */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  }
+
+  /* Smaller icon buttons */
+  .music-player button {
+    font-size: 1.05rem;          /* smaller icons */
+    padding: 6px;                /* less clickable padding but still usable */
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* slightly reduce hover scale so it doesn't jump on phones */
+  .music-player button:hover { transform: scale(1.08); }
+
+  /* smaller close button */
+  .music-player .close-btn {
+    font-size: 1rem;
+    margin-left: 6px;
+    opacity: 0.95;
+  }
+
+  /* shorten / shrink track title area */
+  #trackTitle {
+    max-width: 120px;            /* prevents long title from widening player */
+    font-size: 0.78rem;         /* smaller text */
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* make marquee slower on small screens (optional) */
+  #trackTitle.scrolling .titleText {
+    animation-duration: var(--marquee-duration, 14s);
+  }
+
+  /* If you prefer icon-only (even smaller), uncomment the next line to hide title */
+  /* #trackTitle { display: none; } */
+
+  /* make sure the player doesn't get covered by very tall nav bars */
+  @supports (padding: env(safe-area-inset-bottom)) {
+    .music-player { padding-bottom: calc(6px + env(safe-area-inset-bottom)); }
+  }
+}
+
     </style>
   </head>
   <body>
@@ -2956,7 +3007,7 @@
         </div>
         <div class="certificate-card" data-category="local other">
           <img
-            src="images/certificates/indevpro.png"
+            src="images/certificates/Sertifikat_Dunia_IoT_untuk_Generasi_Digital_FTI_Unmer.jpg"
             alt="Python Certificate"
             class="zoomable"
           />
@@ -3706,145 +3757,7 @@
       // Drop-in replacement for your Chart initialization.
       // Shows white percentage labels on the donut arcs + white legend text.
 
-      const ctx = document.getElementById("skillsChart").getContext("2d");
-
-      const chartData = {
-        labels: [
-          "Frontend Programming",
-          "UI/UX Design",
-          "Java Development",
-          "Flutter Development",
-          "Python Programming",
-          "Graphic Design",
-        ],
-        datasets: [
-          {
-            data: [20, 20, 10, 20, 20, 10],
-            backgroundColor: [
-              "#6366f1",
-              "#a855f7",
-              "#f59e0b",
-              "#06b6d4",
-              "#22c55e",
-              "#ef4444",
-            ],
-            borderWidth: 0,
-            cutout: "75%",
-          },
-        ],
-      };
-
-      function sum(arr) {
-        return arr.reduce((s, v) => s + (typeof v === "number" ? v : 0), 0);
-      }
-
-      // Custom plugin to draw white percentage labels on arcs
-      const percentageDatalabels = {
-        id: "percentageDatalabels",
-        afterDatasetsDraw(chart, args, pluginOptions) {
-          const { ctx } = chart;
-          const dataset = chart.data.datasets[0];
-          const meta = chart.getDatasetMeta(0);
-          const total = sum(dataset.data);
-
-          ctx.save();
-          ctx.fillStyle = "#ffffff"; // white labels
-          ctx.font = "bold 12px Space Grotesk, sans-serif";
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-
-          meta.data.forEach((arc, i) => {
-            // skip hidden slices
-            if (!chart.getDataVisibility(i)) return;
-
-            const value = dataset.data[i];
-            if (!total || !value) return;
-
-            const pct = Math.round((value / total) * 100);
-            const pos = arc.tooltipPosition(); // center of the arc segment
-
-            // Slight inward nudge for readability on thin slices
-            const angle = (arc.startAngle + arc.endAngle) / 2;
-            const r = (arc.innerRadius + arc.outerRadius) / 2;
-            const nudge = 6;
-            const x =
-              chart.chartArea.left +
-              (arc.x - chart.chartArea.left) +
-              Math.cos(angle) * nudge;
-            const y =
-              chart.chartArea.top +
-              (arc.y - chart.chartArea.top) +
-              Math.sin(angle) * nudge;
-
-            ctx.fillText(`${pct}%`, pos.x ?? x, pos.y ?? y);
-          });
-
-          ctx.restore();
-        },
-      };
-
-      new Chart(ctx, {
-        type: "doughnut",
-        data: chartData,
-        options: {
-          plugins: {
-            legend: {
-              display: true,
-              position: "bottom",
-              labels: {
-                color: "#ffffff", // white legend text
-                padding: 10,
-                // optional: append % in legend labels too
-                generateLabels: function (chart) {
-                  const d = chart.data;
-                  const values = d.datasets[0].data;
-                  const total = sum(values);
-                  return d.labels.map((label, i) => {
-                    const pct = total
-                      ? Math.round((values[i] / total) * 100)
-                      : 0;
-                    return {
-                      text: `${label}`,
-                      fillStyle: d.datasets[0].backgroundColor[i],
-                      hidden: !chart.getDataVisibility(i),
-                      index: i,
-                      fontColor: "#ffffff",
-                    };
-                  });
-                },
-              },
-            },
-            tooltip: {
-              callbacks: {
-                label: function (ctx) {
-                  const value = ctx.parsed || 0;
-                  const values = ctx.chart.data.datasets[0].data;
-                  const total = sum(values);
-                  const pct = total ? Math.round((value / total) * 100) : 0;
-                  return `${ctx.label}: ${value} (${pct}%)`;
-                },
-              },
-            },
-          },
-        },
-        plugins: [
-          // your existing center text (kept here, tweak as you like)
-          {
-            id: "centerText",
-            beforeDraw: (chart) => {
-              const { width, height, ctx } = chart;
-              ctx.save();
-              ctx.font = "bold 35px Space Grotesk, sans-serif";
-              ctx.fillStyle = "#ffffff";
-              ctx.textAlign = "center";
-              ctx.textBaseline = "middle";
-              ctx.fillText("Skills", width / 2, height / 2 - 35);
-              ctx.restore();
-            },
-          },
-          percentageDatalabels, // <- draws white % on arcs
-        ],
-      });
+      
 
       const projFilterBtns = document.querySelectorAll(".proj-filter-btn");
       const projectCards = document.querySelectorAll(".project-card");

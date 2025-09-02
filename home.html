@@ -2348,6 +2348,31 @@
     
   }
 
+  /* ENFORCE the hide-by-default rule (JS adds .visible) */
+  #certificatesGrid .certificate-card {
+    display: none !important;        /* <- important so CSS won't accidentally show them */
+    box-sizing: border-box;
+  }
+
+  /* When JS adds .visible, show the card as a block so grid works */
+  #certificatesGrid .certificate-card.visible {
+    display: block !important;       /* show the card */
+  }
+
+
+  /* optional: keep card styling but DON'T set `display` here */
+  #certificates .certificate-card {
+    padding: 12px !important;
+    border-radius: 12px !important;
+    min-height: 220px;
+  }
+
+  /* thumbnail size consistent */
+  #certificates .certificate-card img {
+    height: 120px !important;
+    object-fit: cover !important;
+  }
+
   /* compact, even cards to fit two across */
   #certificates .certificate-card {
     padding: 12px !important;

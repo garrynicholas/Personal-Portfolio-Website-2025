@@ -2272,94 +2272,66 @@
   }
 }
 
-/* --- Wider 2-column project cards for phones (<=720px) --- */
+/* --- Smaller Project Cards for phones ~720px --- */
 @media (max-width: 720px) {
   .projects-grid {
-    display: grid;
-    /* each card about 48% of width so they appear wider while keeping a small gutter */
-    grid-template-columns: repeat(2, minmax(0, 48%));
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px 8px;       /* row-gap, col-gap (smaller column-gap to widen cards) */
     padding: 8px 8px;    /* reduce side padding so cards can be wider */
-    justify-content: center;
-    align-items: start;
   }
 
   .project-card {
     width: 100%;
-    height: 170px;       /* keep compact height */
+    height: 170px;              /* reduce height */
     border-radius: 12px;
-    overflow: hidden;
-    box-sizing: border-box;
-  }
-
-  .card-inner {
-    height: 100%;
-    transition: none;    /* disable heavy transforms on phones */
   }
 
   .card-front,
   .card-back {
-    padding: 12px;       /* slightly smaller padding to allow more card content room */
+    padding: 14px;              /* smaller padding inside */
     border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 6px;
   }
 
   .project-icon {
-    font-size: 1.5rem;
+    font-size: 1.5rem;          /* shrink icon */
     margin-bottom: 6px;
   }
 
   .project-card h3 {
-    font-size: 0.85rem;
-    margin: 6px 0 4px;
-    line-height: 1.12;
-    white-space: normal !important;
-    text-align: center;
+    font-size: 0.8rem;         /* smaller title */
+    margin-bottom: 6px;
   }
 
-  /* clamp to up to 3 lines (adjust --lines value if you want 2 or 4) */
-  .project-card p {
-    font-size: 0.72rem;
-    color: rgba(255,255,255,0.72);
-    margin: 0;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;    /* prefixed */
-    line-clamp: 3;            /* standard */
-    text-overflow: ellipsis;
+  /* multi-line clamp with vendor-prefixed + standard property + fallback */
+.project-card p {
+  font-size: 0.7rem;        
+  overflow: hidden;
+  display: -webkit-box;            /* Chromium / Safari multi-line truncation */
+  -webkit-box-orient: vertical;    /* required for -webkit-box */
+  -webkit-line-clamp: 5;           /* widely supported prefixed property */
+  line-clamp: 5;                   /* standard property (keeps linters happy) */
 
-    /* visual fallback */
-    line-height: 1.25em;
-    max-height: calc(1.25em * 3);
-    max-width: 96%;
-    -webkit-text-overflow: ellipsis;
-  }
+  /* visual sizing / fallback: ensures ~2 lines hidden if clamp isn't supported */
+  line-height: 1.25em;
+  max-height: calc(3.5em * 5);    /* fallback for non-supporting browsers */
+  margin: 0;
+  max-width: 92%;
+}
+
 
   .tech-tag {
-    padding: 3px 6px;
-    font-size: 0.62rem;
+    padding: 2px 4px;
+    font-size: 0.4rem;
     border-radius: 10px;
   }
 
-  .project-links { gap: 6px; }
+  .project-links { gap: 4px; }
   .project-link {
-    padding: 5px 8px;
-    font-size: 0.64rem;
-    border-radius: 12px;
-  }
-
-  /* fallback: single column for very narrow screens */
-  @media (max-width: 420px) {
-    .projects-grid { grid-template-columns: 1fr; gap: 12px; padding: 8px 10px; }
-    .project-card { height: 180px; }
+    padding: 6px 10px;
+    font-size: 0.5rem;
+    border-radius: 14px;
   }
 }
-
 
     </style>
   </head>

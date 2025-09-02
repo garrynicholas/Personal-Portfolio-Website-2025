@@ -2337,73 +2337,40 @@
   }
 }
 
-/* Force certificates to a 2-column grid on narrow phones (720px wide) */
-/* === Certificates: layout + uniform thumbnails for phones ~720px wide === */
-@media (max-width: 720px) and (orientation: portrait) {
-  /* force two equal columns */
+@media (max-width: 720px) {
+  /* Certificate grid: two columns like the mobile project grid */
   #certificates .projects-grid {
     grid-template-columns: repeat(2, minmax(170px, 1fr));
-    gap: 12px !important;
-    padding: 0 10px !important;
-    
+    gap: 10px 2px;
+    padding: 8px 6px;
+    justify-content: center;
   }
 
-  
-
-  /* compact, even cards to fit two across */
+  /* Certificate card styling (match mobile project cards) */
   #certificates .certificate-card {
-    padding: 12px !important;
-    border-radius: 12px !important;
-    min-height: 280px;           /* ensures cards are visually consistent */
-    display: flex;
-    flex-direction: column;
-    background-clip: padding-box;
+    width: 100%;
+    max-width: 160px;
+    height: 180px;
+    border-radius: 12px;
+    margin: 0 auto;
+    padding: 14px;
   }
-
-  /* make every thumbnail visually identical (cropped to fill) */
   #certificates .certificate-card img {
-    width: 100% !important;
-    height: 90px !important;    /* visible thumbnail height — tweak if you want taller */
-    object-fit: cover !important; /* crops differing image sizes to match */
-    display: block;
-    border-radius: 8px;
-    box-shadow: none;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 6px;
   }
-
-  /* keep card text compact & predictable */
   #certificates .certificate-card h3 {
-    display: -webkit-box;
-  -webkit-line-clamp: 3;   /* ✅ works in Chrome, Safari, Edge */
-  -webkit-box-orient: vertical;
-
-  line-clamp: 3;           /* ✅ future standard (not widely supported yet) */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  word-break: break-word;
     font-size: 0.8rem;
-    line-height: 1.15;
-    margin: 0px 0 6px;
+    margin-bottom: 6px;
   }
-
   #certificates .certificate-card p {
     font-size: 0.65rem;
-    line-height: 1.3;
-    color: #bdbdbd;
-    margin: 0;
-    max-height: 15em;           /* prevent overly tall descriptions */
-    overflow: hidden;
-  }
-
-  /* small spacing between thumb and text */
-  #certificates .certificate-card .card-body {
-    padding-top: 8px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    line-height: 1.25em;
   }
 }
+
 
 /* Smaller section subtitles for phones ~720px (portrait) */
 @media (max-width: 720px) and (orientation: portrait) {

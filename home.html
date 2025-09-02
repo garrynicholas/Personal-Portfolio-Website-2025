@@ -2370,6 +2370,15 @@
 
   /* keep card text compact & predictable */
   #certificates .certificate-card h3 {
+    display: -webkit-box;
+  -webkit-line-clamp: 3;   /* ✅ works in Chrome, Safari, Edge */
+  -webkit-box-orient: vertical;
+
+  line-clamp: 3;           /* ✅ future standard (not widely supported yet) */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
     font-size: 0.8rem;
     line-height: 1.15;
     margin: 8px 0 6px;
@@ -2509,19 +2518,7 @@
     transform: translateY(0) scale(1) !important;
     padding: 8px 10px !important;
   }
-
-  .certificate-title {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;   /* ✅ works in Chrome, Safari, Edge */
-  -webkit-box-orient: vertical;
-
-  line-clamp: 3;           /* ✅ future standard (not widely supported yet) */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  word-break: break-word;
-}
-
+  
 
   /* ultra narrow screens (like 420px) */
   @media (max-width: 420px) {

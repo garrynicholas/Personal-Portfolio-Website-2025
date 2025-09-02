@@ -2306,12 +2306,12 @@
   overflow: hidden;
   display: -webkit-box;            /* Chromium / Safari multi-line truncation */
   -webkit-box-orient: vertical;    /* required for -webkit-box */
-  -webkit-line-clamp: 2;           /* widely supported prefixed property */
-  line-clamp: 2;                   /* standard property (keeps linters happy) */
+  -webkit-line-clamp: 4;           /* widely supported prefixed property */
+  line-clamp: 4;                   /* standard property (keeps linters happy) */
 
   /* visual sizing / fallback: ensures ~2 lines hidden if clamp isn't supported */
   line-height: 1.25em;
-  max-height: calc(1.25em * 2);    /* fallback for non-supporting browsers */
+  max-height: calc(1.25em * 4);    /* fallback for non-supporting browsers */
   margin: 0;
   max-width: 92%;
 }

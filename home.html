@@ -2272,90 +2272,56 @@
   }
 }
 
-/* --- Two-column compact project grid for phones (<= 720px) --- */
+/* --- Smaller Project Cards for phones ~720px --- */
 @media (max-width: 720px) {
-  /* grid: 2 columns, tight gutters */
   .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px 10px;      /* row-gap col-gap */
-    padding: 8px 10px;
-    align-items: start;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    padding: 0 10px;
   }
 
-  /* card size: shorter so two stacked rows fit better */
   .project-card {
-    height: 160px;       /* compact height for 2-col layout */
+    height: 200px;              /* reduce height */
     border-radius: 12px;
-    overflow: hidden;
   }
 
-  .card-inner {
-    height: 100%;
-    transition: none;    /* avoid heavy transforms on phones */
-  }
-
-  /* inner padding reduced */
   .card-front,
   .card-back {
-    padding: 10px 12px;
+    padding: 14px;              /* smaller padding inside */
     border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 6px;
   }
 
-  /* icons & title smaller */
   .project-icon {
-    font-size: 1.25rem;
-    margin-bottom: 4px;
+    font-size: 1.5rem;          /* shrink icon */
+    margin-bottom: 6px;
   }
 
   .project-card h3 {
-    font-size: 0.9rem;
-    margin: 0;
-    line-height: 1.15;
+    font-size: 0.95rem;         /* smaller title */
+    margin-bottom: 6px;
   }
 
   .project-card p {
-    font-size: 0.66rem;
-    line-height: 1.25;
-    margin: 0;
-    max-height: 2.6em;   /* ~2 lines */
+    font-size: 0.72rem;         /* smaller description */
+    line-height: 1.3;
+    margin-bottom: 8px;
+    max-height: 2.8em;          /* limit to ~2 lines */
     overflow: hidden;
   }
 
-  /* tags and links compact */
-  .project-tech { gap: 6px; margin-top: 6px; }
   .tech-tag {
-    font-size: 0.62rem;
-    padding: 3px 6px;
+    padding: 3px 8px;
+    font-size: 0.65rem;
     border-radius: 10px;
   }
 
-  .project-links { gap: 6px; margin-top: 6px; }
+  .project-links { gap: 8px; }
   .project-link {
-    padding: 5px 8px;
-    font-size: 0.64rem;
-    border-radius: 12px;
-  }
-
-  /* If you use hover/flip, disable on touch devices so content stays visible */
-  .project-card:hover .card-inner { transform: none; }
-
-  /* Ensure odd-last item doesn't get stretched */
-  .projects-grid > .project-card:last-child {
-    align-self: start;
-  }
-
-  /* fallback to single column for extremely narrow widths */
-  @media (max-width: 420px) {
-    .projects-grid { grid-template-columns: 1fr; }
-    .project-card { height: 180px; }
+    padding: 6px 10px;
+    font-size: 0.7rem;
+    border-radius: 14px;
   }
 }
-
 
     </style>
   </head>

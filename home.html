@@ -2450,52 +2450,10 @@
   }
 }
 
-/* Smaller project filters — phone ONLY (720px tall portrait) */
-@media (max-width: 720px) and (orientation: portrait) {
-  /* reduce spacing and allow horizontal scrolling if too many buttons */
-  .certificate-filters {
-    gap: 8px !important;
-    margin: 12px auto !important;
-    padding: 0 10px !important;
-    max-width: 100% !important;
-    justify-content: center !important;
-    overflow-x: auto !important;           /* prevents awkward wrapping */
-    -webkit-overflow-scrolling: touch !important;
-  }
-
-  /* hide native scrollbar visually (optional) */
-  .certificate-filters::-webkit-scrollbar { height: 6px; }
-  .certificate-filters::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 10px; }
-
-  /* smaller filter buttons */
-  .cert-filter-btn {
-    font-size: 0.72rem !important;         /* smaller label */
-    padding: 6px 10px !important;          /* less padding */
-    border-radius: 14px !important;        /* slightly tighter pill */
-    min-width: 72px !important;            /* allow narrow buttons */
-    white-space: nowrap !important;        /* prevent wrapping inside button */
-    line-height: 1 !important;
-    letter-spacing: 0.2px !important;
-    border-width: 1px !important;
-  }
-
-  /* make the active state still clear but compact */
-  .cert-filter-btn.active,
-  .cert-filter-btn:hover {
-    transform: translateY(0) scale(1) !important;
-    padding: 6px 10px !important;
-  }
-
-  /* if you want icon-only compact view for very narrow widths */
-  @media (max-width: 420px) {
-    .cert-filter-btn { padding: 6px 8px !important; font-size: 0.68rem !important; min-width: 56px !important; }
-  }
-}
-
 /* === Smaller certificate filters — phone ONLY (720px wide, portrait) === */
-/* @media (max-width: 720px) and (orientation: portrait) { */
+@media (max-width: 720px) and (orientation: portrait) {
   /* match a variety of possible filter container selectors */
-  /* #certificates .certificate-filters,
+  #certificates .certificate-filters,
   .certificate-filters,
   .cert-filters,
   #certificates .filter-row {
@@ -2505,11 +2463,11 @@
     max-width: 100% !important;
     justify-content: flex-start !important;
     overflow-x: auto !important;              /* allow horizontal swipe if many filters */
-    /* -webkit-overflow-scrolling: touch !important;
-  } */ */
+    -webkit-overflow-scrolling: touch !important;
+  }
 
   /* hide native scrollbar a little (still usable) */
-  /* #certificates .certificate-filters::-webkit-scrollbar,
+  #certificates .certificate-filters::-webkit-scrollbar,
   .certificate-filters::-webkit-scrollbar,
   .cert-filters::-webkit-scrollbar { height: 6px; }
   #certificates .certificate-filters::-webkit-scrollbar-thumb,
@@ -2517,46 +2475,46 @@
   .cert-filters::-webkit-scrollbar-thumb {
     background: rgba(255,255,255,0.06);
     border-radius: 10px;
-  } */
+  }
 
   /* smaller filter buttons — target multiple possible class names */
-  /* .cert-filter-btn,
+  .cert-filter-btn,
   .certificate-filter-btn,
   .cert-filter,
   .filter-btn,
   #certificates .cert-filter-btn {
     font-size: 0.70rem !important;    /* smaller label */
-    /* padding: 5px 9px !important;      /* less padding to keep compact */
-    /* border-radius: 12px !important;
-    min-width: 64px !important;       allow narrower buttons */
-    /* white-space: nowrap !important;   prevent internal wrapping */ */
-    /* line-height: 1 !important;
+    padding: 5px 9px !important;      /* less padding to keep compact */
+    border-radius: 12px !important;
+    min-width: 64px !important;       /* allow narrower buttons */
+    white-space: nowrap !important;   /* prevent internal wrapping */
+    line-height: 1 !important;
     letter-spacing: 0.2px !important;
     border-width: 1px !important;
     display: inline-flex !important;
     align-items: center !important;
-    justify-content: center !important; */
-  /* } */ 
+    justify-content: center !important;
+  }
 
   /* keep active/hover states visible but compact */
-  /* .cert-filter-btn.active,
+  .cert-filter-btn.active,
   .certificate-filter-btn.active,
   .cert-filter-btn:hover,
   .certificate-filter-btn:hover {
-    transform: none !important;
-    padding: 5px 9px !important;
-  } */
+    transform: translateY(0) scale(1) !important;
+    padding: 6px 10px !important;
+  }
 
   /* if you have icons inside the button, make them a bit smaller */
-  /* .cert-filter-btn i,
+  .cert-filter-btn i,
   .certificate-filter-btn i,
   .cert-filter i {
     font-size: 0.9em !important;
     margin-right: 6px !important;
-  } */
+  }
 
   /* optional: collapse long text to shorter labels on very narrow widths */
-  /* @media (max-width: 420px) {
+  @media (max-width: 420px) {
     .cert-filter-btn,
     .certificate-filter-btn,
     .cert-filter {
@@ -2569,7 +2527,7 @@
       margin-right: 4px !important;
     }
   }
-} */
+}
 
 
     </style>

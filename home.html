@@ -4318,34 +4318,37 @@
       });
 
       // Load More Certificates
-      const certificates = document.querySelectorAll(
-        "#certificatesGrid .certificate-card",
-      );
-      const loadMoreCertificatesBtn = document.getElementById(
-        "loadMoreCertificates",
-      );
-      let visibleCertificates = 6; // show first 6 certificates
+      const certificates = document.querySelectorAll('#certificatesGrid .certificate-card');
+const loadMoreCertificatesBtn = document.getElementById('loadMoreCertificates');
 
-      function showCertificates() {
-        certificates.forEach((card, index) => {
-          if (index < visibleCertificates) {
-            card.classList.add("visible");
-          }
-        });
+let visibleCertificates = 6; // initial visible count
+let increment = window.innerWidth <= 720 ? 4 : 3; // phone=4, desktop=3
 
-        // Hide button if all are visible
-        if (visibleCertificates >= certificates.length) {
-          loadMoreCertificatesBtn.style.display = "none";
-        }
-      }
+function showCertificates() {
+  certificates.forEach((cert, index) => {
+    cert.classList.toggle('visible', index < visibleCertificates);
+  });
 
-      // Initial load
-      showCertificates();
+  if (visibleCertificates >= certificates.length) {
+    loadMoreCertificatesBtn.style.display = 'none';
+  } else {
+    loadMoreCertificatesBtn.style.display = 'block';
+  }
+}
 
-      loadMoreCertificatesBtn.addEventListener("click", () => {
-        visibleCertificates += 3; // show 3 more each click
-        showCertificates();
-      });
+loadMoreCertificatesBtn.addEventListener('click', () => {
+  visibleCertificates += increment;
+  showCertificates();
+});
+
+// run on load
+showCertificates();
+
+// optional: update increment if screen is resized
+window.addEventListener('resize', () => {
+  increment = window.innerWidth <= 720 ? 4 : 3;
+});
+
 
       // Load More Projects
       const projects = document.querySelectorAll("#projectsGrid .project-card");

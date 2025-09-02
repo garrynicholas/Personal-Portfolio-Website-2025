@@ -4349,6 +4349,41 @@ window.addEventListener('resize', () => {
   increment = window.innerWidth <= 720 ? 4 : 3;
 });
 
+const certificateFilters = document.querySelectorAll('.cert-filter-btn');
+
+certificateFilters.forEach(filterBtn => {
+  filterBtn.addEventListener('click', () => {
+    // update active state
+    certificateFilters.forEach(btn => btn.classList.remove('active'));
+    filterBtn.classList.add('active');
+
+    const category = filterBtn.getAttribute('data-category');
+
+    let count = 0;
+    certificates.forEach(cert => {
+      const match = category === 'all' || cert.getAttribute('data-category') === category;
+
+      if (match && count < visibleCertificates) {
+        cert.style.display = 'block';
+        count++;
+      } else {
+        cert.style.display = 'none';
+      }
+    });
+
+    // toggle load more button visibility
+    const totalMatches = Array.from(certificates).filter(cert =>
+      category === 'all' || cert.getAttribute('data-category') === category
+    ).length;
+
+    if (visibleCertificates >= totalMatches) {
+      loadMoreBtn.style.display = 'none';
+    } else {
+      loadMoreBtn.style.display = 'block';
+    }
+  });
+});
+
 
       // Load More Projects
       const projects = document.querySelectorAll("#projectsGrid .project-card");

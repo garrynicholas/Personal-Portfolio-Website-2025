@@ -2337,26 +2337,81 @@
   }
 }
 
-/* Make certificate cards smaller for 720px screens */
+/* Certificates: two-column layout + smaller card sizes for phones <= 720px */
 @media (max-width: 720px) {
-  #certificates .certificate-card img {
-    max-height: 140px;   /* smaller image */
-    margin-bottom: 10px;
+  /* Container that holds all certificate cards */
+  #certificates .certificates-grid,
+  .certificates-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(150px, 1fr)); /* two columns */
+    gap: 10px;               /* space between cards */
+    padding: 8px 10px;       /* tighten outer padding so cards can be wider */
+    align-items: start;
+    justify-content: center;
   }
 
-  #certificates .certificate-card h3 {
-    font-size: 1rem;     /* smaller title */
-    margin-bottom: 6px;
+  /* Each certificate card */
+  #certificates .certificate-card,
+  .certificate-card {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border-radius: 10px;
+    height: auto;            /* allow variable height based on content */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
   }
 
-  #certificates .certificate-card p {
-    font-size: 0.75rem;  /* smaller description */
-    line-height: 1.4;
+  /* Certificate image */
+  #certificates .certificate-card img,
+  .certificate-card img {
+    width: 100%;
+    height: auto;
+    max-height: 110px;      /* smaller image for phone */
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
   }
 
-  #certificates .certificate-card {
-    padding: 15px;       /* tighter padding so cards look smaller */
-    border-radius: 14px;
+  /* Title + description */
+  #certificates .certificate-card h3,
+  .certificate-card h3 {
+    font-size: 0.95rem;     /* smaller title */
+    margin: 0;
+    line-height: 1.15;
+    white-space: nowrap;    /* if you want single-line titles */
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  /* 3-line clamp with vendor prefix + standard property + safe fallback */
+#certificates .certificate-card p,
+.certificate-card p {
+  display: -webkit-box;           /* required for -webkit-line-clamp */
+  -webkit-box-orient: vertical;   /* required for -webkit-line-clamp */
+  -webkit-line-clamp: 3;          /* Chrome, Safari (prefixed) */
+  line-clamp: 3;                  /* standard property (future/other UAs) */
+  overflow: hidden;               /* hide the overflowed text */
+
+  /* Fallback so non-clamping browsers still limit height visually */
+  line-height: 1.4;               /* adjust to match your design */
+  max-height: calc(1.4em * 3);    /* 3 lines * line-height */
+  /* Optional polish */
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+
+  /* Optional: make action buttons / links smaller */
+  #certificates .certificate-card .btn,
+  .certificate-card .btn,
+  #certificates .certificate-card a,
+  .certificate-card a {
+    font-size: 0.72rem;
+    padding: 6px 8px;
+    border-radius: 12px;
   }
 }
 

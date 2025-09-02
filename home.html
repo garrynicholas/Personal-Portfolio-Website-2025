@@ -2408,6 +2408,48 @@
   }
 }
 
+/* Smaller project filters — phone ONLY (720px tall portrait) */
+@media (max-width: 720px) and (orientation: portrait) {
+  /* reduce spacing and allow horizontal scrolling if too many buttons */
+  .project-filters {
+    gap: 8px !important;
+    margin: 12px auto !important;
+    padding: 0 10px !important;
+    max-width: 100% !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;           /* prevents awkward wrapping */
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* hide native scrollbar visually (optional) */
+  .project-filters::-webkit-scrollbar { height: 6px; }
+  .project-filters::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 10px; }
+
+  /* smaller filter buttons */
+  .proj-filter-btn {
+    font-size: 0.72rem !important;         /* smaller label */
+    padding: 6px 10px !important;          /* less padding */
+    border-radius: 14px !important;        /* slightly tighter pill */
+    min-width: 72px !important;            /* allow narrow buttons */
+    white-space: nowrap !important;        /* prevent wrapping inside button */
+    line-height: 1 !important;
+    letter-spacing: 0.2px !important;
+    border-width: 1px !important;
+  }
+
+  /* make the active state still clear but compact */
+  .proj-filter-btn.active,
+  .proj-filter-btn:hover {
+    transform: translateY(0) scale(1) !important;
+    padding: 6px 10px !important;
+  }
+
+  /* if you want icon-only compact view for very narrow widths */
+  @media (max-width: 420px) {
+    .proj-filter-btn { padding: 6px 8px !important; font-size: 0.68rem !important; min-width: 56px !important; }
+  }
+}
+
     </style>
   </head>
   <body>

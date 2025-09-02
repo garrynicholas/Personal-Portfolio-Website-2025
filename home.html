@@ -2337,6 +2337,29 @@
   }
 }
 
+/* Make certificate cards smaller for 720px screens */
+@media (max-width: 720px) {
+  #certificates .certificate-card img {
+    max-height: 140px;   /* smaller image */
+    margin-bottom: 10px;
+  }
+
+  #certificates .certificate-card h3 {
+    font-size: 1rem;     /* smaller title */
+    margin-bottom: 6px;
+  }
+
+  #certificates .certificate-card p {
+    font-size: 0.75rem;  /* smaller description */
+    line-height: 1.4;
+  }
+
+  #certificates .certificate-card {
+    padding: 15px;       /* tighter padding so cards look smaller */
+    border-radius: 14px;
+  }
+}
+
     </style>
   </head>
   <body>

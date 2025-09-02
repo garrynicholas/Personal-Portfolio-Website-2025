@@ -2285,7 +2285,7 @@
   .project-card {
     width: 100%;
     max-width: 160px;   /* ensures each card can expand to ~360px on a 720px wide screen */
-    height: 160px;      /* slightly taller for better content fit */
+    height: 180px;      /* slightly taller for better content fit */
     border-radius: 12px;
     margin: 0 auto;
   }
@@ -2312,12 +2312,12 @@
   overflow: hidden;
   display: -webkit-box;            /* Chromium / Safari multi-line truncation */
   -webkit-box-orient: vertical;    /* required for -webkit-box */
-  -webkit-line-clamp: 5;           /* widely supported prefixed property */
-  line-clamp: 5;                   /* standard property (keeps linters happy) */
+  -webkit-line-clamp: 6;           /* widely supported prefixed property */
+  line-clamp: 6;                   /* standard property (keeps linters happy) */
 
   /* visual sizing / fallback: ensures ~2 lines hidden if clamp isn't supported */
   line-height: 1.25em;
-  max-height: calc(3.5em * 5);    /* fallback for non-supporting browsers */
+  max-height: calc(3.5em * 6);    /* fallback for non-supporting browsers */
   margin: 0;
   max-width: 92%;
 }

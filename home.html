@@ -2309,10 +2309,6 @@
   -webkit-line-clamp: 2;           /* widely supported prefixed property */
   line-clamp: 2;                   /* standard property (keeps linters happy) */
 
-  /* ellipsis hint (works with some implementations) */
-  text-overflow: ellipsis;
-  -webkit-text-overflow: ellipsis;
-
   /* visual sizing / fallback: ensures ~2 lines hidden if clamp isn't supported */
   line-height: 1.25em;
   max-height: calc(1.25em * 2);    /* fallback for non-supporting browsers */

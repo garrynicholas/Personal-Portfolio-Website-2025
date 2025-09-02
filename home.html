@@ -2509,6 +2509,18 @@
     transform: translateY(0) scale(1) !important;
     padding: 8px 10px !important;
   }
+  
+  .certificate-card .certificate-title,
+  .cert-title,
+  #certificates .certificate-title {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;  /* limit to 3 lines */
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: normal !important;    /* allow wrapping */
+    word-break: break-word !important; /* prevent overflow on long words */
+  }
 
   /* ultra narrow screens (like 420px) */
   @media (max-width: 420px) {

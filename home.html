@@ -2275,15 +2275,19 @@
 /* --- Smaller Project Cards for phones ~720px --- */
 @media (max-width: 720px) {
   .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px 8px;       /* row-gap, col-gap (smaller column-gap to widen cards) */
-    padding: 8px 8px;    /* reduce side padding so cards can be wider */
+    /* Two columns, but each column will not go below 320px */
+    grid-template-columns: repeat(2, minmax(320px, 1fr));
+    gap: 10px 8px;             /* row-gap, col-gap */
+    padding: 8px 6px;         /* fewer side paddings so cards can be wider */
+    justify-content: center;  /* center the grid when space remains */
   }
 
   .project-card {
     width: 100%;
-    height: 170px;              /* reduce height */
+    max-width: 360px;   /* ensures each card can expand to ~360px on a 720px wide screen */
+    height: 180px;      /* slightly taller for better content fit */
     border-radius: 12px;
+    margin: 0 auto;
   }
 
   .card-front,

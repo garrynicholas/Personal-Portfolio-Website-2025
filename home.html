@@ -4318,72 +4318,34 @@
       });
 
       // Load More Certificates
-      const certificates = document.querySelectorAll('#certificatesGrid .certificate-card');
-const loadMoreCertificatesBtn = document.getElementById('loadMoreCertificates');
+      const certificates = document.querySelectorAll(
+        "#certificatesGrid .certificate-card",
+      );
+      const loadMoreCertificatesBtn = document.getElementById(
+        "loadMoreCertificates",
+      );
+      let visibleCertificates = 6; // show first 6 certificates
 
-let visibleCertificates = 6; // initial visible count
-let increment = window.innerWidth <= 720 ? 4 : 3; // phone=4, desktop=3
+      function showCertificates() {
+        certificates.forEach((card, index) => {
+          if (index < visibleCertificates) {
+            card.classList.add("visible");
+          }
+        });
 
-function showCertificates() {
-  certificates.forEach((cert, index) => {
-    cert.classList.toggle('visible', index < visibleCertificates);
-  });
-
-  if (visibleCertificates >= certificates.length) {
-    loadMoreCertificatesBtn.style.display = 'none';
-  } else {
-    loadMoreCertificatesBtn.style.display = 'block';
-  }
-}
-
-loadMoreCertificatesBtn.addEventListener('click', () => {
-  visibleCertificates += increment;
-  showCertificates();
-});
-
-// run on load
-showCertificates();
-
-// optional: update increment if screen is resized
-window.addEventListener('resize', () => {
-  increment = window.innerWidth <= 720 ? 4 : 3;
-});
-
-const certificateFilters = document.querySelectorAll('.cert-filter-btn');
-
-certificateFilters.forEach(filterBtn => {
-  filterBtn.addEventListener('click', () => {
-    // update active state
-    certificateFilters.forEach(btn => btn.classList.remove('active'));
-    filterBtn.classList.add('active');
-
-    const category = filterBtn.getAttribute('data-category');
-
-    let count = 0;
-    certificates.forEach(cert => {
-      const match = category === 'all' || cert.getAttribute('data-category') === category;
-
-      if (match && count < visibleCertificates) {
-        cert.style.display = 'block';
-        count++;
-      } else {
-        cert.style.display = 'none';
+        // Hide button if all are visible
+        if (visibleCertificates >= certificates.length) {
+          loadMoreCertificatesBtn.style.display = "none";
+        }
       }
-    });
 
-    // toggle load more button visibility
-    const totalMatches = Array.from(certificates).filter(cert =>
-      category === 'all' || cert.getAttribute('data-category') === category
-    ).length;
+      // Initial load
+      showCertificates();
 
-    if (visibleCertificates >= totalMatches) {
-      loadMoreBtn.style.display = 'none';
-    } else {
-      loadMoreBtn.style.display = 'block';
-    }
-  });
-});
-
+      loadMoreCertificatesBtn.addEventListener("click", () => {
+        visibleCertificates += 3; // show 3 more each click
+        showCertificates();
+      });
 
       // Load More Projects
       const projects = document.querySelectorAll("#projectsGrid .project-card");

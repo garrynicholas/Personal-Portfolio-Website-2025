@@ -2337,39 +2337,96 @@
   }
 }
 
+/* ===========================
+   Certificates: Mobile match
+   (two columns, uniform cards)
+   Applies to screens <= 720px
+   =========================== */
 @media (max-width: 720px) {
-  /* Certificate grid: two columns like the mobile project grid */
+
+  /* 1) Grid: behave like mobile project grid (two columns) */
   #certificates .projects-grid {
-    grid-template-columns: repeat(2, minmax(170px, 1fr));
-    gap: 10px 2px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(170px, 1fr)); /* two responsive columns */
+    gap: 12px;                /* gap between cards */
     padding: 8px 6px;
     justify-content: center;
+    align-items: start;
   }
 
-  /* Certificate card styling (match mobile project cards) */
+  /* 2) Card: fixed-height flex column to keep rows aligned */
   #certificates .certificate-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* image + content stack */
     width: 100%;
-    max-width: 160px;
-    height: 180px;
+    height: 200px;               /* uniform card height — tweak below if needed */
+    padding: 12px;
     border-radius: 12px;
-    margin: 0 auto;
-    padding: 14px;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: var(--glass-bg); /* keep glass look */
   }
+
+  /* 3) Thumbnail area: fixed height, cover crop */
   #certificates .certificate-card img {
     width: 100%;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 6px;
+    height: 96px;               /* thumbnail height; matches project-card ratio */
+    object-fit: cover;          /* crop to fill the thumbnail area */
+    border-radius: 8px;         /* slightly smaller than card radius */
+    margin-bottom: 10px;
+    flex: 0 0 auto;
+    background: transparent;    /* avoid white backgrounds showing through */
   }
+
+  /* 4) Title: clamp lines to avoid growing card */
   #certificates .certificate-card h3 {
-    font-size: 0.8rem;
-    margin-bottom: 6px;
+    font-size: 0.88rem;
+    margin: 0 0 6px 0;
+    line-height: 1.16;
+    color: var(--text-primary);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;      /* limit to 3 lines */
+    -webkit-box-orient: vertical;
+    text-align: center;         /* same feel as project cards */
   }
+
+  /* 5) Description: smaller text, clamp to keep card tidy */
   #certificates .certificate-card p {
-    font-size: 0.65rem;
-    line-height: 1.25em;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.25;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;      /* limit to 3 lines */
+    -webkit-box-orient: vertical;
+    text-align: center;
+  }
+
+  /* 6) Keep card footer (if any) pinned to bottom */
+  #certificates .certificate-card .card-footer {
+    margin-top: auto;           /* push footer to bottom if present */
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  /* 7) Prevent sticky player overlapping last row */
+  section#certificates {
+    padding-bottom: 120px;      /* safe space for sticky player; lower if you remove player */
+  }
+
+  /* 8) Slight music player tweak so it's less intrusive */
+  .music-player {
+    bottom: 12px;
+    padding: 6px 10px;
+    max-width: calc(100% - 36px);
   }
 }
+/* =========================== */
 
 
 /* Smaller section subtitles for phones ~720px (portrait) */

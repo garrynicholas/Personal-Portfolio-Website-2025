@@ -2362,7 +2362,7 @@
   #certificates .certificate-card {
     padding: 10px;
     height: auto;          /* allow content to flow under fixed-size image */
-    min-height: 160px;     /* keep cards visually balanced — tune if necessary */
+    min-height: 190px;     /* keep cards visually balanced — tune if necessary */
   }
 
   /* Tweak title size to avoid overlap and improve layout */
@@ -2370,13 +2370,15 @@
     font-size: 0.78rem;
     margin: 6px 0 8px;
     line-height: 1.15;
+    max-height: 3em;     /* shows ~3 lines */
+    overflow: hidden;
   }
 
   /* Optional: make description shorter on phones so cards stay compact */
   #certificates .certificate-card p {
     font-size: 0.72rem;
     line-height: 1.2;
-    max-height: 3.6em;     /* shows ~3 lines */
+    max-height: 6em;     /* shows ~3 lines */
     overflow: hidden;
   }
 }

@@ -2337,23 +2337,79 @@
   }
 }
 
-/* Certificates: match projects two-column layout for small phones (<=720px) */
+/* === Certificate cards: mobile fixes for phones ~720px wide === */
 @media (max-width: 720px) {
+
+  /* Make certificates behave like project cards: exactly 2 columns */
   #certificates .projects-grid {
-    grid-template-columns: repeat(2, minmax(170px, 1fr));
-    gap: 10px 2px;
-    padding: 8px 6px;
-    justify-content: center;
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
+    gap: 12px 10px;
+    padding: 10px 8px;
+    margin-top: 32px;
+    justify-items: stretch;
   }
 
+  /* Card sizing/layout */
   #certificates .certificate-card {
-    width: 100%;
-    max-width: 160px;
-    height: 180px;
-    border-radius: 12px;
-    padding: 12px;
+    height: 260px;                 /* fixed card height so rows align */
+    padding: 12px;                 /* tighter padding for phone */
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;        /* image -> title -> desc */
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;              /* prevents text overflow showing outside card */
   }
+
+  /* Make all certificate images the same visible size and keep full certificate visible */
+  #certificates .certificate-card img {
+    width: 100%;
+    height: 110px;                 /* fixed image area so cards align */
+    object-fit: contain;           /* show whole certificate (no cropped edges) */
+    border-radius: 8px;
+    background: rgba(255,255,255,0.92); /* ensure white certificate looks right on dark glass */
+    padding: 6px;                  /* small inner padding so certificate doesn't touch edge */
+    box-sizing: border-box;
+    display: block;
+  }
+
+  /* Title: smaller and clamp to 2 lines */
+  #certificates .certificate-card h3 {
+    font-size: 0.95rem;
+    margin: 0;
+    text-align: center;
+    line-height: 1.15;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;         /* show up to 2 lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    padding: 0 4px;
+  }
+
+  /* Description: smaller and clamp to 3 lines */
+  #certificates .certificate-card p {
+    font-size: 0.72rem;
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;         /* show up to 3 lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 4px;
+  }
+
+  /* If you prefer the title slightly bolder to remain readable */
+  #certificates .certificate-card h3 { font-weight: 600; }
+
+  /* Make sure modal and zoomable behavior unchanged */
+  #certificates .certificate-card .zoomable { cursor: zoom-in; }
+
 }
+
 
 
 /* Smaller section subtitles for phones ~720px (portrait) */

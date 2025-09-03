@@ -2370,8 +2370,12 @@
     font-size: 0.78rem;
     margin: 6px 0 8px;
     line-height: 1.15;
-    max-height: 3em;     /* shows ~3 lines */
-    overflow: hidden;
+    display: -webkit-box;           /* create flexible box for clamping */
+    -webkit-line-clamp: 3;          /* show max 3 lines */
+    -webkit-box-orient: vertical;   /* vertical flow */
+    overflow: hidden;               /* hide excess */
+    text-overflow: ellipsis;        /* add "..." at the end */
+    word-break: break-word;         /* break long words if needed */
   }
 
   /* Optional: make description shorter on phones so cards stay compact */

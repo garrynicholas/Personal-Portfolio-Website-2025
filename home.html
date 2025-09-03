@@ -2524,7 +2524,7 @@
 /* Skill Perks Grid - Force 3 columns on phones (~720px) */
 @media (max-width: 768px) {
   .skills-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(170px, 1fr));
     gap: 12px; /* Reduced gap for tighter layout */
     padding: 0 10px; /* Optional: slight side padding */
   }
@@ -2534,6 +2534,7 @@
     border-radius: 14px;
     background: rgba(99, 102, 241, 0.08);
     border: 1px solid rgba(99, 102, 241, 0.15);
+    width: 55px;
     height: 110px; /* Fixed height for uniformity */
     display: flex;
     flex-direction: column;
@@ -2549,7 +2550,7 @@
   }
 
   .skill-name {
-    font-size: 0.85rem; /* Slightly smaller text */
+    font-size: 0.75rem; /* Slightly smaller text */
     font-weight: 500;
     color: var(--text-primary);
     margin-top: 6px;

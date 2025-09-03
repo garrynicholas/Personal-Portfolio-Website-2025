@@ -2578,21 +2578,32 @@
 
 }
 
-/* default desktop/tablet size */
-#skills-chart {
-  width: 100%;
-  height: 360px;      /* desktop default height */
-  display: block;
+/* Chart card sizing for small phones (<= 720px width) */
+.chart-card {
+  max-width: 400px;   /* default on larger screens (keeps previous behavior) */
+  margin: 0 auto;
 }
 
-/* target phone: width 720px or less */
+/* Phone target: make the chart much smaller & center it */
 @media (max-width: 720px) {
   .chart-card {
-    max-width: 320px;   /* shrink the card on the phone */
-    padding: 0.75rem;   /* reduce padding for compact layout */
+    max-width: 300px;      /* shrink card width on phones */
+    padding: 12px;         /* slightly reduce padding */
   }
-  #skills-chart {
-    height: 200px;      /* smaller chart height for phone */
+
+  /* Force ApexCharts SVG container to use a smaller height.
+     ApexCharts uses an <svg> inside #skills-chart, so target svg there. */
+  #skills-chart,
+  #skills-chart > svg {
+    width: 100% !important;
+    height: 220px !important;   /* final chart height on phones - tune as needed */
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  /* reduce legend text size so it fits */
+  .apexcharts-legend {
+    font-size: 11px !important;
   }
 }
 

@@ -4,11 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gunawan Widya Nugraha - Personal Portfolio</title>
-      <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Flowbite CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.1/flowbite.min.css" rel="stylesheet" />
     <link
       rel="stylesheet"
       href="./node_modules/bootstrap-icons/font/bootstrap-icons.css"
@@ -2577,36 +2572,6 @@
   }
 
 }
-
-/* Chart card sizing for small phones (<= 720px width) */
-.chart-card {
-  max-width: 400px;   /* default on larger screens (keeps previous behavior) */
-  margin: 0 auto;
-}
-
-/* Phone target: make the chart much smaller & center it */
-@media (max-width: 720px) {
-  .chart-card {
-    max-width: 300px;      /* shrink card width on phones */
-    padding: 12px;         /* slightly reduce padding */
-  }
-
-  /* Force ApexCharts SVG container to use a smaller height.
-     ApexCharts uses an <svg> inside #skills-chart, so target svg there. */
-  #skills-chart,
-  #skills-chart > svg {
-    width: 100% !important;
-    height: 220px !important;   /* final chart height on phones - tune as needed */
-    max-width: 300px;
-    margin: 0 auto;
-  }
-
-  /* reduce legend text size so it fits */
-  .apexcharts-legend {
-    font-size: 11px !important;
-  }
-}
-
     </style>
   </head>
   <body>
@@ -2817,10 +2782,6 @@
             </div>
             <p style="color: #aaa">Years in Programming</p>
           </div>
-          <!-- Chart Card -->
-  <div class="max-w-md w-full bg-gray-800 rounded-xl shadow-lg p-6">
-    <div id="skills-chart"></div>
-  </div>
           <!-- Highest Skills Summary -->
           <div class="highest-skills">
             <p class="label">Most Skills</p>
@@ -4544,83 +4505,6 @@
       changeImage();
       setInterval(changeImage, 10000); // Change image every 10 seconds
     </script>
-<!-- Flowbite JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.1/flowbite.min.js"></script>
-
-  <!-- ApexCharts JS -->
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
-  <!-- Chart Init -->
-  <script>
-    const options = {
-      series: [20, 20, 20, 10, 10, 20], // percentages
-      chart: {
-        type: "donut",
-        height: 400
-      },
-      labels: [
-        "Frontend Programming",
-        "UI/UX Design",
-        "Java Development",
-        "Flutter Development",
-        "Python Programming",
-        "Graphic Design"
-      ],
-      colors: [
-        "#4F46E5", // Frontend (Indigo)
-        "#A855F7", // UI/UX (Purple)
-        "#F59E0B", // Java (Orange)
-        "#06B6D4", // Flutter (Cyan)
-        "#10B981", // Python (Green)
-        "#EF4444"  // Graphic Design (Red)
-      ],
-      legend: {
-        position: "bottom",
-        labels: {
-          colors: "#fff",
-          useSeriesColors: false
-        }
-      },
-      plotOptions: {
-        pie: {
-          donut: {
-            size: "65%",
-            labels: {
-              show: true,
-              total: {
-                show: true,
-                label: "Skills",
-                fontSize: "22px",
-                color: "#fff"
-              }
-            }
-          }
-        }
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          colors: ["#fff"],
-          fontSize: "12px"
-        },
-        formatter: function (val) {
-          return val.toFixed(0) + "%";
-        }
-      },
-      responsive: [
-        {
-          breakpoint: 768,
-          options: {
-            chart: { height: 300 },
-            legend: { fontSize: "12px" }
-          }
-        }
-      ]
-    };
-
-    const chart = new ApexCharts(document.querySelector("#skills-chart"), options);
-    chart.render();
-  </script>
     <style>
       
       .fade-in {

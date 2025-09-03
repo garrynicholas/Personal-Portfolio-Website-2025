@@ -2521,24 +2521,51 @@
   }
 }
 
-/* Force 3-column grid for Skill Perks on narrow screens (e.g., 720px wide phones) */
-@media (max-width: 720px) {
+/* Skill Perks Grid - Force 3 columns on phones (~720px) */
+@media (max-width: 768px) {
   .skills-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 12px; /* Reduced gap for tighter layout */
+    padding: 0 10px; /* Optional: slight side padding */
   }
 
   .skill-item {
-    padding: 16px;
+    padding: 16px 12px; /* Reduced vertical & horizontal padding */
     border-radius: 14px;
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    height: 110px; /* Fixed height for uniformity */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    overflow: hidden;
   }
 
-  /* Optional: Adjust font/icon size if needed for tight space */
   .skill-emoji i {
-    font-size: 1rem;
+    font-size: 1.6rem; /* Slightly smaller emoji/icon */
+    color: #a855f7;
   }
+
   .skill-name {
-    font-size: 0.7rem;
+    font-size: 0.85rem; /* Slightly smaller text */
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-top: 6px;
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%;
+  }
+
+  /* Hover effect (optional) */
+  .skill-item:hover {
+    transform: translateY(-6px) scale(1.03);
+    background: rgba(99, 102, 241, 0.15);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   }
 }
     </style>

@@ -2337,6 +2337,23 @@
   }
 }
 
+/* Certificates: match projects two-column layout for small phones (<=720px) */
+@media (max-width: 720px) {
+  #certificates .projects-grid {
+    grid-template-columns: repeat(2, minmax(170px, 1fr));
+    gap: 10px 2px;
+    padding: 8px 6px;
+    justify-content: center;
+  }
+
+  #certificates .certificate-card {
+    width: 100%;
+    max-width: 160px;
+    height: 180px;
+    border-radius: 12px;
+    padding: 12px;
+  }
+}
 
 
 /* Smaller section subtitles for phones ~720px (portrait) */

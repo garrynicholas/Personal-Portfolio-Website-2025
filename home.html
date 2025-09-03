@@ -2522,51 +2522,46 @@
 }
 
 /* Skill Perks Grid - Force 3 columns on phones (~720px) */
-/* Optimize Skill Perks for 720px-wide phones */
-@media (max-width: 768px) {
+@media (max-width: 720px) {
   .skills-grid {
-    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-    gap: 12px; /* balanced spacing */
-    padding: 0 10px;
+    grid-template-columns: repeat(3, minmax(50px, 1fr));
+    gap: 12px 10px; /* Reduced gap for tighter layout */
+    padding: 0 10px; /* Optional: slight side padding */
   }
 
   .skill-item {
-    padding: 12px 8px; /* reduced padding */
-    height: 88px; /* compact fixed height */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px; /* 🔥 KEY: reduces space between emoji and text */
+    padding: 6px 12px; /* Reduced vertical & horizontal padding */
     border-radius: 14px;
     background: rgba(99, 102, 241, 0.08);
     border: 1px solid rgba(99, 102, 241, 0.15);
+    width: 90px;
+    height: 90px; /* Fixed height for uniformity */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     transition: all 0.3s ease;
+    overflow: hidden;
+    margin: 0 auto;
   }
 
   .skill-emoji i {
-    font-size: 1.4rem; /* slightly smaller emoji */
+    font-size: 1.2rem; /* Slightly smaller emoji/icon */
     color: #a855f7;
-    margin: 0; /* ensure no extra margin */
-    line-height: 1; /* removes invisible line spacing */
+    margin-bottom: -2px;
   }
 
   .skill-name {
-    font-size: 0.75rem; /* compact text */
+    font-size: 0.6rem; /* Slightly smaller text */
     font-weight: 500;
     color: var(--text-primary);
-    margin: 0; /* remove default margin */
-    line-height: 1.2; /* tight line height */
+    line-height: 1.2;
     text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
   }
 
-  /* Optional: subtle hover lift without breaking layout */
+  /* Hover effect (optional) */
   .skill-item:hover {
-    transform: translateY(-6px);
+    transform: translateY(-6px) scale(1.03);
     background: rgba(99, 102, 241, 0.15);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   }

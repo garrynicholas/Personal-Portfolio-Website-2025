@@ -2577,6 +2577,25 @@
   }
 
 }
+
+/* default desktop/tablet size */
+#skills-chart {
+  width: 100%;
+  height: 360px;      /* desktop default height */
+  display: block;
+}
+
+/* target phone: width 720px or less */
+@media (max-width: 720px) {
+  .chart-card {
+    max-width: 320px;   /* shrink the card on the phone */
+    padding: 0.75rem;   /* reduce padding for compact layout */
+  }
+  #skills-chart {
+    height: 200px;      /* smaller chart height for phone */
+  }
+}
+
     </style>
   </head>
   <body>

@@ -2338,7 +2338,7 @@
 }
 
 /* Certificates: match projects two-column layout for small phones (<=720px) */
-@media (max-width: 720px) {
+@media (max-width: 720px) and (orientation: portrait) {
   #certificates .projects-grid {
     grid-template-columns: repeat(2, minmax(170px, 1fr));
     gap: 10px 2px;
@@ -2346,12 +2346,38 @@
     justify-content: center;
   }
 
+  /* Make the image area fixed so all thumbnails look identical */
+  #certificates .certificate-card img {
+    width: 100%;            /* fill card width */
+    height: 110px;         /* fixed height — change this number if you want taller/shorter */
+    max-height: 110px;
+    object-fit: cover;     /* crop to fill without distortion */
+    display: block;
+    border-radius: 10px;   /* match card corners */
+    margin-bottom: 10px;   /* tighten spacing to fit mobile card */
+    background: rgba(255,255,255,0.02); /* subtle placeholder while loading */
+  }
+
+  /* Slightly reduce card height/padding to match the fixed image size */
   #certificates .certificate-card {
-    width: 100%;
-    max-width: 160px;
-    height: 180px;
-    border-radius: 12px;
-    padding: 12px;
+    padding: 10px;
+    height: auto;          /* allow content to flow under fixed-size image */
+    min-height: 160px;     /* keep cards visually balanced — tune if necessary */
+  }
+
+  /* Tweak title size to avoid overlap and improve layout */
+  #certificates .certificate-card h3 {
+    font-size: 0.78rem;
+    margin: 6px 0 8px;
+    line-height: 1.15;
+  }
+
+  /* Optional: make description shorter on phones so cards stay compact */
+  #certificates .certificate-card p {
+    font-size: 0.72rem;
+    line-height: 1.2;
+    max-height: 3.6em;     /* shows ~3 lines */
+    overflow: hidden;
   }
 }
 

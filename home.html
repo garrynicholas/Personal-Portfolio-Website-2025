@@ -4545,7 +4545,7 @@
         return { height: 190, donutSize: '56%' };
       } else if (w <= 720) {
         // EXACT target for your phone width (720px)
-        return { height: 220, donutSize: '58%' };
+        return { height: 220, donutSize: '60%' };
       } else if (w <= 1024) {
         return { height: 300, donutSize: '62%' };
       } else {
@@ -4713,7 +4713,7 @@
       }
 
       /* Wrapper keeps chart centered and compact */
-  #skillsDonutWrapper { max-width: 520px; margin: 14px auto; padding: 16px; box-sizing:border-box; }
+  #skillsDonutWrapper { max-width: 420px; margin: 14px auto; padding: 16px; box-sizing:border-box; }
   #skillsDonut { width: 100% !important; height: 320px; }
 
   /* Legend small pill styling */
@@ -4722,9 +4722,9 @@
 
   /* Specific tuning for phone 1650x720: width == 720px (use breakpoint <= 720px) */
   @media (max-width: 720px) {
-    #skillsDonutWrapper { max-width: 600px; padding: 12px; }
-    #skillsDonut { height: 600px !important; }
-    .skill-legend-item { padding:5px 6px; border-radius:10px; font-size:0.5rem; }
+    #skillsDonutWrapper { max-width: 360px; padding: 12px; }
+    #skillsDonut { height: 220px !important; }
+    .skill-legend-item { padding:5px 6px; border-radius:10px; font-size:0.78rem; }
     .skill-legend-dot { width:10px; height:10px; }
     #skillsDonutWrapper h3 { font-size:0.95rem; }
   }
@@ -4733,7 +4733,7 @@
   @media (max-width: 420px) {
     #skillsDonut { height: 190px !important; }
     #skillsDonutWrapper { padding: 10px; }
-    .skill-legend-item { font-size:0.5rem; gap:6px; }
+    .skill-legend-item { font-size:0.72rem; gap:6px; }
   }
 
   /* 2) Global safety: avoid horizontal scroll caused by unexpected fixed-width elements */

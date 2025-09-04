@@ -4716,14 +4716,7 @@
 
   .skill-legend-dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
 
-  /* Specific tuning for phone 1650x720: width == 720px (use breakpoint <= 720px) */
-  @media (max-width: 720px) {
-    #skillsDonutWrapper { max-width: 360px; padding: 12px; height: 520px;}
-    #skillsDonut { height: 220px !important; width: 500px;}
-    .skill-legend-item { padding:5px 6px; border-radius:10px; font-size:0.78rem; }
-    .skill-legend-dot { width:10px; height:10px; }
-    #skillsDonutWrapper h3 { font-size:0.95rem; }
-  }
+
 
   /* Extra small phones fallback */
   @media (max-width: 420px) {
@@ -4790,7 +4783,14 @@ html, body {
   max-width: 60%;               /* prevents one item from taking full row on small screens */
   box-sizing: border-box;
 }
-
+  /* Specific tuning for phone 1650x720: width == 720px (use breakpoint <= 720px) */
+  @media (max-width: 720px) {
+    #skillsDonutWrapper { max-width: 360px; padding: 12px; height: 520px;}
+    #skillsDonut { height: 220px !important; width: 500px;}
+    .skill-legend-item { padding:5px 6px; border-radius:10px; font-size:0.78rem; }
+    .skill-legend-dot { width:10px; height:10px; }
+    #skillsDonutWrapper h3 { font-size:0.95rem; }
+  }
 /* when viewport is narrow allow items to use full width across multiple rows */
 @media (max-width: 420px) {
   .skill-legend-item { max-width: 100%; }

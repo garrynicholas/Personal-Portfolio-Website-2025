@@ -2576,60 +2576,16 @@
 
 }
 
-#contact .contact-desc {
-    font-size: 1.2rem;      /* ~14px */
-    line-height: 1.5;       /* tighter than desktop */
-}
-/* place near your other @media (max-width: 720px) rules */
+/* Contact text — cleaner approach (remove inline style in HTML first) */
 @media (max-width: 720px) {
-  /* Contact section description */
-  #contact .contact-desc {
-    font-size: 3rem;      /* ~14px */
-    line-height: 1.5;       /* tighter than desktop */
-    margin-bottom: 18px;     /* avoid large gap */
-    max-width: 100%;          /* keep within the glass card */
-    color: var(--text-secondary);
-  }
-
-  /* if you want it even smaller on very narrow phones */
-  @media (max-width: 420px) {
-    #contact .contact-desc { font-size: 0.78rem; line-height: 1.4; }
+  #contact .contact-content p {
+    font-size: 0.95rem;      /* ~15px — adjust if needed */
+    line-height: 1.45;       /* keep readable */
+    margin-bottom: 18px;     /* spacing under paragraph */
+    max-width: 100%;
   }
 }
 
-@media (max-width: 720px) {
-/* Add this inside your existing @media (max-width: 720px) rules */
-/* Makes Contact button cards display as 2 columns on phones (width ≤ 720px) */
-#contact .contact-grid,
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(140px, 1fr)); /* 2 columns */
-  gap: 12px 12px;               /* row-gap, col-gap */
-  padding: 8px 10px;            /* keep small side padding */
-  justify-items: stretch;       /* stretch card to column width */
-}
-
-/* Make each contact item fit nicely inside the 2-column layout */
-#contact .contact-item,
-.contact-item {
-  padding: 18px;
-  border-radius: 14px;
-  min-height: 110px;           /* ensures uniform card size */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  box-sizing: border-box;
-}
-}
-
-/* tweak for very narrow phones to fallback to single column */
-@media (max-width: 420px) {
-  #contact .contact-grid,
-  .contact-grid {
-    grid-template-columns: 1fr; /* 1 column on extremely narrow screens */
-  }
-}
     </style>
   </head>
   <body>
@@ -3732,7 +3688,7 @@
     <section id="contact" class="animate-on-scroll">
       <h2 class="section-title">Let's Create Something Extraordinary</h2>
       <div class="contact-content glass">
-        <p class="contact-desc">
+        <p style="font-size: 20px">
           Ready to push the boundaries of digital innovation? Whether you're
           looking to build the next breakthrough application or bring an
           impossible vision to life, I'm here to make it happen.

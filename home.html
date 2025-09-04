@@ -2597,6 +2597,39 @@
   }
 }
 
+@media (max-width: 720px) {
+/* Add this inside your existing @media (max-width: 720px) rules */
+/* Makes Contact button cards display as 2 columns on phones (width ≤ 720px) */
+#contact .contact-grid,
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(140px, 1fr)); /* 2 columns */
+  gap: 12px 12px;               /* row-gap, col-gap */
+  padding: 8px 10px;            /* keep small side padding */
+  justify-items: stretch;       /* stretch card to column width */
+}
+
+/* Make each contact item fit nicely inside the 2-column layout */
+#contact .contact-item,
+.contact-item {
+  padding: 18px;
+  border-radius: 14px;
+  min-height: 110px;           /* ensures uniform card size */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+}
+
+/* tweak for very narrow phones to fallback to single column */
+@media (max-width: 420px) {
+  #contact .contact-grid,
+  .contact-grid {
+    grid-template-columns: 1fr; /* 1 column on extremely narrow screens */
+  }
+}
     </style>
   </head>
   <body>

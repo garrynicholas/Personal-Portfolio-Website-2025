@@ -4719,6 +4719,71 @@
     #skillsDonutWrapper { padding: 10px; }
     .skill-legend-item { font-size:0.72rem; gap:6px; }
   }
+
+  /* 2) Global safety: avoid horizontal scroll caused by unexpected fixed-width elements */
+html, body {
+  max-width: 100%;
+  box-sizing: border-box;
+  /* Use overflow-x hidden if you want a quick full-page guard */
+  /* overflow-x: hidden;  <-- only uncomment if you accept hiding all horizontal overflow */
+}
+
+/* 3) Chart wrapper: never exceed viewport and include box-sizing so padding won't overflow */
+#skillsDonutWrapper {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding-left: 12px;   /* keep some left/right padding but won't cause overflow */
+  padding-right: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;     /* prevents children from pushing outside */
+}
+
+/* 4) Ensure ApexCharts canvases/SVGs respect the container width */
+#skillsDonut, .apexcharts-canvas, .apexcharts-svg, .apexcharts-inner {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important; /* important for flexbox children in some browsers */
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* 5) Legend: allow wrapping and avoid legend items pushing the page wide */
+#skillsLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* prevents single long legend item from expanding page */
+}
+
+/* legend items: truncate if too long so they do not force width */
+.skill-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  white-space: nowrap;          /* keep label on single line */
+  overflow: hidden;             /* hide overflow */
+  text-overflow: ellipsis;      /* show ... if label too long */
+  max-width: 48%;               /* prevents one item from taking full row on small screens */
+  box-sizing: border-box;
+}
+
+/* when viewport is narrow allow items to use full width across multiple rows */
+@media (max-width: 420px) {
+  .skill-legend-item { max-width: 100%; }
+}
+
+/* 6) Extra small fix: sometimes libraries add transform/translate that creates overflow,
+   clip the body visually without cutting content (optional if needed) */
+body.force-no-overflow-x {
+  overflow-x: hidden;
+}
     </style>
   </body>
 </html>

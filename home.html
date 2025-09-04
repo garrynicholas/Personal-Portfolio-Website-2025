@@ -4515,7 +4515,8 @@
       changeImage();
       setInterval(changeImage, 10000); // Change image every 10 seconds
 
- document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener('DOMContentLoaded', function () {
+    // Labels + colors from your original request
     const labels = [
       "Frontend Programming",
       "UI/UX Design",
@@ -4524,40 +4525,82 @@
       "Python Programming",
       "Graphic Design"
     ];
-    const colors = ["#4F46E5","#A855F7","#F59E0B","#06B6D4","#10B981","#EF4444"];
-    const series = [30,20,8,18,15,9];
+    const colors = [
+      "#4F46E5", // Frontend (Indigo)
+      "#A855F7", // UI/UX (Purple)
+      "#F59E0B", // Java (Orange)
+      "#06B6D4", // Flutter (Cyan)
+      "#10B981", // Python (Green)
+      "#EF4444"  // Graphic Design (Red)
+    ];
 
+    // === SAMPLE series values (edit to reflect your real proportions) ===
+    // These are percentages that sum to 100 (nice for center label)
+    const series = [30, 20, 8, 18, 15, 9];
+
+    // Helper: compute responsive chart height & donut size based on viewport width
     function getResponsiveConfig() {
-      const w = window.innerWidth;
-      if (w <= 420) return { height: 190, donutSize: '56%' };
-      if (w <= 720) return { height: 220, donutSize: '58%', fontSize: 2 };
-      if (w <= 1024) return { height: 300, donutSize: '62%' };
-      return { height: 320, donutSize: '62%' };
-    }
+  const w = window.innerWidth;
+  if (w <= 420) {
+    return { height: 190, donutSize: '56%' };
+  } else if (w <= 720) {
+    // tuned for phone width 720px
+    return { height: 240, donutSize: '60%' };
+  } else if (w <= 1024) {
+    return { height: 300, donutSize: '62%' };
+  } else {
+    return { height: 320, donutSize: '62%' };
+  }
+}
 
-    // ---------- FIXED: correct spread operator (was Math.max(.series) causing an exception) ----------
-    const maxIdx = series && series.length ? series.indexOf(Math.max(...series)) : 0;
-    const topLabel = labels[maxIdx] || labels[0];
 
-    // build legend (your existing code is okay)
+    // Find top skill index/name/percentage for center label
+    const maxIdx = series.indexOf(Math.max(...series));
+    const topLabel = labels[maxIdx];
+
+    // Build compact legend HTML (pills) and attach
     const legendContainer = document.getElementById('skillsLegend');
     if (legendContainer) {
-      legendContainer.innerHTML = labels.map((lab,i) =>
-        `<span class="skill-legend-item" role="listitem" tabindex="0">
-           <span class="skill-legend-dot" style="background:${colors[i]}"></span>
-           ${lab}
-         </span>`).join('');
+      legendContainer.innerHTML = labels.map((lab, i) => {
+        return `<span class="skill-legend-item" role="listitem" tabindex="0">
+                  <span class="skill-legend-dot" style="background:${colors[i]}"></span>
+                  ${lab}
+                </span>`;
+      }).join('');
     }
 
-    // options using responsive config
-    const cfg = getResponsiveConfig();
+    // Update "Most Skills" label elsewhere on the page if you have an element for it
+    (function updateMostSkillsLabel(){
+      const elems = document.querySelectorAll('.highest-skills');
+      for (const block of elems) {
+        const labelEl = block.querySelector('.label');
+        const valueEl = block.querySelector('.value');
+        if (!labelEl || !valueEl) continue;
+        if (labelEl.textContent.trim().toLowerCase().includes('most skills')) {
+          valueEl.textContent = topLabel;
+          break;
+        }
+      }
+    })();
+
+    // Chart options using responsive config
+    let cfg = getResponsiveConfig();
     const options = {
-      chart: { type:'donut', height: cfg.height, width: '100%', toolbar: { show: false } },
-      series, labels, colors,
-      legend: { show: false },
+      chart: {
+        type: 'donut',
+        height: cfg.height,
+        width: '100%',
+        toolbar: { show: false }
+      },
+      series: series,
+      labels: labels,
+      colors: colors,
+      legend: { show: false }, // custom legend used
       dataLabels: { enabled: false },
       stroke: { colors: ['#0b0b0b'] },
-      tooltip: { y: { formatter: v => v + '%' } },
+      tooltip: {
+        y: { formatter: function(val) { return val + '%' } }
+      },
       plotOptions: {
         pie: {
           offsetY: 0,
@@ -4565,17 +4608,30 @@
             size: cfg.donutSize,
             labels: {
               show: true,
-              name: { show:true, fontSize:'13px', color:'#fff', offsetY:-4 },
-              value: { show:true, fontSize:'16px', color:'#fff', offsetY:8, formatter: v => v + '%' },
+              name: {
+                show: true,
+                fontSize: '13px',
+                color: '#fff',
+                offsetY: -4
+              },
+              value: {
+                show: true,
+                fontSize: '16px',
+                color: '#fff',
+                offsetY: 8,
+                formatter: function(val) { return val + '%'; }
+              },
               total: {
-                show:true,
+                show: true,
                 label: topLabel,
-                fontSize:'12px',
-                color:'#fff',
+                fontSize: '12px',
+                color: '#fff',
                 formatter: function (w) {
+                  // show the top skill percentage
                   const total = w.globals.seriesTotals.reduce((a,b)=>a+b,0);
                   const top = w.globals.seriesTotals[maxIdx] || 0;
-                  return `${Math.round((top/total)*100)}%`;
+                  const pct = Math.round((top/total)*100);
+                  return `${pct}%`;
                 }
               }
             }
@@ -4583,11 +4639,17 @@
         }
       },
       responsive: [
-        { breakpoint: 720, options: { chart: { height: getResponsiveConfig().height }, plotOptions: { pie: { donut: { size: getResponsiveConfig().donutSize } } } } },
-        { breakpoint: 420, options: { chart: { height: getResponsiveConfig().height }, plotOptions: { pie: { donut: { size: getResponsiveConfig().donutSize } } } } }
+        {
+          breakpoint: 720,
+          options: {
+            chart: { height: getResponsiveConfig().height },
+            plotOptions: { pie: { donut: { size: getResponsiveConfig().donutSize } } }
+          }
+        }
       ]
     };
 
+    // render
     const chartEl = document.querySelector('#skillsDonut');
     if (!chartEl) {
       console.warn('Element #skillsDonut not found.');
@@ -4599,16 +4661,9 @@
     }
 
     const chart = new ApexCharts(chartEl, options);
-    chart.render().then(() => {
-      // Ensure chart uses the correct responsive dimensions immediately after render
-      const rcfg = getResponsiveConfig();
-      chart.updateOptions({
-        chart: { height: rcfg.height },
-        plotOptions: { pie: { donut: { size: rcfg.donutSize } } }
-      }, false, true);
-    });
+    chart.render();
 
-    // update on resize (debounced)
+    // On resize, update chart height & donut size for crisp mobile fit
     let resizeTimeout = null;
     window.addEventListener('resize', function () {
       clearTimeout(resizeTimeout);
@@ -4618,9 +4673,24 @@
           chart: { height: rcfg.height },
           plotOptions: { pie: { donut: { size: rcfg.donutSize } } }
         }, false, true);
-      }, 120);
+      }, 160);
     });
   });
+
+  (function findWide(){
+  const vw = document.documentElement.clientWidth;
+  const wide = [];
+  document.querySelectorAll('body *').forEach(el=>{
+    try {
+      const w = el.getBoundingClientRect().width;
+      if (w > vw + 0.5) { // tiny tolerance
+        wide.push({el: el, width: Math.round(w)});
+      }
+    } catch(e){}
+  });
+  console.log('viewport', vw, 'wide elements:', wide.length);
+  wide.slice(0,20).forEach(x => console.log(x.width, x.el));
+})();
 
     </script>
     <style>
@@ -4646,38 +4716,21 @@
 
   .skill-legend-dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
 
-/* Chart wrapper */
-#skillsDonutWrapper {
-  width: 100%;
-  max-width: 420px;      /* or 360px on small phones as you prefer */
-  margin: 14px auto;
-  padding: 12px;
-  box-sizing: border-box;
-  overflow: hidden;      /* prevents children from pushing layout wide */
-}
+  /* Specific tuning for phone 1650x720: width == 720px (use breakpoint <= 720px) */
+  @media (max-width: 720px) {
+    #skillsDonutWrapper { max-width: 360px; padding: 12px; }
+    #skillsDonut { height: 220px !important; }
+    .skill-legend-item { padding:5px 6px; border-radius:10px; font-size:0.78rem; }
+    .skill-legend-dot { width:10px; height:10px; }
+    #skillsDonutWrapper h3 { font-size:0.95rem; }
+  }
 
-/* Let ApexCharts SVG respect container width and avoid min-width issues */
-#skillsDonut, .apexcharts-canvas, .apexcharts-svg, .apexcharts-inner {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;  /* key for flex children in some browsers */
-  box-sizing: border-box;
-}
-
-/* Default height removed so chart's JS controls it.
-   If you previously had #skillsDonut { height: 320px; } remove or change it. */
-#skillsDonut { height: auto; }
-
-/* mobile tuning */
-@media (max-width:720px) {
-  #skillsDonutWrapper { max-width: 360px; padding: 10px; }
-  #skillsDonut { height: 220px !important; } /* only as fallback */
-  .skill-legend-item { font-size: 0.78rem; padding: 5px 6px; }
-}
-
-/* Avoid a single legend item making page wide */
-.skill-legend-item { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; box-sizing: border-box; }
-@media (max-width:420px) { .skill-legend-item { max-width: 100%; } }
+  /* Extra small phones fallback */
+  @media (max-width: 420px) {
+    #skillsDonut { height: 190px !important; }
+    #skillsDonutWrapper { padding: 10px; }
+    .skill-legend-item { font-size:0.72rem; gap:6px; }
+  }
 
   /* 2) Global safety: avoid horizontal scroll caused by unexpected fixed-width elements */
 html, body {
@@ -4687,26 +4740,30 @@ html, body {
   /* overflow-x: hidden;  <-- only uncomment if you accept hiding all horizontal overflow */
 }
 
-/* 3) Chart wrapper: never exceed viewport and include box-sizing so padding won't overflow */
+/* Chart wrapper: keep centered and never wider than viewport */
 #skillsDonutWrapper {
   width: 100%;
-  max-width: 100%;
+  max-width: 420px;        /* keeps chart compact on large screens; change if you want wider */
+  margin: 14px auto;
+  padding: 12px;
   box-sizing: border-box;
-  padding-left: 12px;   /* keep some left/right padding but won't cause overflow */
-  padding-right: 12px;
-  margin-left: auto;
-  margin-right: auto;
-  overflow: hidden;     /* prevents children from pushing outside */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: visible; /* allow visible ring but keep sizing constrained */
 }
 
-/* 4) Ensure ApexCharts canvases/SVGs respect the container width */
-#skillsDonut, .apexcharts-canvas, .apexcharts-svg, .apexcharts-inner {
+/* Force Apex's SVG/canvas to fit container exactly */
+#skillsDonut, 
+.apexcharts-canvas, 
+.apexcharts-svg, 
+.apexcharts-inner {
   width: 100% !important;
   max-width: 100% !important;
-  min-width: 0 !important; /* important for flexbox children in some browsers */
+  min-width: 0 !important;
   box-sizing: border-box;
-  overflow: visible;
 }
+
 
 /* 5) Legend: allow wrapping and avoid legend items pushing the page wide */
 #skillsLegend {

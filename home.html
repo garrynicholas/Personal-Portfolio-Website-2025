@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gunawan Widya Nugraha - Personal Portfolio</title>
-    <!-- ApexCharts CDN -->
+    <!-- ApexCharts (put in <head>) -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
     <link
       rel="stylesheet"
       href="./node_modules/bootstrap-icons/font/bootstrap-icons.css"
@@ -2784,16 +2785,11 @@
             </div>
             <p style="color: #aaa">Years in Programming</p>
           </div>
-          <!-- Place Chart right here -->
-           <!-- Donut chart: place this directly below the "Most Skills" element -->
-<div id="mostSkillsChartWrapper" class="about-visual glass" style="padding:16px; max-width:420px; margin:18px auto 0;">
-  <h3 style="color:#fff; margin-bottom:8px; font-weight:600;">Most Skills — Breakdown</h3>
-  <div id="skillsChart"></div>
-  <!-- live label that updates on hover -->
-  <div class="highest-skills" style="margin-top:12px;">
-    <p class="label" style="margin:0; color:#aaa; font-size:0.9rem;">Hovered Skill</p>
-    <p id="skillsHoverLabel" class="value" style="margin:6px 0 0 0; font-size:1.05rem;">Frontend Programming</p>
-  </div>
+          <!-- Skills Donut (place this below the "Most Skills" area) -->
+<div id="skillsDonutWrapper" class="about-visual glass" aria-label="Skills donut chart" role="region" style="padding:16px; margin-top:12px;">
+  <h3 style="margin:0 0 8px;color:#fff;font-size:1rem;text-align:center">Skills Breakdown</h3>
+  <div id="skillsDonut" role="img" aria-hidden="false"></div>
+  <div id="skillsLegend" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px;font-size:0.88rem;"></div>
 </div>
 
           <!-- Highest Skills Summary -->
@@ -4519,141 +4515,165 @@
       changeImage();
       setInterval(changeImage, 10000); // Change image every 10 seconds
 
-      // labels and colors (from your request)
-  const skillLabels = [
-    "Frontend Programming",
-    "UI/UX Design",
-    "Java Development",
-    "Flutter Development",
-    "Python Programming",
-    "Graphic Design"
-  ];
+      document.addEventListener('DOMContentLoaded', function () {
+    // Labels + colors from your original request
+    const labels = [
+      "Frontend Programming",
+      "UI/UX Design",
+      "Java Development",
+      "Flutter Development",
+      "Python Programming",
+      "Graphic Design"
+    ];
+    const colors = [
+      "#4F46E5", // Frontend (Indigo)
+      "#A855F7", // UI/UX (Purple)
+      "#F59E0B", // Java (Orange)
+      "#06B6D4", // Flutter (Cyan)
+      "#10B981", // Python (Green)
+      "#EF4444"  // Graphic Design (Red)
+    ];
 
-  const skillColors = [
-    "#4F46E5", // Frontend (Indigo)
-    "#A855F7", // UI/UX (Purple)
-    "#F59E0B", // Java (Orange)
-    "#06B6D4", // Flutter (Cyan)
-    "#10B981", // Python (Green)
-    "#EF4444"  // Graphic Design (Red)
-  ];
+    // === SAMPLE series values (edit to reflect your real proportions) ===
+    // These are percentages that sum to 100 (nice for center label)
+    const series = [30, 20, 8, 18, 15, 9];
 
-  // Example distribution (sums to 100). Adjust numbers as you like.
-  const skillSeries = [30, 22, 10, 18, 12, 8];
-
-  // function to compute adaptive height for different screens
-  function getChartHeight() {
-    const w = window.innerWidth || document.documentElement.clientWidth;
-    // for phones / narrow screens make the donut shorter
-    if (w <= 420) return 260;
-    if (w <= 720) return 320;
-    // default for tablet/desktop inside that 1650x720 target
-    return 360;
-  }
-
-  // ApexCharts options
-  const options = {
-    chart: {
-      type: 'donut',
-      height: getChartHeight(),
-      toolbar: { show: false },
-      animations: { enabled: true }
-    },
-    colors: skillColors,
-    series: skillSeries,
-    labels: skillLabels,
-    stroke: { colors: ['transparent'] },
-    legend: {
-      show: false // we will show labels below the chart / in the card
-    },
-    tooltip: {
-      y: {
-        formatter: function(val) { return val + '%'; }
-      }
-    },
-    plotOptions: {
-      pie: {
-        donut: {
-          size: '62%',
-          labels: {
-            show: true,
-            name: {
-              show: true,
-              fontSize: '14px',
-              color: '#ffffff'
-            },
-            value: {
-              show: true,
-              fontSize: '18px',
-              color: '#fff',
-              formatter: function (val) {
-                return val + '%';
-              }
-            },
-            total: {
-              show: true,
-              label: 'Total',
-              formatter: function () {
-                return '100%';
-              }
-            }
-          }
-        }
-      }
-    },
-    responsive: [
-      {
-        breakpoint: 720,
-        options: {
-          chart: {
-            height: getChartHeight()
-          },
-          plotOptions: {
-            pie: {
-              donut: { size: '60%' }
-            }
-          },
-          legend: { show: false }
-        }
-      },
-      {
-        breakpoint: 420,
-        options: {
-          chart: {
-            height: getChartHeight()
-          },
-          plotOptions: {
-            pie: {
-              donut: { size: '55%' }
-            }
-          }
-        }
-      }
-    ],
-    // update external label on hover
-    events: {
-      dataPointMouseEnter: function(event, chartContext, {seriesIndex}) {
-        const labelEl = document.getElementById('skillsHoverLabel');
-        if (labelEl) labelEl.textContent = skillLabels[seriesIndex] + ' — ' + skillSeries[seriesIndex] + '%';
-      },
-      dataPointMouseLeave: function(event, chartContext, {seriesIndex}) {
-        const labelEl = document.getElementById('skillsHoverLabel');
-        if (labelEl) labelEl.textContent = "Frontend Programming";
+    // Helper: compute responsive chart height & donut size based on viewport width
+    function getResponsiveConfig() {
+      const w = window.innerWidth;
+      if (w <= 420) {
+        return { height: 190, donutSize: '56%' };
+      } else if (w <= 720) {
+        // EXACT target for your phone width (720px)
+        return { height: 220, donutSize: '58%' };
+      } else if (w <= 1024) {
+        return { height: 300, donutSize: '62%' };
+      } else {
+        return { height: 320, donutSize: '62%' };
       }
     }
-  };
 
-  // render the chart
-  let skillsChart = new ApexCharts(document.querySelector("#skillsChart"), options);
-  skillsChart.render();
+    // Find top skill index/name/percentage for center label
+    const maxIdx = series.indexOf(Math.max(...series));
+    const topLabel = labels[maxIdx];
 
-  // handle resize to update height responsively
-  let resizeTimeout;
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
-      skillsChart.updateOptions({ chart: { height: getChartHeight() } }, false, false);
-    }, 120);
+    // Build compact legend HTML (pills) and attach
+    const legendContainer = document.getElementById('skillsLegend');
+    if (legendContainer) {
+      legendContainer.innerHTML = labels.map((lab, i) => {
+        return `<span class="skill-legend-item" role="listitem" tabindex="0">
+                  <span class="skill-legend-dot" style="background:${colors[i]}"></span>
+                  ${lab}
+                </span>`;
+      }).join('');
+    }
+
+    // Update "Most Skills" label elsewhere on the page if you have an element for it
+    (function updateMostSkillsLabel(){
+      const elems = document.querySelectorAll('.highest-skills');
+      for (const block of elems) {
+        const labelEl = block.querySelector('.label');
+        const valueEl = block.querySelector('.value');
+        if (!labelEl || !valueEl) continue;
+        if (labelEl.textContent.trim().toLowerCase().includes('most skills')) {
+          valueEl.textContent = topLabel;
+          break;
+        }
+      }
+    })();
+
+    // Chart options using responsive config
+    let cfg = getResponsiveConfig();
+    const options = {
+      chart: {
+        type: 'donut',
+        height: cfg.height,
+        width: '100%',
+        toolbar: { show: false }
+      },
+      series: series,
+      labels: labels,
+      colors: colors,
+      legend: { show: false }, // custom legend used
+      dataLabels: { enabled: false },
+      stroke: { colors: ['#0b0b0b'] },
+      tooltip: {
+        y: { formatter: function(val) { return val + '%' } }
+      },
+      plotOptions: {
+        pie: {
+          offsetY: 0,
+          donut: {
+            size: cfg.donutSize,
+            labels: {
+              show: true,
+              name: {
+                show: true,
+                fontSize: '13px',
+                color: '#fff',
+                offsetY: -4
+              },
+              value: {
+                show: true,
+                fontSize: '16px',
+                color: '#fff',
+                offsetY: 8,
+                formatter: function(val) { return val + '%'; }
+              },
+              total: {
+                show: true,
+                label: topLabel,
+                fontSize: '12px',
+                color: '#fff',
+                formatter: function (w) {
+                  // show the top skill percentage
+                  const total = w.globals.seriesTotals.reduce((a,b)=>a+b,0);
+                  const top = w.globals.seriesTotals[maxIdx] || 0;
+                  const pct = Math.round((top/total)*100);
+                  return `${pct}%`;
+                }
+              }
+            }
+          }
+        }
+      },
+      responsive: [
+        {
+          breakpoint: 720,
+          options: {
+            chart: { height: getResponsiveConfig().height },
+            plotOptions: { pie: { donut: { size: getResponsiveConfig().donutSize } } }
+          }
+        }
+      ]
+    };
+
+    // render
+    const chartEl = document.querySelector('#skillsDonut');
+    if (!chartEl) {
+      console.warn('Element #skillsDonut not found.');
+      return;
+    }
+    if (typeof ApexCharts === 'undefined') {
+      console.warn('ApexCharts not loaded. Include the script in the head.');
+      return;
+    }
+
+    const chart = new ApexCharts(chartEl, options);
+    chart.render();
+
+    // On resize, update chart height & donut size for crisp mobile fit
+    let resizeTimeout = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(function () {
+        const rcfg = getResponsiveConfig();
+        chart.updateOptions({
+          chart: { height: rcfg.height },
+          plotOptions: { pie: { donut: { size: rcfg.donutSize } } }
+        }, false, true);
+      }, 120);
+    });
   });
     </script>
     <style>
@@ -4676,12 +4696,29 @@
         to { opacity: 0; }
       }
 
-      /* keeps chart centered & gives nice card spacing (optional) */
-#skillsChart { width: 100% !important; height: auto !important; }
-#mostSkillsChartWrapper .apexcharts-canvas { margin: 0 auto; display:block; }
-#mostSkillsChartWrapper h3 { font-size: 1rem; margin-bottom: 6px; }
-#skillsHoverLabel { color: #fff; font-weight: 600; }
+      /* Wrapper keeps chart centered and compact */
+  #skillsDonutWrapper { max-width: 420px; margin: 14px auto; padding: 16px; box-sizing:border-box; }
+  #skillsDonut { width: 100% !important; height: 320px; }
 
+  /* Legend small pill styling */
+  .skill-legend-item { display:inline-flex; align-items:center; gap:8px; padding:6px 8px; border-radius:12px; background:rgba(255,255,255,0.02); color: #fff; }
+  .skill-legend-dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
+
+  /* Specific tuning for phone 1650x720: width == 720px (use breakpoint <= 720px) */
+  @media (max-width: 720px) {
+    #skillsDonutWrapper { max-width: 360px; padding: 12px; }
+    #skillsDonut { height: 220px !important; }
+    .skill-legend-item { padding:5px 6px; border-radius:10px; font-size:0.78rem; }
+    .skill-legend-dot { width:10px; height:10px; }
+    #skillsDonutWrapper h3 { font-size:0.95rem; }
+  }
+
+  /* Extra small phones fallback */
+  @media (max-width: 420px) {
+    #skillsDonut { height: 190px !important; }
+    #skillsDonutWrapper { padding: 10px; }
+    .skill-legend-item { font-size:0.72rem; gap:6px; }
+  }
     </style>
   </body>
 </html>

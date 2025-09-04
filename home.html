@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gunawan Widya Nugraha - Personal Portfolio</title>
+    <!-- ApexCharts (put in <head>) -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
     <link
       rel="stylesheet"
       href="./node_modules/bootstrap-icons/font/bootstrap-icons.css"
@@ -2782,6 +2785,16 @@
             </div>
             <p style="color: #aaa">Years in Programming</p>
           </div>
+          <!-- Place Chart right here! -->
+           <!-- Skills Donut (paste below the "Place Chart right here!" comment) -->
+<div id="skillsDonutWrapper" class="about-visual glass" style="padding:18px; margin-top:12px;">
+  <h3 style="margin:0 0 8px;color:#fff;font-size:1rem">Skills Breakdown</h3>
+  <div id="skillsDonut"></div>
+
+  <!-- Small legend for compact mobile readability -->
+  <div id="skillsLegend" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px;font-size:0.85rem;"></div>
+</div>
+
           <!-- Highest Skills Summary -->
           <div class="highest-skills">
             <p class="label">Most Skills</p>
@@ -4504,6 +4517,139 @@
       // Initial call to set the first image and start the interval
       changeImage();
       setInterval(changeImage, 10000); // Change image every 10 seconds
+
+      (function(){
+    // labels and colors you provided
+    const labels = [
+      "Frontend Programming",
+      "UI/UX Design",
+      "Java Development",
+      "Flutter Development",
+      "Python Programming",
+      "Graphic Design"
+    ];
+    const colors = [
+      "#4F46E5", // Frontend (Indigo)
+      "#A855F7", // UI/UX (Purple)
+      "#F59E0B", // Java (Orange)
+      "#06B6D4", // Flutter (Cyan)
+      "#10B981", // Python (Green)
+      "#EF4444"  // Graphic Design (Red)
+    ];
+
+    // === SAMPLE series values (edit these to reflect your real data) ===
+    const series = [30, 20, 8, 18, 15, 9];
+
+    // compute top skill label for center / summary
+    const maxIdx = series.indexOf(Math.max(...series));
+    const topLabel = labels[maxIdx];
+
+    // build legend HTML (small pills)
+    const legendContainer = document.getElementById('skillsLegend');
+    if (legendContainer) {
+      legendContainer.innerHTML = labels.map((lab, i) => {
+        return `<span class="skill-legend-item"><span class="skill-legend-dot" style="background:${colors[i]}"></span>${lab}</span>`;
+      }).join('');
+    }
+
+    // update existing "Most Skills" text if present
+    // Finds the first .highest-skills .value that corresponds to Most Skills label
+    (function updateHighestSkillValue(){
+      const highestBlocks = document.querySelectorAll('.highest-skills');
+      for (const block of highestBlocks) {
+        const labelEl = block.querySelector('.label');
+        const valueEl = block.querySelector('.value');
+        if (!labelEl || !valueEl) continue;
+        if (labelEl.textContent.trim().toLowerCase().includes('most skills')) {
+          valueEl.textContent = topLabel;
+          break;
+        }
+      }
+    })();
+
+    // ApexCharts options
+    const options = {
+      chart: {
+        type: 'donut',
+        height: 320,
+        width: '100%',
+        toolbar: { show: false },
+      },
+      series: series,
+      labels: labels,
+      colors: colors,
+      legend: {
+        show: false // we render a compact custom legend below for better mobile control
+      },
+      dataLabels: {
+        enabled: false
+      },
+      tooltip: {
+        y: {
+          formatter: function(val) { return val + '%' }
+        }
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '62%',
+            labels: {
+              show: true,
+              name: {
+                show: true,
+                fontSize: '14px',
+                color: '#fff',
+                offsetY: -6
+              },
+              value: {
+                show: true,
+                fontSize: '18px',
+                color: '#fff',
+                offsetY: 8,
+                formatter: function(val) { return val + '%'; }
+              },
+              total: {
+                show: true,
+                label: topLabel, // show the top skill in the center total label
+                formatter: function (w) {
+                  // show the series value of the top skill as percentage
+                  const total = w.globals.seriesTotals.reduce((a,b)=>a+b,0);
+                  const top = w.globals.seriesTotals[maxIdx];
+                  const pct = Math.round((top/total)*100);
+                  return `${pct}%`;
+                }
+              }
+            }
+          }
+        }
+      },
+      responsive: [
+        {
+          breakpoint: 720,
+          options: {
+            chart: { height: 260 },
+            plotOptions: { pie: { donut: { size: '60%' } } }
+          }
+        },
+        {
+          breakpoint: 1024,
+          options: {
+            chart: { height: 340 },
+            plotOptions: { pie: { donut: { size: '62%' } } }
+          }
+        }
+      ]
+    };
+
+    // render chart
+    const chartEl = document.querySelector('#skillsDonut');
+    if (chartEl && typeof ApexCharts !== 'undefined') {
+      const chart = new ApexCharts(chartEl, options);
+      chart.render();
+    } else {
+      console.warn('ApexCharts not found or #skillsDonut missing.');
+    }
+  })();
     </script>
     <style>
       
@@ -4524,6 +4670,22 @@
         from { opacity: 1; }
         to { opacity: 0; }
       }
+
+      /* Donut responsive sizing */
+#skillsDonutWrapper { max-width: 420px; margin: 14px auto; }
+#skillsDonut { width: 100% !important; height: 320px; }
+
+/* Smaller height for narrow phones */
+@media (max-width: 420px) {
+  #skillsDonut { height: 260px; }
+  #skillsDonutWrapper { padding: 14px; }
+  #skillsLegend { font-size: 0.78rem; gap:6px; }
+}
+
+/* Legend color dots */
+.skill-legend-item { display:inline-flex; align-items:center; gap:8px; padding:6px 8px; border-radius:12px; background:rgba(255,255,255,0.02); }
+.skill-legend-dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
+
     </style>
   </body>
 </html>

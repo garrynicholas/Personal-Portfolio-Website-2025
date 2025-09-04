@@ -2575,6 +2575,24 @@
   }
 
 }
+
+/* place near your other @media (max-width: 720px) rules */
+@media (max-width: 720px) {
+  /* Contact section description */
+  #contact .contact-desc {
+    font-size: 0.88rem;      /* ~14px */
+    line-height: 1.45;       /* tighter than desktop */
+    margin-bottom: 18px;     /* avoid large gap */
+    max-width: 92%;          /* keep within the glass card */
+    color: var(--text-secondary);
+  }
+
+  /* if you want it even smaller on very narrow phones */
+  @media (max-width: 420px) {
+    #contact .contact-desc { font-size: 0.78rem; line-height: 1.4; }
+  }
+}
+
     </style>
   </head>
   <body>
@@ -3677,7 +3695,7 @@
     <section id="contact" class="animate-on-scroll">
       <h2 class="section-title">Let's Create Something Extraordinary</h2>
       <div class="contact-content glass">
-        <p style="font-size: 20px">
+        <p style="font-size: 20px" class="contact-desc">
           Ready to push the boundaries of digital innovation? Whether you're
           looking to build the next breakthrough application or bring an
           impossible vision to life, I'm here to make it happen.
@@ -4716,7 +4734,14 @@
 
   .skill-legend-dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
 
-
+  /* Specific tuning for phone 1650x720: width == 720px (use breakpoint <= 720px) */
+  @media (max-width: 720px) {
+    #skillsDonutWrapper { max-width: 360px; padding: 12px; }
+    #skillsDonut { height: 220px !important; }
+    .skill-legend-item { padding:5px 6px; border-radius:10px; font-size:0.78rem; }
+    .skill-legend-dot { width:10px; height:10px; }
+    #skillsDonutWrapper h3 { font-size:0.95rem; }
+  }
 
   /* Extra small phones fallback */
   @media (max-width: 420px) {
@@ -4733,30 +4758,26 @@ html, body {
   /* overflow-x: hidden;  <-- only uncomment if you accept hiding all horizontal overflow */
 }
 
-/* Chart wrapper: keep centered and never wider than viewport */
+/* 3) Chart wrapper: never exceed viewport and include box-sizing so padding won't overflow */
 #skillsDonutWrapper {
   width: 100%;
-  max-width: 420px;        /* keeps chart compact on large screens; change if you want wider */
-  margin: 14px auto;
-  padding: 12px;
+  max-width: 100%;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: visible; /* allow visible ring but keep sizing constrained */
+  padding-left: 12px;   /* keep some left/right padding but won't cause overflow */
+  padding-right: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;     /* prevents children from pushing outside */
 }
 
-/* Force Apex's SVG/canvas to fit container exactly */
-#skillsDonut, 
-.apexcharts-canvas, 
-.apexcharts-svg, 
-.apexcharts-inner {
+/* 4) Ensure ApexCharts canvases/SVGs respect the container width */
+#skillsDonut, .apexcharts-canvas, .apexcharts-svg, .apexcharts-inner {
   width: 100% !important;
   max-width: 100% !important;
-  min-width: 0 !important;
+  min-width: 0 !important; /* important for flexbox children in some browsers */
   box-sizing: border-box;
+  overflow: visible;
 }
-
 
 /* 5) Legend: allow wrapping and avoid legend items pushing the page wide */
 #skillsLegend {
@@ -4783,14 +4804,7 @@ html, body {
   max-width: 60%;               /* prevents one item from taking full row on small screens */
   box-sizing: border-box;
 }
-  /* Specific tuning for phone 1650x720: width == 720px (use breakpoint <= 720px) */
-  @media (max-width: 720px) {
-    #skillsDonutWrapper { max-width: 360px; padding: 12px; height: 520px;}
-    #skillsDonut { height: 220px !important; width: 500px;}
-    .skill-legend-item { padding:5px 6px; border-radius:10px; font-size:0.78rem; }
-    .skill-legend-dot { width:10px; height:10px; }
-    #skillsDonutWrapper h3 { font-size:0.95rem; }
-  }
+
 /* when viewport is narrow allow items to use full width across multiple rows */
 @media (max-width: 420px) {
   .skill-legend-item { max-width: 100%; }

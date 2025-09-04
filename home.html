@@ -4675,6 +4675,22 @@
       }, 120);
     });
   });
+
+  (function findWide(){
+  const vw = document.documentElement.clientWidth;
+  const wide = [];
+  document.querySelectorAll('body *').forEach(el=>{
+    try {
+      const w = el.getBoundingClientRect().width;
+      if (w > vw + 0.5) { // tiny tolerance
+        wide.push({el: el, width: Math.round(w)});
+      }
+    } catch(e){}
+  });
+  console.log('viewport', vw, 'wide elements:', wide.length);
+  wide.slice(0,20).forEach(x => console.log(x.width, x.el));
+})();
+
     </script>
     <style>
       
@@ -4761,6 +4777,7 @@ html, body {
 
 /* legend items: truncate if too long so they do not force width */
 .skill-legend-item {
+  font-size:0.78rem;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -4770,7 +4787,7 @@ html, body {
   white-space: nowrap;          /* keep label on single line */
   overflow: hidden;             /* hide overflow */
   text-overflow: ellipsis;      /* show ... if label too long */
-  max-width: 48%;               /* prevents one item from taking full row on small screens */
+  max-width: 60%;               /* prevents one item from taking full row on small screens */
   box-sizing: border-box;
 }
 

@@ -2677,60 +2677,20 @@
   }
 }
 
-/* =========== compact carousel dots for phone 1650 x 720px =========== */
-/* Add this inside the existing @media (max-width:1650px) and (max-height:720px)
-   or right after that block so it overrides the default 14px dot size. */
-
+/* Smaller carousel dots for 1650×720 phones */
 @media (max-width: 1650px) and (max-height: 720px) {
-  /* keep overall spacing slightly tighter */
-  .dots {
-    margin: 8px 0;
-  }
+  .dots { margin: 8px 0; }               /* slightly tighter spacing */
 
-  /* make the actual clickable area comfortable, but the visible dot small */
   .dots span {
-    /* clickable area (keeps muscled tap target) */
-    width: 28px;
-    height: 28px;
-    margin: 0 4px;
-    border-radius: 50%;
-    background: transparent;       /* invisible hit area */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.18s ease;
-    box-sizing: content-box;       /* keep sizing predictable */
-  }
-
-  /* the visible small dot is made with ::before so the hit area stays large */
-  .dots span::before {
-    content: "";
-    width: 8px;                    /* visible dot size */
+    width: 8px;                           /* was 14px */
     height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    display: block;
-    transition: all 0.18s ease;
-    box-shadow: none;
+    margin: 0 4px;                        /* was 6px */
   }
 
-  /* active / focused states */
-  .dots span:focus,
-  .dots span:hover {
-    transform: scale(1.05);
+  .dots .active {
+    transform: scale(1.1);                /* was 1.2 – less jumpy on small dots */
+    box-shadow: 0 0 8px var(--primary);   /* softer glow to match the size */
   }
-
-  .dots span.active::before,
-  .dots span:focus::before,
-  .dots span:hover::before {
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    box-shadow: 0 0 8px var(--primary);
-    transform: scale(1.25);
-  }
-
-  /* Optional: reduce gap further if you want them even tighter */
-  /* .dots span { margin: 0 3px; } JANCOKS*/
 }
 
     </style>

@@ -2583,25 +2583,17 @@
 
 /* Contact text — cleaner approach (remove inline style in HTML first) */
 @media (max-width: 720px) {
-  #contact .contact-content p {
-    font-size: 1rem;      /* ~15px — adjust if needed */
-    line-height: 1.45;       /* keep readable */
-    margin-bottom: 18px;     /* spacing under paragraph */
-    max-width: 100%;
-  }
-
   .contact-grid {
-    /* two equal columns, each flexible */
-    grid-template-columns: repeat(2, minmax(200px, 1fr));
-    gap: 14px;               /* slightly smaller gap for compact layout */
-    margin-top: 28px;        /* fine-tune spacing */
-    padding: 0 12px;         /* optional side padding for small viewports */
-    margin: 0 auto;
+    grid-template-columns: repeat(2, 1fr); /* 2 equal wide columns */
+    gap: 16px;               /* spacing between the two buttons */
+    margin-top: 28px;
+    padding: 0;              /* remove side padding so buttons can stretch full width */
   }
 
   .contact-item {
-    padding: 18px 50px;      /* reduce padding so two items fit comfortably */
-    border-radius: 14px;     /* slightly smaller corners on phones */
+    width: 100%;             /* ensure each fills its grid cell fully */
+    padding: 20px 0;         /* taller but no extra side padding */
+    border-radius: 14px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2609,15 +2601,16 @@
   }
 
   .contact-icon {
-    font-size: 1.4rem;       /* reduce icon size slightly */
+    font-size: 1.4rem;
     margin-bottom: 8px;
   }
 
   .contact-label {
-    font-size: 0.95rem;
+    font-size: 1rem;
     text-align: center;
   }
 }
+
 
     </style>
   </head>

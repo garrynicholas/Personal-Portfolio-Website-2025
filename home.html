@@ -2608,16 +2608,74 @@
   }
 
   .contact-icon {
-    font-size: 1.4rem;       /* reduce icon size slightly */
+    font-size: 1.3rem;       /* reduce icon size slightly */
     margin-bottom: 8px;
   }
 
   .contact-label {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     text-align: center;
   }
 }
 
+/* Target your phone viewport: height 720px and width up to 1650px (landscape-ish mobile/devtools) */
+@media (max-width: 1650px) and (max-height: 720px) {
+  .carousel {
+    max-width: 820px;        /* keeps carousel narrower inside that viewport */
+    margin: 0 auto;
+  }
+
+  .slide img {
+    height: 300px;           /* smaller image height for that phone size */
+    border-radius: 14px;     /* slightly smaller corner radius for compact look */
+    box-shadow: 0 8px 22px rgba(0,0,0,0.45);
+  }
+
+  /* slightly smaller nav buttons so they don't overlap */
+  .carousel .nav-btn,
+  .prev, .next {
+    width: 36px;
+    height: 36px;
+  }
+
+  .caption {
+    bottom: 12px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+  }
+
+  .dots {
+    margin: 10px 0;
+  }
+}
+
+/* Extra: usual small-phone fallback (portrait narrow phones <= 720px width) */
+@media (max-width: 720px) {
+  .carousel {
+    max-width: calc(100% - 24px);
+    margin: 0 12px;
+  }
+
+  .slide img {
+    height: 220px;           /* compact for narrow phones */
+    border-radius: 12px;
+  }
+
+  /* make arrows smaller and less intrusive on very small screens */
+  .carousel .nav-btn,
+  .prev, .next {
+    width: 34px;
+    height: 34px;
+    top: 48%;
+  }
+
+  .caption {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+    bottom: 10px;
+  }
+}
     </style>
   </head>
   <body>

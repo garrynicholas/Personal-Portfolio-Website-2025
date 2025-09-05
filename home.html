@@ -2676,6 +2676,128 @@
     bottom: 10px;
   }
 }
+
+/* --- Compact caption & tags specifically for phone 1650 x 720 --- */
+@media (max-width: 1650px) and (max-height: 720px) {
+  /* Make caption smaller, centered but limited width */
+  .caption {
+    bottom: 16px;                  /* lift caption a bit */
+    padding: 8px 12px;             /* much less padding */
+    border-radius: 10px;           /* smaller pill */
+    font-size: 0.86rem;            /* smaller text */
+    font-weight: 600;
+    max-width: 86%;                /* keep it from stretching full width */
+    width: auto;
+    transform: translateX(-50%);   /* keep centered */
+    left: 50%;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+    opacity: 0.98;                 /* slight transparency */
+    line-height: 1.25;
+  }
+
+  /* Make caption text wrap nicely and avoid overflow */
+  .caption span,
+  .caption {
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  /* Reposition slide-meta to a compact, full-width top bar */
+  .slide-meta {
+    left: 12px;                    /* anchor to the left */
+    right: 12px;                   /* and to the right */
+    transform: none;               /* remove center translate */
+    top: 12px;                     /* slightly closer to top */
+    display: flex;
+    flex-direction: row;           /* try row first */
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 10px;             /* reduced padding */
+    border-radius: 10px;
+    font-size: 0.78rem;            /* smaller meta text */
+    min-width: auto;               /* allow it to shrink */
+    white-space: normal;           /* allow wrapping */
+    overflow: hidden;
+  }
+
+  /* Make tags wrap to multiple lines instead of forcing a single long row */
+  .slide-meta .tags {
+    display: flex;
+    flex-wrap: wrap;               /* allow multi-line tags */
+    gap: 6px;
+    max-width: 66%;                /* reserve space for date on the right */
+  }
+
+  /* Smaller tag pills */
+  .slide-meta .tag {
+    font-size: 0.68rem;
+    padding: 4px 6px;
+    border-radius: 8px;
+    line-height: 1;
+    max-width: calc(50% - 8px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* Date: keep visible but smaller and pushed to the right on one line */
+  .slide-meta .date {
+    font-size: 0.7rem;
+    margin-left: 8px;
+    flex: 0 0 auto;
+    opacity: 0.95;
+  }
+
+  /* Reduce nav button size so they don't visually compete */
+  .carousel .nav-btn,
+  .prev,
+  .next {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Dots smaller */
+  .dots span {
+    width: 10px;
+    height: 10px;
+    margin: 0 4px;
+  }
+}
+
+/* --- Extra fallback for very narrow phones (portrait) --- */
+@media (max-width: 720px) {
+  .caption {
+    bottom: 12px;
+    padding: 6px 10px;
+    font-size: 0.72rem;
+    max-width: 92%;
+  }
+
+  .slide-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .slide-meta .tags {
+    max-width: 100%;
+  }
+
+  .slide-meta .tag {
+    font-size: 0.64rem;
+    padding: 3px 6px;
+  }
+
+  .slide-meta .date {
+    font-size: 0.65rem;
+    margin-left: 0;
+  }
+}
+
     </style>
   </head>
   <body>

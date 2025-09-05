@@ -2591,29 +2591,28 @@
   }
 }
 
-/* === Force contact grid to 2 columns on small phones (~720px) === */
-@media (max-width: 720px) {
+/* -----------------------------
+  Force 2-column contact grid for
+  landscape-like mobile emulator
+  (e.g. 1650 x 720)
+------------------------------*/
+@media (max-height: 720px) and (orientation: landscape) {
   .contact-grid {
-    grid-template-columns: repeat(2, minmax(240px, 1fr)); /* 2 columns */
-    gap: 12px; /* smaller gap for tighter layout */
-    margin-top: 28px;
-    padding: 0 6px; /* optional: give a little side padding on narrow screens */
+    grid-template-columns: repeat(2, minmax(140px, 1fr)) !important;
+    gap: 18px !important;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
-  /* Slightly adjust the contact card sizing for two-column layout */
+  /* Slightly smaller contact cards so two columns fit nicely */
   .contact-item {
-    padding: 18px 14px;   /* reduce padding so two items fit nicely */
-    border-radius: 14px;
-    min-height: 72px;     /* keep cards consistent height if needed */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin: 0 auto;
+    padding: 18px 16px !important;
+    border-radius: 14px !important;
   }
 
-  .contact-icon { font-size: 1.6rem; margin-bottom: 6px; }
-  .contact-label { font-size: 0.95rem; }
+  /* Optional: reduce icon size a bit so labels don't wrap */
+  .contact-icon { font-size: 1.5rem !important; }
+  .contact-label { font-size: 0.95rem !important; }
 }
 
     </style>

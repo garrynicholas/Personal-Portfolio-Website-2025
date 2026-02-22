@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tools Dashboard - Portfolio Manager</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@200;400;500&display=swap");
+
+:root {
+    --primary: #6366f1;
+    --secondary: #a855f7;
+    --accent: #06b6d4;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --bg-dark: #0a0a0f;
+    --bg-darker: #050507;
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Space Grotesk", sans-serif;
+    background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.1) 0%, var(--bg-darker) 50%), 
+                radial-gradient(ellipse at bottom right, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
+                linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Background Grid */
+.bg-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: -2;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+/* Background Orbs */
+.bg-orbs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.6;
+    filter: blur(60px);
+    animation: orbFloat 8s ease-in-out infinite;
+}
+
+.orb1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.orb2 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
+    top: 60%;
+    right: 20%;
+    animation-delay: 2s;
+}
+
+.orb3 {
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    bottom: 10%;
+    left: 60%;
+    animation-delay: 4s;
+}
+
+@keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(30px, -40px) scale(1.1); }
+    50% { transform: translate(-20px, 30px) scale(0.9); }
+    75% { transform: translate(40px, 20px) scale(1.05); }
+}
+
+/* Glassmorphism */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+/* Navigation */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 15px 25px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-info {
+    text-align: right;
+}
+
+.user-email {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.user-role {
+    font-size: 0.8rem;
+    color: var(--primary);
+}
+
+.btn-logout {
+    padding: 8px 16px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 12px;
+    color: var(--danger);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-logout:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Main Content */
+.main-content {
+    max-width: 1400px;
+    margin: 120px auto 60px;
+    padding: 0 25px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--text-primary), var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 60px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+/* Tools Grid */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.tool-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 30px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.tool-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+    z-index: 0;
+    transform: rotate(15deg);
+    transition: all 0.5s ease;
+}
+
+.tool-card:hover::before {
+    transform: rotate(15deg) scale(1.1);
+}
+
+.tool-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+}
+
+.tool-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+    z-index: 0;
+}
+
+.tool-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.tool-icon-finance {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+}
+
+.tool-icon-calculator {
+    background: linear-gradient(135deg, var(--accent), #0ea5e9);
+    box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
+}
+
+.tool-icon-analysis {
+    background: linear-gradient(135deg, var(--success), #059669);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+}
+
+.tool-icon-report {
+    background: linear-gradient(135deg, var(--warning), #d97706);
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+}
+
+.tool-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+}
+
+.tool-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.tool-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+    transition: gap 0.3s ease;
+}
+
+.tool-card:hover .tool-arrow {
+    gap: 12px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 30px;
+    margin-top: 60px;
+    border-top: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .main-content {
+        margin-top: 100px;
+        padding: 0 15px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .tools-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+<body>
+<!-- Background -->
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+</div>
+
+<!-- Navigation -->
+<nav>
+    <div class="nav-container">
+        <div class="nav-logo">💼 Portfolio Manager</div>
+        <div class="nav-user">
+            <div class="user-info">
+                <div class="user-email" id="userEmail">Loading...</div>
+                <div class="user-role">Administrator</div>
+            </div>
+            <button class="btn-logout" id="logoutBtn">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+    <h1 class="section-title">🛠️ Available Tools</h1>
+    <p class="section-subtitle">
+        Select a tool to start managing your finances and investments. 
+        Each tool provides specialized features for different aspects of financial management.
+    </p>
+    
+    <div class="tools-grid">
+        <!-- Financial Management Tool -->
+        <a href="financial_management.html" class="tool-card glass">
+            <div class="tool-icon tool-icon-finance">
+                <i class="bi bi-graph-up"></i>
+            </div>
+            <h2 class="tool-title">Financial Management</h2>
+            <p class="tool-description">
+                Manage and track all your investment assets including stocks, gold, mutual funds, bonds, and more. 
+                Get real-time insights and portfolio analytics.
+            </p>
+            <span class="tool-arrow">
+                Open Tool <i class="bi bi-arrow-right"></i>
+            </span>
+        </a>
+        
+        <!-- Calculator Tool -->
+        <a href="#" class="tool-card glass">
+            <div class="tool-icon tool-icon-calculator">
+                <i class="bi bi-calculator"></i>
+            </div>
+            <h2 class="tool-title">Investment Calculator</h2>
+            <p class="tool-description">
+                Calculate potential returns, compound interest, and investment projections. 
+                Plan your financial goals with precision.
+            </p>
+            <span class="tool-arrow">
+                Coming Soon <i class="bi bi-arrow-right"></i>
+            </span>
+        </a>
+        
+        <!-- Analysis Tool -->
+        <a href="#" class="tool-card glass">
+            <div class="tool-icon tool-icon-analysis">
+                <i class="bi bi-bar-chart"></i>
+            </div>
+            <h2 class="tool-title">Market Analysis</h2>
+            <p class="tool-description">
+                Analyze market trends, compare investment performance, and get data-driven insights. 
+                Make informed investment decisions.
+            </p>
+            <span class="tool-arrow">
+                Coming Soon <i class="bi bi-arrow-right"></i>
+            </span>
+        </a>
+        
+        <!-- Report Tool -->
+        <a href="#" class="tool-card glass">
+            <div class="tool-icon tool-icon-report">
+                <i class="bi bi-file-earmark-text"></i>
+            </div>
+            <h2 class="tool-title">Financial Reports</h2>
+            <p class="tool-description">
+                Generate comprehensive financial reports, export data, and track your investment history. 
+                Perfect for tax planning and audits.
+            </p>
+            <span class="tool-arrow">
+                Coming Soon <i class="bi bi-arrow-right"></i>
+            </span>
+        </a>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>© <span id="year"></span> Portfolio Manager - Financial Tools Dashboard</p>
+    <p style="font-size: 0.85rem; margin-top: 5px;">Admin Access Only • All Rights Reserved</p>
+</footer>
+
+<script>
+// Check authentication
+if (localStorage.getItem('isLoggedIn') !== 'true') {
+    window.location.href = 'failed.html';
+}
+
+// Set user email
+document.getElementById('userEmail').textContent = localStorage.getItem('userEmail') || 'admin@mail.com';
+
+// Set year
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Logout handler
+document.getElementById('logoutBtn').addEventListener('click', function() {
+    if (confirm('Are you sure you want to logout?')) {
+        localStorage.clear();
+        window.location.href = 'login.html';
+    }
+});
+</script>
+</body>
+</html>

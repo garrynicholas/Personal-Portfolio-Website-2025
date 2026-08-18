@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Log - Gunawan Widya Nugraha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --bg: #050508;
+            --board: #0a0a10;
+            --line: rgba(255, 255, 255, .1);
+            --text: #f5f6fa;
+            --muted: #b7bac6;
+            --magenta: #ff2ed2;
+            --purple: #8a2bff;
+            --blue: #2ba6ff;
+            --orange: #ff8c3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 48px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 26px
+        }
+
+        ::selection {
+            background: var(--magenta);
+            color: #fff
+        }
+
+        a {
+            text-decoration: none
+        }
+
+        button {
+            font-family: inherit
+        }
+
+        .board {
+            width: 100%;
+            max-width: 1240px;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--board);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .65)
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 36px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(10, 10, 16, .55);
+            backdrop-filter: blur(6px)
+        }
+
+        .navbar a {
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 500;
+            transition: .25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px
+        }
+
+        .navbar a:hover {
+            color: #fff
+        }
+
+        .navbar a i {
+            color: var(--magenta)
+        }
+
+        /* HEADER */
+        .log-hero {
+            position: relative;
+            padding: 68px 48px 60px;
+            overflow: hidden
+        }
+
+        .log-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(620px 420px at 80% 18%, rgba(43, 166, 255, .35), transparent 62%),
+                radial-gradient(520px 400px at 55% 55%, rgba(255, 46, 210, .28), transparent 62%),
+                radial-gradient(420px 320px at 25% 85%, rgba(138, 43, 255, .2), transparent 62%);
+        }
+
+        .log-hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 46%;
+            height: 80%;
+            pointer-events: none;
+            background-image: radial-gradient(rgba(130, 195, 255, .5) 1.2px, transparent 1.3px);
+            background-size: 10px 10px;
+            -webkit-mask-image: radial-gradient(ellipse at top right, #000 18%, transparent 72%);
+            mask-image: radial-gradient(ellipse at top right, #000 18%, transparent 72%);
+        }
+
+        .log-label {
+            position: relative;
+            z-index: 2;
+            color: var(--magenta);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: .5px;
+            margin-bottom: 14px
+        }
+
+        .log-hero h1 {
+            position: relative;
+            z-index: 2;
+            font-size: clamp(40px, 5.4vw, 66px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 18px
+        }
+
+        .grad-text {
+            background: linear-gradient(90deg, var(--magenta), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .log-desc {
+            position: relative;
+            z-index: 2;
+            color: #c9cdd9;
+            font-size: 16px;
+            line-height: 1.65;
+            max-width: 640px
+        }
+
+        .log-stats {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 36px
+        }
+
+        .log-stat {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 24px;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: rgba(12, 12, 18, .6)
+        }
+
+        .log-stat .lbl {
+            font-size: 11px;
+            letter-spacing: 1.2px;
+            color: #8f93a3;
+            text-transform: uppercase;
+            max-width: 120px;
+            line-height: 1.5
+        }
+
+        .bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 32px
+        }
+
+        .bars i {
+            width: 3px;
+            border-radius: 1px;
+            background: linear-gradient(to top, rgba(255, 255, 255, .25), rgba(255, 255, 255, .75))
+        }
+
+        .bars i:nth-child(1) {
+            height: 35%
+        }
+
+        .bars i:nth-child(2) {
+            height: 50%
+        }
+
+        .bars i:nth-child(3) {
+            height: 42%
+        }
+
+        .bars i:nth-child(4) {
+            height: 65%
+        }
+
+        .bars i:nth-child(5) {
+            height: 55%
+        }
+
+        .bars i:nth-child(6) {
+            height: 80%
+        }
+
+        .bars i:nth-child(7) {
+            height: 70%
+        }
+
+        .bars i:nth-child(8) {
+            height: 100%
+        }
+
+        .log-stat .num {
+            font-size: 36px;
+            font-weight: 300;
+            min-width: 44px;
+            text-align: right
+        }
+
+        /* LOG SECTION */
+        .log-section {
+            position: relative;
+            padding: 36px 48px 72px;
+            border-top: 1px solid var(--line)
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 32px
+        }
+
+        .filter-chip {
+            padding: 9px 18px;
+            border-radius: 999px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #cfd2dd;
+            border: 1px solid rgba(255, 255, 255, .16);
+            background: rgba(255, 255, 255, .04);
+            cursor: pointer;
+            transition: .25s
+        }
+
+        .filter-chip:hover {
+            border-color: var(--blue);
+            color: #fff
+        }
+
+        .filter-chip.active {
+            background: linear-gradient(90deg, #e02ec8, #2b6bff);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 0 16px rgba(255, 46, 210, .4)
+        }
+
+        .log-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px
+        }
+
+        .log-card {
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(12, 12, 18, .65);
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: .3s;
+            position: relative;
+            overflow: hidden
+        }
+
+        .log-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 55%;
+            background-image: radial-gradient(rgba(255, 255, 255, .28) 1px, transparent 1.2px);
+            background-size: 8px 8px;
+            -webkit-mask-image: radial-gradient(ellipse at top right, #000 12%, transparent 70%);
+            mask-image: radial-gradient(ellipse at top right, #000 12%, transparent 70%);
+        }
+
+        .log-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 46, 210, .45);
+            box-shadow: 0 16px 44px rgba(0, 0, 0, .5), 0 0 24px rgba(138, 43, 255, .25)
+        }
+
+        .log-card.ghost {
+            border-style: dashed;
+            background: rgba(255, 255, 255, .02);
+            opacity: .8
+        }
+
+        .log-card.ghost:hover {
+            border-color: rgba(43, 166, 255, .4);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, .4)
+        }
+
+        .log-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px
+        }
+
+        .log-date {
+            font-size: 11.5px;
+            color: #8f93a3;
+            letter-spacing: .4px
+        }
+
+        .log-status {
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .6px
+        }
+
+        .log-status.completed {
+            background: linear-gradient(90deg, #e02ec8, #2b6bff);
+            color: #fff
+        }
+
+        .log-status.ongoing {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #9fe8b9;
+            border: 1px solid rgba(120, 255, 170, .25);
+            background: rgba(80, 255, 140, .08)
+        }
+
+        .log-status .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #57e389;
+            box-shadow: 0 0 8px #57e389;
+            animation: pulse 1.6s infinite
+        }
+
+        /* ---- Tombol disabled ---- */
+        .link-btn:disabled,
+        .link-btn.disabled {
+            cursor: not-allowed;
+            opacity: .55;
+            background: rgba(255, 255, 255, .05);
+            border: 1px dashed rgba(255, 255, 255, .18);
+            color: #8f93a3;
+            box-shadow: none
+        }
+
+        .link-btn:disabled:hover {
+            background: rgba(255, 255, 255, .05);
+            transform: none
+        }
+
+        /* ---- Status Pending (amber, blink pelan) ---- */
+        .log-status.pending {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #ffd58a;
+            border: 1px solid rgba(255, 190, 90, .3);
+            background: rgba(255, 170, 60, .1)
+        }
+
+        .log-status.pending .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #ffb347;
+            box-shadow: 0 0 8px #ffb347;
+            animation: blink 1.8s infinite
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .3
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1
+            }
+
+            50% {
+                transform: scale(1.35);
+                opacity: .6
+            }
+        }
+
+        .log-card h3 {
+            font-size: 17px;
+            font-weight: 700
+        }
+
+        .log-card p {
+            font-size: 13.5px;
+            color: #c3c7d4;
+            line-height: 1.65;
+            flex: 1
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px
+        }
+
+        .tags span {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .4px;
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .12);
+            color: #aeb2c0
+        }
+
+        .log-foot {
+            border-top: 1px solid var(--line);
+            padding-top: 14px
+        }
+
+        .link-btn {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .2);
+            color: #e8eaf2;
+            transition: .25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .link-btn:hover {
+            background: rgba(255, 255, 255, .08)
+        }
+
+        .link-btn.dl {
+            background: linear-gradient(90deg, #b32ce0, #7a3bff);
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(122, 43, 255, .22)
+        }
+
+        .link-btn.dl:hover {
+            box-shadow: 0 8px 20px rgba(122, 43, 255, .35)
+        }
+
+        /* FOOTER */
+        .page-foot {
+            width: 100%;
+            max-width: 1240px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            color: #84879a;
+            font-size: 12px;
+            letter-spacing: .8px;
+            padding: 0 8px
+        }
+
+        @media(max-width:1024px) {
+            .log-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:640px) {
+            .log-grid {
+                grid-template-columns: 1fr
+            }
+
+            .log-hero,
+            .log-section {
+                padding-left: 24px;
+                padding-right: 24px
+            }
+
+            .navbar {
+                padding: 16px 20px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="board">
+
+        <header class="navbar">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Portfolio</a>
+            <a href="index.html#home"><i class="fa-solid fa-house"></i> Home</a>
+        </header>
+
+        <!-- HEADER -->
+        <section class="log-hero">
+            <p class="log-label">// CHRONOLOGICAL ARCHIVE</p>
+            <h1>Project <span class="grad-text">Log</span></h1>
+            <p class="log-desc">A chronological archive of my completed projects, ongoing experiments, and learning
+                milestones. Track my journey from beginner to professional developer.</p>
+
+            <div class="log-stats">
+                <div class="log-stat">
+                    <span class="lbl">Projects Completed</span>
+                    <span class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                    <span class="num">12</span>
+                </div>
+                <div class="log-stat">
+                    <span class="lbl">Currently Building</span>
+                    <span class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                    <span class="num">3</span>
+                </div>
+                <div class="log-stat">
+                    <span class="lbl">Technologies Used</span>
+                    <span class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                    <span class="num">5</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOG CARDS -->
+        <section class="log-section">
+            <div class="filters">
+                <button class="filter-chip active" data-filter="all">All Projects (3)</button>
+                <button class="filter-chip" data-filter="completed">Completed (2)</button>
+                <button class="filter-chip" data-filter="ongoing">Ongoing (1)</button>
+            </div>
+
+            <div class="log-grid">
+
+                <article class="log-card" data-cat="completed">
+                    <div class="log-top">
+                        <span class="log-status completed">Completed</span>
+                        <span class="log-date">September 2025</span>
+                    </div>
+                    <h3>Learning Python Web Development</h3>
+                    <p>I will create a solution project using Python and many more packages for better.</p>
+                    <div class="tags"><span>Python</span><span>Jetbrain Pycharm</span><span>Flask</span><span>Ends in
+                            September 2025</span></div>
+                    <div class="log-foot">
+                        <a class="link-btn dl" href="index.html#projects"><i class="fa-solid fa-folder-open"></i> View
+                            Projects</a>
+                    </div>
+                </article>
+
+                <article class="log-card" data-cat="completed">
+                    <div class="log-top">
+                        <span class="log-status completed">Completed</span>
+                        <span class="log-date">December 2025</span>
+                    </div>
+                    <h3>Learning Cybersecurity</h3>
+                    <p>Learning and practicing Cybersecurity with the help of some Courses in CodeAcademy for under $10.
+                    </p>
+                    <div class="tags"><span>Cybersecurity</span><span>Codeacademy</span><span>4
+                            Certified</span><span>Ends in February 2026</span></div>
+                    <div class="log-foot">
+                        <a class="link-btn dl" href="index.html#certificates"><i class="fa-solid fa-certificate"></i>
+                            View Certificates</a>
+                    </div>
+                </article>
+
+                <article class="log-card" data-cat="completed">
+                    <div class="log-top">
+                        <span class="log-status completed">Completed</span>
+                        <span class="log-date">August 2026</span>
+                    </div>
+                    <h3>Portfolio Website Redesign</h3>
+                    <p>Redesigned my portfolio website with a modern glassmorphism interface, focusing on cleaner
+                        navigation, visual consistency, and a better presentation of projects and skills.
+                    </p>
+                    <div class="tags"><span>UI/UX</span><span>Glassmorphism</span><span>Responsive</span><span>Ends in
+                            February
+                            2026</span></div>
+                    <div class="log-foot">
+                        <a class="link-btn dl" href="index.html"><i class="fa-solid fa-folder-open"></i> View
+                            Projects</a>
+                    </div>
+                </article>
+
+                <article class="log-card" data-cat="completed">
+                    <div class="log-top">
+                        <span class="log-status ongoing"><span class="dot"></span>Ongoing</span>
+                        <span class="log-date">August 2026</span>
+                    </div>
+
+                    <h3>Developing Mobile Game App: Creator Life Simulator</h3>
+
+                    <p>
+                        Developed a mobile simulation game where players build their career as a content creator,
+                        manage their lifestyle, grow their audience, and make decisions that shape their virtual career.
+                    </p>
+
+                    <div class="tags">
+                        <span>Game Development</span>
+                        <span>Flutter</span>
+                        <span>UI/UX</span>
+                        <span>Simulation</span>
+                    </div>
+
+                    <div class="log-foot">
+                        <button class="link-btn" disabled>
+                            <i class="fa-solid fa-eye-slash"></i> No View Available
+                        </button>
+                    </div>
+                </article>
+
+                <article class="log-card ghost" data-cat="ongoing">
+                    <div class="log-top">
+                        <span class="log-status pending"><span class="dot"></span>Pending</span>
+                        <span class="log-date">DATE: NULL</span>
+                    </div>
+                    <h3>???</h3>
+                    <p>There is no project or activities ongoing.</p>
+                    <div class="tags"><span>AAA</span><span>BBB</span><span>CCC</span></div>
+                </article>
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="page-foot">
+        <span>© <span id="yearNow"></span> Gunawan Widya Nugraha - Project Log</span>
+        <span>Last updated: <span id="lastUpdated"></span></span>
+    </footer>
+
+    <script>
+        // Filter log
+        const chips = document.querySelectorAll('.filter-chip');
+        const cards = document.querySelectorAll('.log-card');
+        chips.forEach(ch => ch.addEventListener('click', () => {
+            chips.forEach(c => c.classList.remove('active'));
+            ch.classList.add('active');
+            const f = ch.dataset.filter;
+            cards.forEach(card => {
+                card.style.display = (f === 'all' || card.dataset.cat.includes(f)) ? '' : 'none';
+            });
+        }));
+        // Footer tanggal otomatis
+        document.getElementById('yearNow').textContent = new Date().getFullYear();
+        document.getElementById('lastUpdated').textContent =
+            new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    </script>
+
+</body>
+
+</html>

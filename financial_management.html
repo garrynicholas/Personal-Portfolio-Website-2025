@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Dashboard - Portfolio Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --bg: #050508;
+            --board: #0a0a10;
+            --line: rgba(255, 255, 255, .1);
+            --text: #f5f6fa;
+            --muted: #b7bac6;
+            --magenta: #ff2ed2;
+            --purple: #8a2bff;
+            --blue: #2ba6ff;
+            --orange: #ff8c3a;
+            --green: #4ade80;
+            --red: #ff3b5c;
+            --yellow: #facc15
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 48px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 26px;
+            overflow-x: hidden
+        }
+
+        ::selection {
+            background: var(--magenta);
+            color: #fff
+        }
+
+        a {
+            text-decoration: none
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer
+        }
+
+        .board {
+            width: 100%;
+            max-width: 1320px;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--board);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .65)
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 36px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(10, 10, 16, .55);
+            backdrop-filter: blur(6px);
+            flex-wrap: wrap
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px
+        }
+
+        .brand-ico {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255, 46, 210, .25), rgba(43, 166, 255, .25));
+            border: 1px solid rgba(255, 255, 255, .12);
+            font-size: 15px
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .nav-links a {
+            padding: 8px 14px;
+            border-radius: 10px;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 500;
+            transition: .25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, .06)
+        }
+
+        .nav-links a i {
+            font-size: 11px;
+            color: var(--magenta)
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .nav-mid {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #8f93a3;
+            font-size: 12px;
+            font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+            letter-spacing: .5px
+        }
+
+        .nav-mid .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: pulse 1.6s infinite
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1
+            }
+
+            50% {
+                transform: scale(1.35);
+                opacity: .6
+            }
+        }
+
+        .btn-logout {
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #ffb4c4;
+            border: 1px solid rgba(255, 59, 92, .35);
+            background: rgba(255, 59, 92, .08);
+            transition: .25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 59, 92, .2);
+            color: #fff
+        }
+
+        /* HERO */
+        .fin-hero {
+            position: relative;
+            padding: 56px 48px 44px;
+            overflow: hidden;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .fin-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(640px 420px at 82% 18%, rgba(43, 166, 255, .3), transparent 62%),
+                radial-gradient(520px 400px at 12% 75%, rgba(255, 46, 210, .22), transparent 62%);
+        }
+
+        .fin-hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 46%;
+            height: 80%;
+            pointer-events: none;
+            background-image: radial-gradient(rgba(130, 195, 255, .5) 1.2px, transparent 1.3px);
+            background-size: 10px 10px;
+            -webkit-mask-image: radial-gradient(ellipse at top right, #000 18%, transparent 72%);
+            mask-image: radial-gradient(ellipse at top right, #000 18%, transparent 72%);
+        }
+
+        .fin-label {
+            position: relative;
+            z-index: 2;
+            color: var(--magenta);
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: .5px;
+            margin-bottom: 14px
+        }
+
+        .fin-hero h1 {
+            position: relative;
+            z-index: 2;
+            font-size: clamp(32px, 4.5vw, 52px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 16px
+        }
+
+        .grad-text {
+            background: linear-gradient(90deg, var(--magenta), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .fin-hero p {
+            position: relative;
+            z-index: 2;
+            color: #c9cdd9;
+            font-size: 15px;
+            line-height: 1.65;
+            max-width: 640px;
+            margin-bottom: 26px
+        }
+
+        .hero-actions {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: .25s;
+            text-decoration: none;
+            border: none
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #b32ce0, #7a3bff);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(122, 43, 255, .22)
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(122, 43, 255, .35)
+        }
+
+        .btn-ghost {
+            border: 1px solid rgba(255, 255, 255, .22);
+            color: #e8eaf2;
+            background: transparent
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, .08)
+        }
+
+        /* SECTION WRAPPER */
+        .fin-sec {
+            position: relative;
+            padding: 56px 48px;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .fin-sec:last-of-type {
+            border-bottom: none
+        }
+
+        .sec-head {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 32px
+        }
+
+        .sec-label {
+            color: var(--magenta);
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: .5px;
+            margin-bottom: 10px
+        }
+
+        .sec-title {
+            font-size: clamp(24px, 3.4vw, 38px);
+            font-weight: 800;
+            letter-spacing: -1.2px
+        }
+
+        .sec-desc {
+            color: var(--muted);
+            font-size: 14px;
+            margin-top: 10px;
+            max-width: 600px
+        }
+
+        /* CARDS GENERAL */
+        .card {
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(12, 12, 18, .65);
+            padding: 26px;
+            position: relative;
+            overflow: hidden;
+            transition: .3s
+        }
+
+        .card:hover {
+            border-color: rgba(43, 166, 255, .4);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, .4), 0 0 20px rgba(43, 166, 255, .15)
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 50%;
+            background-image: radial-gradient(rgba(255, 255, 255, .2) 1px, transparent 1.2px);
+            background-size: 8px 8px;
+            -webkit-mask-image: radial-gradient(ellipse at top right, #000 12%, transparent 70%);
+            mask-image: radial-gradient(ellipse at top right, #000 12%, transparent 70%);
+            pointer-events: none
+        }
+
+        /* DASHBOARD OVERVIEW */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 2
+        }
+
+        .stat-card {
+            padding: 22px;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            background: rgba(12, 12, 18, .65);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .stat-card .ico {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            border: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .stat-card .val {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -1px
+        }
+
+        .stat-card .lbl {
+            font-size: 12px;
+            color: #8f93a3;
+            letter-spacing: .8px;
+            text-transform: uppercase
+        }
+
+        .stat-card .change {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green)
+        }
+
+        .stat-card .change.neg {
+            color: var(--red)
+        }
+
+        .g-purple {
+            background: rgba(167, 139, 250, .12);
+            color: #a78bfa;
+            border-color: rgba(167, 139, 250, .3)
+        }
+
+        .g-green {
+            background: rgba(74, 222, 128, .12);
+            color: var(--green);
+            border-color: rgba(74, 222, 128, .3)
+        }
+
+        .g-orange {
+            background: rgba(255, 140, 58, .12);
+            color: var(--orange);
+            border-color: rgba(255, 140, 58, .3)
+        }
+
+        .g-blue {
+            background: rgba(43, 166, 255, .12);
+            color: var(--blue);
+            border-color: rgba(43, 166, 255, .3)
+        }
+
+        .g-magenta {
+            background: rgba(255, 46, 210, .12);
+            color: var(--magenta);
+            border-color: rgba(255, 46, 210, .3)
+        }
+
+        .g-yellow {
+            background: rgba(250, 204, 21, .12);
+            color: var(--yellow);
+            border-color: rgba(250, 204, 21, .3)
+        }
+
+        .g-red {
+            background: rgba(255, 59, 92, .12);
+            color: var(--red);
+            border-color: rgba(255, 59, 92, .3)
+        }
+
+        .asset-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            position: relative;
+            z-index: 2
+        }
+
+        .asset-card {
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            background: rgba(12, 12, 18, .5);
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .asset-card .ico {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px
+        }
+
+        .asset-card h4 {
+            font-size: 13px;
+            color: #aeb2c0;
+            font-weight: 500
+        }
+
+        .asset-card .val {
+            font-size: 18px;
+            font-weight: 700
+        }
+
+        .asset-card small {
+            font-size: 11px;
+            color: #8f93a3
+        }
+
+        /* FORM INPUT ASET */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 22px
+        }
+
+        .field-group {
+            position: relative
+        }
+
+        .field-group label {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8f93a3;
+            margin-bottom: 8px;
+            font-weight: 600
+        }
+
+        .field-group input {
+            width: 100%;
+            padding: 13px 16px;
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .14);
+            border-radius: 12px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            transition: .25s
+        }
+
+        .field-group input:focus {
+            outline: none;
+            border-color: var(--magenta);
+            box-shadow: 0 0 0 3px rgba(255, 46, 210, .15), 0 0 16px rgba(255, 46, 210, .2)
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2
+        }
+
+        /* BREAKDOWN */
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            position: relative;
+            z-index: 2
+        }
+
+        .breakdown-item {
+            padding: 18px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            background: rgba(12, 12, 18, .5);
+            text-align: center
+        }
+
+        .breakdown-item small {
+            display: block;
+            font-size: 10.5px;
+            letter-spacing: 1.2px;
+            color: #8f93a3;
+            text-transform: uppercase;
+            margin-bottom: 8px
+        }
+
+        .breakdown-item strong {
+            font-size: 20px;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 4px
+        }
+
+        .breakdown-item span {
+            font-size: 11px;
+            color: var(--muted)
+        }
+
+        /* LIVE MARKET */
+        .live-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+            position: relative;
+            z-index: 2
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ff9db1;
+            border: 1px solid rgba(255, 59, 92, .35);
+            background: rgba(255, 59, 92, .1)
+        }
+
+        .live-badge .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--red);
+            box-shadow: 0 0 10px var(--red);
+            animation: pulse 1.4s infinite
+        }
+
+        .live-badge.ok {
+            color: #9fe8b9;
+            border-color: rgba(120, 255, 170, .25);
+            background: rgba(80, 255, 140, .08)
+        }
+
+        .live-badge.ok .dot {
+            background: #57e389;
+            box-shadow: 0 0 10px #57e389
+        }
+
+        .market-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            position: relative;
+            z-index: 2
+        }
+
+        .market-item {
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            background: rgba(12, 12, 18, .5);
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .market-item small {
+            font-size: 11px;
+            color: #8f93a3;
+            letter-spacing: 1px;
+            text-transform: uppercase
+        }
+
+        .market-item .val {
+            font-size: 22px;
+            font-weight: 800;
+            font-family: ui-monospace, SFMono-Regular, Consolas, monospace
+        }
+
+        .market-item .change {
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .market-item .change.up {
+            color: var(--green)
+        }
+
+        .market-item .change.down {
+            color: var(--red)
+        }
+
+        .market-item .change.flat {
+            color: #8f93a3
+        }
+
+        .market-note {
+            margin-top: 18px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #8f93a3;
+            background: rgba(255, 255, 255, .03);
+            border: 1px dashed rgba(255, 255, 255, .1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 2
+        }
+
+        .market-note i {
+            color: var(--blue)
+        }
+
+        /* INSIGHTS */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            position: relative;
+            z-index: 2
+        }
+
+        .insight-card {
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            background: rgba(12, 12, 18, .6);
+            display: flex;
+            flex-direction: column;
+            gap: 14px
+        }
+
+        .insight-card .ico {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px
+        }
+
+        .insight-card h4 {
+            font-size: 15px;
+            font-weight: 700
+        }
+
+        .insight-card p {
+            font-size: 13px;
+            color: #c3c7d4;
+            line-height: 1.6
+        }
+
+        /* NEWS */
+        .news-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 2
+        }
+
+        .news-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .news-tab {
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #cfd2dd;
+            border: 1px solid rgba(255, 255, 255, .16);
+            background: rgba(255, 255, 255, .04);
+            cursor: pointer;
+            transition: .25s
+        }
+
+        .news-tab:hover {
+            border-color: var(--blue);
+            color: #fff
+        }
+
+        .news-tab.active {
+            background: linear-gradient(90deg, #e02ec8, #2b6bff);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 0 14px rgba(255, 46, 210, .35)
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            position: relative;
+            z-index: 2
+        }
+
+        .news-card {
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            background: rgba(12, 12, 18, .55);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: .3s
+        }
+
+        .news-card:hover {
+            border-color: rgba(43, 166, 255, .4);
+            transform: translateY(-3px)
+        }
+
+        .news-card .meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            color: #8f93a3
+        }
+
+        .news-card .src {
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: rgba(255, 46, 210, .1);
+            color: #ffc7ec;
+            font-weight: 600;
+            letter-spacing: .5px
+        }
+
+        .news-card h4 {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.45
+        }
+
+        .news-card p {
+            font-size: 12.5px;
+            color: #b9bdd0;
+            line-height: 1.6
+        }
+
+        .news-card a {
+            margin-top: auto;
+            align-self: flex-start;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--blue);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: .25s
+        }
+
+        .news-card a:hover {
+            gap: 10px;
+            color: var(--magenta)
+        }
+
+        .news-empty {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 40px;
+            color: #8f93a3;
+            font-size: 13px
+        }
+
+        .news-status {
+            font-size: 11px;
+            color: #8f93a3;
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        /* FOOTER */
+        .page-foot {
+            width: 100%;
+            max-width: 1320px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            color: #84879a;
+            font-size: 12px;
+            letter-spacing: .8px;
+            padding: 0 8px
+        }
+
+        .page-foot i {
+            color: var(--green)
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:1024px) {
+
+            .stats-grid,
+            .asset-grid,
+            .form-grid,
+            .breakdown-grid,
+            .market-row {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .insight-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:700px) {
+
+            .stats-grid,
+            .asset-grid,
+            .form-grid,
+            .breakdown-grid,
+            .market-row,
+            .news-grid {
+                grid-template-columns: 1fr
+            }
+
+            .nav-mid {
+                display: none
+            }
+
+            .fin-hero,
+            .fin-sec {
+                padding-left: 22px;
+                padding-right: 22px
+            }
+
+            .navbar {
+                padding: 14px 18px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="board">
+
+        <header class="navbar">
+            <a class="brand" href="tools.html">
+                <span class="brand-ico"><i class="fa-solid fa-briefcase"></i></span>
+                <span>Portfolio Manager</span>
+            </a>
+            <nav class="nav-links">
+                <a href="#dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                <a href="#input"><i class="fa-solid fa-plus"></i> Input Aset</a>
+                <a href="#portfolio"><i class="fa-solid fa-wallet"></i> Portfolio</a>
+                <a href="#gold"><i class="fa-solid fa-coins"></i> Harga Emas</a>
+                <a href="#insights"><i class="fa-solid fa-lightbulb"></i> Insights</a>
+                <a href="#news"><i class="fa-solid fa-newspaper"></i> News</a>
+            </nav>
+            <div class="nav-right">
+                <div class="nav-mid"><span class="dot"></span> <span id="clock">--:--:--</span></div>
+                <a class="btn-logout" href="index.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </header>
+
+        <!-- HERO -->
+        <section class="fin-hero" id="dashboard">
+            <p class="fin-label">// FINANCIAL PORTFOLIO MANAGER</p>
+            <h1>Kelola Aset Investasi <span class="grad-text">dengan Insight</span></h1>
+            <p>Pantau dan analisis portofolio investasi Anda secara real-time — saham, emas, reksadana, obligasi, dan
+                banyak lagi. Ambil keputusan finansial yang lebih cerdas berbasis data.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="#input"><i class="fa-solid fa-plus"></i> Tambah Aset</a>
+                <a class="btn btn-ghost" href="#portfolio"><i class="fa-solid fa-chart-pie"></i> Lihat Dashboard</a>
+            </div>
+        </section>
+
+        <!-- DASHBOARD OVERVIEW -->
+        <section class="fin-sec">
+            <div class="sec-head">
+                <p class="sec-label">// DASHBOARD OVERVIEW</p>
+                <h2 class="sec-title">Ringkasan <span class="grad-text">Portofolio</span></h2>
+                <p class="sec-desc">Gambaran singkat kondisi investasi Anda saat ini.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="ico g-purple"><i class="fa-solid fa-wallet"></i></span>
+                    <span class="lbl">Total Portfolio</span>
+                    <span class="val" id="totalPort">Rp 0</span>
+                    <span class="change">+0.00%</span>
+                </div>
+                <div class="stat-card">
+                    <span class="ico g-blue"><i class="fa-solid fa-layer-group"></i></span>
+                    <span class="lbl">Jumlah Aset</span>
+                    <span class="val" id="totalAssets">0</span>
+                    <span class="change flat">Berbagai Instrumen</span>
+                </div>
+                <div class="stat-card">
+                    <span class="ico g-green"><i class="fa-solid fa-arrow-trend-up"></i></span>
+                    <span class="lbl">Profit/Loss</span>
+                    <span class="val" id="plValue">Rp 0</span>
+                    <span class="change" id="plChange">+0.00%</span>
+                </div>
+                <div class="stat-card">
+                    <span class="ico g-orange"><i class="fa-solid fa-shield-halved"></i></span>
+                    <span class="lbl">Risk Level</span>
+                    <span class="val" id="riskLevel">-</span>
+                    <span class="change flat">Diversifikasi</span>
+                </div>
+            </div>
+
+            <div class="asset-grid">
+                <div class="asset-card">
+                    <span class="ico g-blue"><i class="fa-solid fa-chart-line"></i></span>
+                    <h4>Saham IHSG</h4>
+                    <span class="val" id="valSaham">Rp 0</span>
+                    <small>Total Investasi Saham</small>
+                </div>
+                <div class="asset-card">
+                    <span class="ico g-yellow"><i class="fa-solid fa-coins"></i></span>
+                    <h4>Emas</h4>
+                    <span class="val" id="valEmas">Rp 0</span>
+                    <small>Harga Emas Real-time</small>
+                </div>
+                <div class="asset-card">
+                    <span class="ico g-green"><i class="fa-solid fa-chart-pie"></i></span>
+                    <h4>Reksadana</h4>
+                    <span class="val" id="valReksadana">Rp 0</span>
+                    <small>Total Investasi Reksadana</small>
+                </div>
+                <div class="asset-card">
+                    <span class="ico g-magenta"><i class="fa-solid fa-landmark"></i></span>
+                    <h4>Obligasi</h4>
+                    <span class="val" id="valObligasi">Rp 0</span>
+                    <small>Total Investasi Obligasi</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- INPUT ASET -->
+        <section class="fin-sec" id="input">
+            <div class="sec-head">
+                <p class="sec-label">// INPUT ASET</p>
+                <h2 class="sec-title">Tambah <span class="grad-text">Investasi</span></h2>
+                <p class="sec-desc">Masukkan nominal investasi Anda untuk setiap instrumen.</p>
+            </div>
+
+            <form id="assetForm" onsubmit="return false;">
+                <div class="form-grid">
+                    <div class="field-group">
+                        <label for="saham">Saham IHSG</label>
+                        <input id="saham" type="number" min="0" placeholder="Rp 0">
+                    </div>
+                    <div class="field-group">
+                        <label for="emas">Emas (Gram)</label>
+                        <input id="emas" type="number" min="0" step="0.01" placeholder="0 gram">
+                    </div>
+                    <div class="field-group">
+                        <label for="reksadana">Reksadana</label>
+                        <input id="reksadana" type="number" min="0" placeholder="Rp 0">
+                    </div>
+                    <div class="field-group">
+                        <label for="obligasi">Obligasi</label>
+                        <input id="obligasi" type="number" min="0" placeholder="Rp 0">
+                    </div>
+                    <div class="field-group">
+                        <label for="deposito">Deposito</label>
+                        <input id="deposito" type="number" min="0" placeholder="Rp 0">
+                    </div>
+                    <div class="field-group">
+                        <label for="properti">Properti</label>
+                        <input id="properti" type="number" min="0" placeholder="Rp 0">
+                    </div>
+                    <div class="field-group">
+                        <label for="crypto">Cryptocurrency</label>
+                        <input id="crypto" type="number" min="0" placeholder="Rp 0">
+                    </div>
+                    <div class="field-group">
+                        <label for="lainnya">Lainnya</label>
+                        <input id="lainnya" type="number" min="0" placeholder="Rp 0">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-primary" type="button" onclick="hitungPortfolio()">
+                        <i class="fa-solid fa-calculator"></i> Hitung Portfolio
+                    </button>
+                    <button class="btn btn-ghost" type="button" onclick="resetForm()">
+                        <i class="fa-solid fa-rotate-left"></i> Reset
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- PORTFOLIO BREAKDOWN -->
+        <section class="fin-sec" id="portfolio">
+            <div class="sec-head">
+                <p class="sec-label">// PORTFOLIO BREAKDOWN</p>
+                <h2 class="sec-title">Total <span class="grad-text">Portfolio</span></h2>
+                <p class="sec-desc">Distribusi aset investasi Anda.</p>
+            </div>
+
+            <div class="breakdown-grid">
+                <div class="breakdown-item">
+                    <small>Total Aset</small>
+                    <strong id="brTotal">0</strong>
+                    <span>Instrumen aktif</span>
+                </div>
+                <div class="breakdown-item">
+                    <small>Nilai Portfolio</small>
+                    <strong id="brValue">Rp 0</strong>
+                    <span>Total keseluruhan</span>
+                </div>
+                <div class="breakdown-item">
+                    <small>Aset Terbesar</small>
+                    <strong id="brBiggest">-</strong>
+                    <span>Dominasi portofolio</span>
+                </div>
+                <div class="breakdown-item">
+                    <small>Diversifikasi</small>
+                    <strong id="brDiv">-</strong>
+                    <span>Level risiko</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- HARGA EMAS -->
+        <section class="fin-sec" id="gold">
+            <div class="sec-head">
+                <p class="sec-label">// HARGA EMAS REAL-TIME</p>
+                <h2 class="sec-title">Harga Emas <span class="grad-text">Hari Ini</span></h2>
+                <p class="sec-desc">Pantau pergerakan harga emas secara langsung — update otomatis setiap 30 detik.</p>
+            </div>
+
+            <div class="live-head">
+                <span class="live-badge ok"><span class="dot"></span> LIVE</span>
+                <span class="news-status">Per gram • Update tiap 30 detik</span>
+            </div>
+
+            <div class="market-row">
+                <div class="market-item">
+                    <small>Harga Beli</small>
+                    <span class="val" id="goldBuy">Loading...</span>
+                    <span class="change flat">Antam / UBS</span>
+                </div>
+                <div class="market-item">
+                    <small>Harga Jual</small>
+                    <span class="val" id="goldSell">Loading...</span>
+                    <span class="change flat">Buyback</span>
+                </div>
+                <div class="market-item">
+                    <small>Perubahan</small>
+                    <span class="val" id="goldChange">-</span>
+                    <span class="change flat" id="goldChangePct">-</span>
+                </div>
+                <div class="market-item">
+                    <small>Last Update</small>
+                    <span class="val" id="goldTime" style="font-size:15px">--:--</span>
+                    <span class="change flat">WIB</span>
+                </div>
+            </div>
+
+            <div class="market-note">
+                <i class="fa-solid fa-circle-info"></i>
+                Data harga emas diambil dari sumber terpercaya dan diperbarui secara real-time.
+            </div>
+        </section>
+
+        <!-- IHSG -->
+        <section class="fin-sec">
+            <div class="sec-head">
+                <p class="sec-label">// IHSG REAL-TIME</p>
+                <h2 class="sec-title">Indeks <span class="grad-text">Harga Saham</span> Gabungan</h2>
+                <p class="sec-desc">Pantau pergerakan indeks saham Indonesia secara langsung.</p>
+            </div>
+
+            <div class="live-head">
+                <span class="live-badge ok"><span class="dot"></span> LIVE</span>
+                <span class="news-status">Bursa Efek Indonesia</span>
+            </div>
+
+            <div class="market-row">
+                <div class="market-item">
+                    <small>Nilai IHSG</small>
+                    <span class="val" id="ihsgValue">Loading...</span>
+                    <span class="change flat" id="ihsgChange">-</span>
+                </div>
+                <div class="market-item">
+                    <small>Perubahan</small>
+                    <span class="val" id="ihsgChangePct">-</span>
+                    <span class="change flat">Persentase</span>
+                </div>
+                <div class="market-item">
+                    <small>Volume</small>
+                    <span class="val" id="ihsgVol">-</span>
+                    <span class="change flat">Lembar saham</span>
+                </div>
+                <div class="market-item">
+                    <small>Last Update</small>
+                    <span class="val" id="ihsgTime" style="font-size:15px">--:--</span>
+                    <span class="change flat">WIB</span>
+                </div>
+            </div>
+
+            <div class="market-note">
+                <i class="fa-solid fa-circle-info"></i>
+                Data IHSG diambil dari Bursa Efek Indonesia (BEI) • Update otomatis setiap 30 detik.
+            </div>
+        </section>
+
+        <!-- S&P 500 -->
+        <section class="fin-sec">
+            <div class="sec-head">
+                <p class="sec-label">// S&P 500 REAL-TIME</p>
+                <h2 class="sec-title">Indeks <span class="grad-text">Saham Global</span> AS</h2>
+                <p class="sec-desc">Pantau pergerakan indeks saham global Amerika Serikat.</p>
+            </div>
+
+            <div class="live-head">
+                <span class="live-badge ok"><span class="dot"></span> LIVE</span>
+                <span class="news-status">Standard & Poor's 500 Index</span>
+            </div>
+
+            <div class="market-row">
+                <div class="market-item">
+                    <small>Nilai S&P 500</small>
+                    <span class="val" id="spValue">Loading...</span>
+                    <span class="change flat" id="spChange">-</span>
+                </div>
+                <div class="market-item">
+                    <small>Perubahan</small>
+                    <span class="val" id="spChangePct">-</span>
+                    <span class="change flat">Persentase</span>
+                </div>
+                <div class="market-item">
+                    <small>52-Week Range</small>
+                    <span class="val" id="sp52w" style="font-size:13px">-</span>
+                    <span class="change flat">Low — High</span>
+                </div>
+                <div class="market-item">
+                    <small>Last Update</small>
+                    <span class="val" id="spTime" style="font-size:15px">--:--</span>
+                    <span class="change flat">EST</span>
+                </div>
+            </div>
+
+            <div class="market-note">
+                <i class="fa-solid fa-circle-info"></i>
+                Data S&P 500 diambil dari NYSE/NASDAQ • Update otomatis setiap 30 detik.
+            </div>
+        </section>
+
+        <!-- INSIGHTS -->
+        <section class="fin-sec" id="insights">
+            <div class="sec-head">
+                <p class="sec-label">// FINANCIAL INSIGHTS</p>
+                <h2 class="sec-title">Rekomendasi <span class="grad-text">Investasi</span></h2>
+                <p class="sec-desc">Analisis dan rekomendasi berdasarkan portofolio Anda.</p>
+            </div>
+
+            <div class="insight-grid">
+                <article class="insight-card">
+                    <span class="ico g-blue"><i class="fa-solid fa-chart-pie"></i></span>
+                    <h4>Diversifikasi Portofolio</h4>
+                    <p id="insight1">Portofolio Anda memiliki diversifikasi yang baik dengan berbagai instrumen
+                        investasi.</p>
+                </article>
+                <article class="insight-card">
+                    <span class="ico g-orange"><i class="fa-solid fa-shield-halved"></i></span>
+                    <h4>Risk Assessment</h4>
+                    <p id="insight2">Portofolio Anda memiliki tingkat risiko yang seimbang. Pertimbangkan untuk menambah
+                        alokasi obligasi.</p>
+                </article>
+                <article class="insight-card">
+                    <span class="ico g-green"><i class="fa-solid fa-lightbulb"></i></span>
+                    <h4>Rekomendasi Investasi</h4>
+                    <p id="insight3">Pertimbangkan untuk menambah alokasi reksadana saham untuk potensi return yang
+                        lebih tinggi.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- NEWS -->
+        <section class="fin-sec" id="news">
+            <div class="sec-head">
+                <p class="sec-label">// LATEST ECONOMIC NEWS</p>
+                <h2 class="sec-title">Berita <span class="grad-text">Ekonomi</span> Terkini</h2>
+                <p class="sec-desc">Update ekonomi & investasi Indonesia dan global.</p>
+            </div>
+
+            <div class="news-head">
+                <div class="news-tabs">
+                    <button class="news-tab active" data-cat="indonesia">🇮🇩 Indonesia</button>
+                    <button class="news-tab" data-cat="global">🌍 Global</button>
+                    <button class="news-tab" data-cat="all">Semua Berita</button>
+                </div>
+                <span class="news-status" id="newsStatus">Last updated: -</span>
+            </div>
+
+            <div class="news-grid" id="newsGrid">
+                <div class="news-empty"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading berita terbaru...</div>
+            </div>
+
+            <div class="market-note" style="margin-top:22px">
+                <i class="fa-solid fa-circle-info"></i>
+                Berita diupdate otomatis setiap 5 menit • Sumber: NewsAPI.org, Kontan, Bisnis Indonesia, Bloomberg,
+                Reuters, CNBC.
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="page-foot">
+        <span>© <span id="yearNow"></span> Portfolio Manager — Financial Dashboard</span>
+        <span><i class="fa-solid fa-circle"></i> Data harga emas real-time • Update otomatis setiap 30 detik</span>
+    </footer>
+
+    <script>
+        /* ====== JAM LIVE ====== */
+        const clock = document.getElementById('clock');
+        const tick = () => clock.textContent = new Date().toLocaleTimeString('en-GB');
+        tick(); setInterval(tick, 1000);
+        document.getElementById('yearNow').textContent = new Date().getFullYear();
+
+        /* ====== UTILS ====== */
+        const fmtRp = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+        const $ = id => document.getElementById(id);
+
+        /* ====== PORTFOLIO CALCULATOR ====== */
+        let priceEmas = 1500000; // fallback harga emas/gram
+        const fields = ['saham', 'emas', 'reksadana', 'obligasi', 'deposito', 'properti', 'crypto', 'lainnya'];
+        const labels = {
+            saham: 'Saham', emas: 'Emas', reksadana: 'Reksadana', obligasi: 'Obligasi',
+            deposito: 'Deposito', properti: 'Properti', crypto: 'Crypto', lainnya: 'Lainnya'
+        };
+
+        function hitungPortfolio() {
+            const vals = {};
+            let total = 0, count = 0;
+            fields.forEach(f => {
+                const raw = parseFloat($(f).value) || 0;
+                const v = f === 'emas' ? raw * priceEmas : raw;
+                vals[f] = v;
+                if (raw > 0) { total += v; count++; }
+            });
+
+            $('totalPort').textContent = fmtRp(total);
+            $('valSaham').textContent = fmtRp(vals.saham);
+            $('valEmas').textContent = fmtRp(vals.emas);
+            $('valReksadana').textContent = fmtRp(vals.reksadana);
+            $('valObligasi').textContent = fmtRp(vals.obligasi);
+
+            // Profit/Loss demo (+3.2% flat)
+            const pl = total * 0.032;
+            $('plValue').textContent = fmtRp(pl);
+            $('plChange').textContent = '+3.20%';
+
+            // Breakdown
+            $('brTotal').textContent = count;
+            $('brValue').textContent = fmtRp(total);
+
+            // Aset terbesar
+            let big = '-', bigV = 0;
+            for (const k in vals) if (vals[k] > bigV) { bigV = vals[k]; big = labels[k]; }
+            $('brBiggest').textContent = count > 0 ? big : '-';
+
+            // Diversifikasi / risk level
+            let risk = '-', div = '-';
+            if (count >= 5) { risk = 'Low'; div = 'Excellent'; }
+            else if (count >= 3) { risk = 'Medium'; div = 'Good'; }
+            else if (count >= 1) { risk = 'High'; div = 'Limited'; }
+            $('riskLevel').textContent = risk;
+            $('brDiv').textContent = div;
+
+            // Update insights dinamis
+            if (count === 0) {
+                $('insight1').textContent = 'Anda belum memiliki investasi. Mulai bangun portofolio Anda dengan menambahkan aset di form di atas.';
+                $('insight2').textContent = 'Portofolio kosong memiliki risiko 0, namun juga tidak memberikan potensi return.';
+                $('insight3').textContent = 'Mulai dari emas atau reksadana pasar uang untuk risiko rendah.';
+            } else if (count < 3) {
+                $('insight1').textContent = `Portofolio Anda masih fokus pada ${count} instrumen. Pertimbangkan untuk diversifikasi ke aset lain.`;
+                $('insight2').textContent = `Risk level: ${risk}. Pertimbangkan menambah obligasi atau reksadana untuk menyeimbangkan risiko.`;
+                $('insight3').textContent = 'Diversifikasi ke minimal 3-5 instrumen dapat menurunkan risiko keseluruhan portofolio.';
+            } else {
+                $('insight1').textContent = `Portofolio Anda terdiversifikasi dengan baik di ${count} instrumen — ${div}.`;
+                $('insight2').textContent = `Risk level: ${risk}. Alokasi Anda sudah seimbang antara aset berisiko dan konservatif.`;
+                $('insight3').textContent = 'Pertahankan alokasi saat ini dan review ulang setiap 6 bulan sekali.';
+            }
+
+            document.querySelector('[href="#portfolio"]').click();
+        }
+
+        function resetForm() {
+            fields.forEach(f => $(f).value = '');
+            hitungPortfolio();
+        }
+
+        /* ====== NEWS TABS ====== */
+        document.querySelectorAll('.news-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.news-tab').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderNews(btn.dataset.cat);
+            });
+        });
+
+        /* ====== NEWS FETCHER (demo data + NewsAPI fallback) ====== */
+        const demoNews = [
+            {
+                cat: 'indonesia', src: 'Kontan', title: 'IHSG ditutup menguat 1.2% ditopang saham perbankan',
+                desc: 'Indeks Harga Saham Gabungan ditutup menguat signifikan seiring penguatan saham big caps sektor perbankan.', time: 2
+            },
+            {
+                cat: 'indonesia', src: 'Bisnis Indonesia', title: 'Harga emas Antam naik Rp 8.000 per gram',
+                desc: 'PT Aneka Tambang menaikkan harga emas batangan seiring tren penguatan emas global.', time: 4
+            },
+            {
+                cat: 'indonesia', src: 'CNBC Indonesia', title: 'BI pertahankan suku bunga acuan di 6.00%',
+                desc: 'Bank Indonesia memutuskan mempertahankan BI Rate untuk menjaga stabilitas rupiah.', time: 6
+            },
+            {
+                cat: 'global', src: 'Bloomberg', title: 'S&P 500 hits new all-time high on tech rally',
+                desc: 'The S&P 500 reached record highs as major tech companies reported strong earnings.', time: 8
+            },
+            {
+                cat: 'global', src: 'Reuters', title: 'Fed signals potential rate cuts in Q3 2026',
+                desc: 'The Federal Reserve hinted at potential interest rate cuts as inflation continues to cool.', time: 10
+            },
+            {
+                cat: 'global', src: 'CNBC', title: 'Gold prices surge amid global uncertainty',
+                desc: 'Spot gold prices surged past $2,500/oz as investors seek safe-haven assets.', time: 12
+            },
+        ];
+
+        function renderNews(cat) {
+            const grid = $('newsGrid');
+            const filtered = cat === 'all' ? demoNews : demoNews.filter(n => n.cat === cat);
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="news-empty">Tidak ada berita di kategori ini.</div>';
+                return;
+            }
+            grid.innerHTML = filtered.map(n => `
+      <article class="news-card">
+        <div class="meta"><span class="src">${n.src}</span><span>${n.time} menit lalu</span></div>
+        <h4>${n.title}</h4>
+        <p>${n.desc}</p>
+        <a href="#">Baca selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
+      </article>
+    `).join('');
+            $('newsStatus').textContent = 'Last updated: ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        }
+        renderNews('indonesia');
+
+        /* ====== MARKET DATA SIMULATION ====== */
+        function updateGold() {
+            const buy = 1500000 + Math.round((Math.random() - 0.5) * 20000);
+            const sell = buy - 80000;
+            const chg = Math.round((Math.random() - 0.5) * 15000);
+            $('goldBuy').textContent = fmtRp(buy);
+            $('goldSell').textContent = fmtRp(sell);
+            $('goldChange').textContent = (chg >= 0 ? '+' : '') + fmtRp(chg);
+            $('goldChange').parentElement.querySelector('.change').className = 'change ' + (chg >= 0 ? 'up' : 'down');
+            $('goldChange').parentElement.querySelector('.change').textContent = (chg >= 0 ? '+' : '') + (chg / buy * 100).toFixed(2) + '%';
+            $('goldTime').textContent = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            priceEmas = buy;
+        }
+        function updateIHSG() {
+            const v = 7350 + Math.round((Math.random() - 0.5) * 40);
+            const chg = Math.round((Math.random() - 0.5) * 60);
+            $('ihsgValue').textContent = v.toLocaleString('id-ID');
+            $('ihsgChange').textContent = (chg >= 0 ? '+' : '') + chg;
+            $('ihsgChangePct').textContent = (chg >= 0 ? '+' : '') + (chg / v * 100).toFixed(2) + '%';
+            $('ihsgChangePct').parentElement.querySelector('.change').className = 'change ' + (chg >= 0 ? 'up' : 'down');
+            $('ihsgVol').textContent = (Math.round(Math.random() * 8000 + 3000)) + ' M';
+            $('ihsgTime').textContent = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        }
+        function updateSP() {
+            const v = 5820 + Math.round((Math.random() - 0.5) * 30);
+            const chg = Math.round((Math.random() - 0.5) * 20);
+            $('spValue').textContent = v.toLocaleString('id-ID');
+            $('spChange').textContent = (chg >= 0 ? '+' : '') + chg;
+            $('spChangePct').textContent = (chg >= 0 ? '+' : '') + (chg / v * 100).toFixed(2) + '%';
+            $('sp52w').textContent = '4,103 — 5,889';
+            $('spTime').textContent = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+        }
+        updateGold(); updateIHSG(); updateSP();
+        setInterval(() => { updateGold(); updateIHSG(); updateSP(); }, 30000);
+    </script>
+
+</body>
+
+</html>

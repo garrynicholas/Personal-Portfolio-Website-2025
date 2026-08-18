@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Denied - Portfolio Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --bg: #050508;
+            --line: rgba(255, 255, 255, .1);
+            --text: #f5f6fa;
+            --muted: #b7bac6;
+            --magenta: #ff2ed2;
+            --purple: #8a2bff;
+            --blue: #2ba6ff;
+            --red: #ff3b5c
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+            overflow-x: hidden
+        }
+
+        /* glow merah-magenta + halftone dots */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(640px 420px at 76% 22%, rgba(255, 59, 92, .22), transparent 62%),
+                radial-gradient(560px 420px at 24% 78%, rgba(255, 46, 210, .18), transparent 62%),
+                radial-gradient(420px 320px at 50% 50%, rgba(138, 43, 255, .12), transparent 62%);
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 46%;
+            height: 60%;
+            pointer-events: none;
+            background-image: radial-gradient(rgba(255, 120, 140, .45) 1.2px, transparent 1.3px);
+            background-size: 10px 10px;
+            -webkit-mask-image: radial-gradient(ellipse at top right, #000 18%, transparent 72%);
+            mask-image: radial-gradient(ellipse at top right, #000 18%, transparent 72%);
+        }
+
+        .dots-blue {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 42%;
+            height: 55%;
+            pointer-events: none;
+            background-image: radial-gradient(rgba(130, 195, 255, .4) 1.2px, transparent 1.3px);
+            background-size: 9px 9px;
+            -webkit-mask-image: radial-gradient(ellipse at bottom left, #000 15%, transparent 70%);
+            mask-image: radial-gradient(ellipse at bottom left, #000 15%, transparent 70%);
+        }
+
+        .board {
+            width: 100%;
+            max-width: 720px;
+            border: 1px solid rgba(255, 59, 92, .25);
+            border-radius: 24px;
+            background: rgba(10, 10, 16, .85);
+            backdrop-filter: blur(8px);
+            padding: 52px 44px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, .7), 0 0 60px rgba(255, 59, 92, .12)
+        }
+
+        .board::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: -40%;
+            width: 70%;
+            height: 80%;
+            transform: translateX(-50%);
+            background: radial-gradient(closest-side, rgba(255, 59, 92, .16), transparent 70%);
+            pointer-events: none
+        }
+
+        /* shield + lock animasi */
+        .shield-wrap {
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 24px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #ff9db1;
+            position: relative;
+            background: linear-gradient(135deg, rgba(255, 59, 92, .22), rgba(138, 43, 255, .22));
+            border: 1px solid rgba(255, 59, 92, .35);
+            animation: breathe 2.6s ease-in-out infinite
+        }
+
+        .shield-wrap .lock {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: rgba(10, 10, 16, .92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: var(--red);
+            border: 1px solid rgba(255, 59, 92, .45);
+            bottom: -10px;
+            right: -10px
+        }
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 59, 92, .25)
+            }
+
+            50% {
+                box-shadow: 0 0 0 14px rgba(255, 59, 92, 0)
+            }
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 16px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: #ffc4cf;
+            border: 1px solid rgba(255, 59, 92, .4);
+            background: rgba(255, 59, 92, .1);
+            margin-bottom: 18px
+        }
+
+        .badge .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--red);
+            box-shadow: 0 0 10px var(--red);
+            animation: pulse 1.4s infinite
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1
+            }
+
+            50% {
+                transform: scale(1.35);
+                opacity: .6
+            }
+        }
+
+        /* angka 403 dengan glitch flicker */
+        .code {
+            font-size: clamp(76px, 13vw, 128px);
+            font-weight: 900;
+            letter-spacing: -5px;
+            line-height: 1;
+            background: linear-gradient(180deg, #ffffff 15%, #ff3b5c 60%, #8a2bff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: flick 4s infinite
+        }
+
+        @keyframes flick {
+
+            0%,
+            86%,
+            100% {
+                opacity: 1;
+                transform: none
+            }
+
+            88% {
+                opacity: .55;
+                transform: skewX(-5deg) translateX(-3px)
+            }
+
+            91% {
+                opacity: 1;
+                transform: skewX(4deg)
+            }
+
+            94% {
+                opacity: .7;
+                transform: none
+            }
+        }
+
+        h1 {
+            font-size: clamp(24px, 3.6vw, 34px);
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin: 6px 0 10px
+        }
+
+        .desc {
+            color: var(--muted);
+            font-size: 14.5px;
+            line-height: 1.65;
+            max-width: 440px;
+            margin: 0 auto 28px
+        }
+
+        .mono {
+            font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+            font-size: 11.5px;
+            color: #8f93a3;
+            letter-spacing: .5px;
+            margin-bottom: 26px
+        }
+
+        .mono b {
+            color: var(--red)
+        }
+
+        /* panel security information */
+        .sec-info {
+            max-width: 460px;
+            margin: 0 auto 30px;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: rgba(12, 12, 18, .7);
+            padding: 22px 24px 12px;
+            text-align: left
+        }
+
+        .sec-info li:last-child {
+            padding-bottom: 4px
+        }
+
+        .sec-info h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+            color: #ff9db1;
+            margin-bottom: 12px
+        }
+
+        .sec-info ul {
+            list-style: none
+        }
+
+        .sec-info li {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            color: #c3c7d4;
+            font-size: 13.5px;
+            line-height: 1.55;
+            padding: 8px 0;
+            border-top: 1px solid rgba(255, 255, 255, .06)
+        }
+
+        .sec-info li i {
+            color: var(--red);
+            margin-top: 3px;
+            width: 16px;
+            text-align: center;
+            flex-shrink: 0
+        }
+
+        .actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 26px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: .25s;
+            text-decoration: none
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #b32ce0, #7a3bff);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(122, 43, 255, .22)
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(122, 43, 255, .35)
+        }
+
+        .btn-ghost {
+            border: 1px solid rgba(255, 255, 255, .25);
+            color: #e8eaf2
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, .08)
+        }
+
+        .foot {
+            margin-top: 34px;
+            color: #84879a;
+            font-size: 12px;
+            letter-spacing: .8px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dots-blue"></div>
+
+    <main class="board">
+        <div class="shield-wrap">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span class="lock"><i class="fa-solid fa-lock"></i></span>
+        </div>
+
+        <span class="badge"><span class="dot"></span> Error 403 — Restricted Area</span>
+        <div class="code">403</div>
+        <h1>Access Denied</h1>
+        <p class="desc">This page is restricted. You don't have permission to access this resource.</p>
+        <p class="mono">&gt; status: <b>403 forbidden</b> — access logged</p>
+
+        <div class="sec-info">
+            <h4><i class="fa-solid fa-lock"></i> Security Information</h4>
+            <ul>
+                <li><i class="fa-solid fa-user-lock"></i> You must be logged in to access this page</li>
+                <li><i class="fa-solid fa-user-shield"></i> Only authorized administrators can view this content</li>
+                <li><i class="fa-solid fa-headset"></i> Please login first or contact the administrator</li>
+            </ul>
+        </div>
+
+        <div class="actions">
+            <a class="btn btn-primary" href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Portfolio</a>
+            <a class="btn btn-ghost" href="javascript:history.back()"><i class="fa-solid fa-rotate-left"></i> Go
+                Back</a>
+        </div>
+
+        <p class="foot">© <span id="yearNow"></span> Gunawan Widya Nugraha — Portfolio Manager</p>
+    </main>
+
+    <script>
+        document.getElementById('yearNow').textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>

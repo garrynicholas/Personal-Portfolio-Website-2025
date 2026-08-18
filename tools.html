@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools Dashboard - Portfolio Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --bg: #050508;
+            --board: #0a0a10;
+            --line: rgba(255, 255, 255, .1);
+            --text: #f5f6fa;
+            --muted: #b7bac6;
+            --magenta: #ff2ed2;
+            --purple: #8a2bff;
+            --blue: #2ba6ff;
+            --orange: #ff8c3a;
+            --green: #4ade80;
+            --red: #ff3b5c
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 48px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 26px;
+            overflow-x: hidden
+        }
+
+        ::selection {
+            background: var(--magenta);
+            color: #fff
+        }
+
+        a {
+            text-decoration: none
+        }
+
+        button {
+            font-family: inherit
+        }
+
+        .board {
+            width: 100%;
+            max-width: 1240px;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--board);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .65)
+        }
+
+        /* NAVBAR DASHBOARD */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 36px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(10, 10, 16, .55);
+            backdrop-filter: blur(6px)
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px
+        }
+
+        .brand-ico {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255, 46, 210, .25), rgba(43, 166, 255, .25));
+            border: 1px solid rgba(255, 255, 255, .12);
+            font-size: 15px
+        }
+
+        .nav-mid {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #8f93a3;
+            font-size: 12px;
+            font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+            letter-spacing: .5px
+        }
+
+        .nav-mid .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: pulse 1.6s infinite
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1
+            }
+
+            50% {
+                transform: scale(1.35);
+                opacity: .6
+            }
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .admin-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #c9c2ff;
+            border: 1px solid rgba(124, 108, 255, .4);
+            background: rgba(109, 90, 255, .12)
+        }
+
+        .admin-chip i {
+            font-size: 11px
+        }
+
+        .btn-logout {
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #ffb4c4;
+            border: 1px solid rgba(255, 59, 92, .35);
+            background: rgba(255, 59, 92, .08);
+            transition: .25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 59, 92, .2);
+            color: #fff
+        }
+
+        /* HEADER */
+        .dash-hero {
+            position: relative;
+            padding: 56px 48px 44px;
+            overflow: hidden
+        }
+
+        .dash-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(620px 420px at 80% 18%, rgba(43, 166, 255, .32), transparent 62%),
+                radial-gradient(520px 400px at 55% 60%, rgba(255, 46, 210, .24), transparent 62%);
+        }
+
+        .dash-hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 46%;
+            height: 80%;
+            pointer-events: none;
+            background-image: radial-gradient(rgba(130, 195, 255, .5) 1.2px, transparent 1.3px);
+            background-size: 10px 10px;
+            -webkit-mask-image: radial-gradient(ellipse at top right, #000 18%, transparent 72%);
+            mask-image: radial-gradient(ellipse at top right, #000 18%, transparent 72%);
+        }
+
+        .dash-label {
+            position: relative;
+            z-index: 2;
+            color: var(--magenta);
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: .5px;
+            margin-bottom: 14px
+        }
+
+        .dash-hero h1 {
+            position: relative;
+            z-index: 2;
+            font-size: clamp(34px, 4.8vw, 56px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 16px
+        }
+
+        .grad-text {
+            background: linear-gradient(90deg, var(--magenta), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .dash-desc {
+            position: relative;
+            z-index: 2;
+            color: #c9cdd9;
+            font-size: 15px;
+            line-height: 1.65;
+            max-width: 640px
+        }
+
+        .dash-stats {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 30px
+        }
+
+        .dstat {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 14px 22px;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: rgba(12, 12, 18, .6)
+        }
+
+        .dstat strong {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #8f9dff, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .dstat span {
+            font-size: 11px;
+            letter-spacing: 1.2px;
+            color: #8f93a3;
+            text-transform: uppercase
+        }
+
+        /* TOOLS GRID */
+        .tools-sec {
+            position: relative;
+            padding: 40px 48px 64px;
+            border-top: 1px solid var(--line)
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px
+        }
+
+        .tool-card {
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(12, 12, 18, .65);
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: .3s;
+            position: relative;
+            overflow: hidden
+        }
+
+        .tool-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 55%;
+            background-image: radial-gradient(rgba(255, 255, 255, .28) 1px, transparent 1.2px);
+            background-size: 8px 8px;
+            -webkit-mask-image: radial-gradient(ellipse at top right, #000 12%, transparent 70%);
+            mask-image: radial-gradient(ellipse at top right, #000 12%, transparent 70%);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(43, 166, 255, .5);
+            box-shadow: 0 16px 44px rgba(0, 0, 0, .5), 0 0 24px rgba(43, 166, 255, .2)
+        }
+
+        .tool-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .tool-ico {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 1px solid rgba(255, 255, 255, .12)
+        }
+
+        .g-green {
+            background: rgba(74, 222, 128, .12);
+            color: var(--green);
+            border-color: rgba(74, 222, 128, .3)
+        }
+
+        .g-blue {
+            background: rgba(43, 166, 255, .12);
+            color: var(--blue);
+            border-color: rgba(43, 166, 255, .3)
+        }
+
+        .g-purple {
+            background: rgba(167, 139, 250, .12);
+            color: #a78bfa;
+            border-color: rgba(167, 139, 250, .3)
+        }
+
+        .g-orange {
+            background: rgba(255, 140, 58, .12);
+            color: var(--orange);
+            border-color: rgba(255, 140, 58, .3)
+        }
+
+        .tool-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .6px
+        }
+
+        .tool-status.active {
+            color: #9fe8b9;
+            border: 1px solid rgba(120, 255, 170, .25);
+            background: rgba(80, 255, 140, .08)
+        }
+
+        .tool-status.active .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #57e389;
+            box-shadow: 0 0 8px #57e389;
+            animation: pulse 1.6s infinite
+        }
+
+        .tool-status.soon {
+            color: #ffd58a;
+            border: 1px solid rgba(255, 190, 90, .3);
+            background: rgba(255, 170, 60, .1)
+        }
+
+        .tool-card h3 {
+            font-size: 17px;
+            font-weight: 700
+        }
+
+        .tool-card p {
+            font-size: 13.5px;
+            color: #c3c7d4;
+            line-height: 1.65;
+            flex: 1
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px
+        }
+
+        .tags span {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .4px;
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .12);
+            color: #aeb2c0
+        }
+
+        .tool-foot {
+            border-top: 1px solid var(--line);
+            padding-top: 14px
+        }
+
+        .link-btn {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 9px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .2);
+            color: #e8eaf2;
+            transition: .25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            cursor: pointer
+        }
+
+        .link-btn:hover {
+            background: rgba(255, 255, 255, .08)
+        }
+
+        .link-btn.dl {
+            background: linear-gradient(90deg, #b32ce0, #7a3bff);
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(122, 43, 255, .22)
+        }
+
+        .link-btn.dl:hover {
+            box-shadow: 0 8px 20px rgba(122, 43, 255, .35)
+        }
+
+        .link-btn:disabled {
+            cursor: not-allowed;
+            opacity: .55;
+            background: rgba(255, 255, 255, .05);
+            border: 1px dashed rgba(255, 255, 255, .18);
+            color: #8f93a3;
+            box-shadow: none
+        }
+
+        .link-btn:disabled:hover {
+            background: rgba(255, 255, 255, .05)
+        }
+
+        .page-foot {
+            width: 100%;
+            max-width: 1240px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            color: #84879a;
+            font-size: 12px;
+            letter-spacing: .8px;
+            padding: 0 8px
+        }
+
+        .page-foot i {
+            color: var(--purple)
+        }
+
+        @media(max-width:900px) {
+            .tool-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:700px) {
+            .nav-mid {
+                display: none
+            }
+
+            .dash-hero,
+            .tools-sec {
+                padding-left: 24px;
+                padding-right: 24px
+            }
+
+            .navbar {
+                padding: 16px 20px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="board">
+
+        <header class="navbar">
+            <a class="brand" href="tools.html">
+                <span class="brand-ico"><i class="fa-solid fa-briefcase"></i></span> Portfolio Manager
+            </a>
+            <div class="nav-mid">
+                <span class="dot"></span> SYSTEM ONLINE — <span id="clock">--:--:--</span>
+            </div>
+            <div class="nav-right">
+                <span class="admin-chip"><i class="fa-solid fa-user-shield"></i> Administrator</span>
+                <a class="btn-logout" href="index.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </header>
+
+        <section class="dash-hero">
+            <p class="dash-label">// TOOLS DASHBOARD</p>
+            <h1>Available <span class="grad-text">Tools</span></h1>
+            <p class="dash-desc">Select a tool to start managing your finances and investments. Each tool provides
+                specialized features for different aspects of financial management.</p>
+
+            <div class="dash-stats">
+                <div class="dstat"><strong>1</strong><span>Active Tool</span></div>
+                <div class="dstat"><strong>3</strong><span>In Development</span></div>
+                <div class="dstat"><strong>4</strong><span>Total Modules</span></div>
+            </div>
+        </section>
+
+        <section class="tools-sec">
+            <div class="tool-grid">
+
+                <article class="tool-card">
+                    <div class="tool-top">
+                        <span class="tool-ico g-green"><i class="fa-solid fa-chart-line"></i></span>
+                        <span class="tool-status active"><span class="dot"></span>Active</span>
+                    </div>
+                    <h3>Financial Management</h3>
+                    <p>Manage and track all your investment assets including stocks, gold, mutual funds, bonds, and
+                        more. Get real-time insights and portfolio analytics.</p>
+                    <div class="tags"><span>Stocks</span><span>Gold</span><span>Mutual
+                            Funds</span><span>Bonds</span><span>Analytics</span></div>
+                    <div class="tool-foot">
+                        <!-- GANTI href dengan URL aplikasi Financial Management kamu -->
+                        <a class="link-btn dl" href="financial_management.html"><i
+                                class="fa-solid fa-arrow-up-right-from-square"></i> Open Tool</a>
+                    </div>
+                </article>
+
+                <article class="tool-card">
+                    <div class="tool-top">
+                        <span class="tool-ico g-blue"><i class="fa-solid fa-calculator"></i></span>
+                        <span class="tool-status soon">Coming Soon</span>
+                    </div>
+                    <h3>Investment Calculator</h3>
+                    <p>Calculate potential returns, compound interest, and investment projections. Plan your financial
+                        goals with precision.</p>
+                    <div class="tags"><span>Compound Interest</span><span>Projections</span></div>
+                    <div class="tool-foot">
+                        <button class="link-btn" disabled><i class="fa-solid fa-hourglass-half"></i> Coming
+                            Soon</button>
+                    </div>
+                </article>
+
+                <article class="tool-card">
+                    <div class="tool-top">
+                        <span class="tool-ico g-purple"><i class="fa-solid fa-magnifying-glass-chart"></i></span>
+                        <span class="tool-status soon">Coming Soon</span>
+                    </div>
+                    <h3>Market Analysis</h3>
+                    <p>Analyze market trends, compare investment performance, and get data-driven insights. Make
+                        informed investment decisions.</p>
+                    <div class="tags"><span>Trends</span><span>Comparison</span></div>
+                    <div class="tool-foot">
+                        <button class="link-btn" disabled><i class="fa-solid fa-hourglass-half"></i> Coming
+                            Soon</button>
+                    </div>
+                </article>
+
+                <article class="tool-card">
+                    <div class="tool-top">
+                        <span class="tool-ico g-orange"><i class="fa-solid fa-file-invoice"></i></span>
+                        <span class="tool-status soon">Coming Soon</span>
+                    </div>
+                    <h3>Financial Reports</h3>
+                    <p>Generate comprehensive financial reports, export data, and track your investment history. Perfect
+                        for tax planning and audits.</p>
+                    <div class="tags"><span>Export</span><span>Tax Planning</span></div>
+                    <div class="tool-foot">
+                        <button class="link-btn" disabled><i class="fa-solid fa-hourglass-half"></i> Coming
+                            Soon</button>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="page-foot">
+        <span>© <span id="yearNow"></span> Portfolio Manager — Financial Tools Dashboard</span>
+        <span><i class="fa-solid fa-user-shield"></i> Admin Access Only • All Rights Reserved</span>
+    </footer>
+
+    <script>
+        // Jam live (pengganti teks "Loading...")
+        const clock = document.getElementById('clock');
+        const tick = () => clock.textContent = new Date().toLocaleTimeString('en-GB');
+        tick(); setInterval(tick, 1000);
+        document.getElementById('yearNow').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+
+</html>
